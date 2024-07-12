@@ -1715,11 +1715,11 @@ async function CoreInitializer({ Table, Pie, Line, Search, Data, Total, Charges 
         },
         options: {
             responsive: true,
-            cutout: '70%',
+            cutout: '80%',
             plugins: {
                 legend: {
-                    display: false,
-                }
+                    display: false
+                },
             },
         }
     });
@@ -1736,39 +1736,47 @@ async function CoreInitializer({ Table, Pie, Line, Search, Data, Total, Charges 
                 data: data['completed'],
                 borderWidth: 2,
                 backgroundColor: "#22C55E",
-                borderColor: "#22C55E"
+                borderColor: "#22C55E",
+                label: Neo.Helper.trans('Completed')
             }, {
                 data: data['confirmed'],
                 order: 2,
                 borderWidth: 2,
                 backgroundColor: "#458CFE",
-                borderColor: "#458CFE"
+                borderColor: "#458CFE",
+                label: Neo.Helper.trans('Confirmed')
             }, {
                 data: data['pendding'],
                 order: 2,
                 borderWidth: 2,
                 backgroundColor: "#EAB308",
-                borderColor: "#EAB308"
+                borderColor: "#EAB308",
+                label: Neo.Helper.trans('Pendding')
             }, {
                 data: data['canceled'],
                 order: 2,
                 borderWidth: 2,
                 backgroundColor: "#1F2937",
-                borderColor: "#1F2937"
+                borderColor: "#1F2937",
+                label: Neo.Helper.trans('Canceled')
             }, {
                 type: "line",
                 data: data['charges'],
                 borderWidth: 2,
                 backgroundColor: "#EC4899",
-                borderColor: "#EC4899"
+                borderColor: "#EC4899",
+                label: Neo.Helper.trans('Charges')
             }, ]
         },
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    display: false,
-                }
+                    labels: {
+                        fontColor: "#1D1D1D",
+                        fontSize: 18
+                    }
+                },
             },
         }
     });
@@ -1832,39 +1840,47 @@ async function SceneInitializer({ Line, Search, Data }) {
                 data: data['completed'],
                 borderWidth: 2,
                 backgroundColor: "#22C55E",
-                borderColor: "#22C55E"
+                borderColor: "#22C55E",
+                label: Neo.Helper.trans('Completed')
             }, {
                 data: data['confirmed'],
                 order: 2,
                 borderWidth: 2,
                 backgroundColor: "#458CFE",
-                borderColor: "#458CFE"
+                borderColor: "#458CFE",
+                label: Neo.Helper.trans('Confirmed')
             }, {
                 data: data['pendding'],
                 order: 2,
                 borderWidth: 2,
                 backgroundColor: "#EAB308",
-                borderColor: "#EAB308"
+                borderColor: "#EAB308",
+                label: Neo.Helper.trans('Pendding')
             }, {
                 ...(data['charges'] ? { order: 2, } : { type: "line", }),
                 data: data['canceled'],
                 borderWidth: 2,
                 backgroundColor: data['charges'] ? "#1F2937" : "#EC4899",
-                borderColor: data['charges'] ? "#1F2937" : "#EC4899"
+                borderColor: data['charges'] ? "#1F2937" : "#EC4899",
+                label: Neo.Helper.trans('Canceled')
             }, ...(data['charges'] ? [{
                 type: "line",
                 data: data['charges'],
                 borderWidth: 2,
                 backgroundColor: "#EC4899",
-                borderColor: "#EC4899"
+                borderColor: "#EC4899",
+                label: Neo.Helper.trans('Charges')
             }] : []), ]
         },
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    display: false,
-                }
+                    labels: {
+                        fontColor: "#1D1D1D",
+                        fontSize: 18
+                    }
+                },
             },
         }
     });
@@ -1887,8 +1903,6 @@ async function SceneInitializer({ Line, Search, Data }) {
     }
 
     function resize() {
-        Pie.style.width = "100%";
-        Pie.style.height = "100%";
         Line.style.width = "100%";
         Line.style.height = "100%";
     }
@@ -1909,5 +1923,34 @@ async function SceneInitializer({ Line, Search, Data }) {
     window.addEventListener("resize", resize);
     document.querySelector("#trigger").addEventListener("click", e => {
         setTimeout(() => resize(), 250);
+    });
+}
+
+async function CalendarInitializer({ Calendar, Data }) {
+    const period = document.querySelector("[name=period]").content;
+
+    const data = await getData(Data);
+    var _calendar = new FullCalendar.Calendar(Calendar, {
+        headerToolbar: {
+            "left": "title",
+            "right": "today,dayGridMonth,timeGridWeek,timeGridDay prev,next"
+        },
+        initialView: period == "month" ? "dayGridMonth" : (period == "week" ? "timeGridWeek" : "timeGridDay"),
+        allDaySlot: false,
+        timeZone: 'UTC',
+        locale: document.documentElement.lang,
+        events: data,
+    });
+    _calendar.render();
+
+    Calendar.nextElementSibling.remove();
+
+    document.querySelector(".fc-prev-button").innerHTML = `<svg class="block w-6 h-6 pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M528-251 331-449q-7-6-10.5-14t-3.5-18q0-9 3.5-17.5T331-513l198-199q13-12 32-12t33 12q13 13 12.5 33T593-646L428-481l166 166q13 13 13 32t-13 32q-14 13-33.5 13T528-251Z"></path></svg>`;
+    document.querySelector(".fc-next-button").innerHTML = `<svg class="block w-6 h-6 pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M344-251q-14-15-14-33.5t14-31.5l164-165-165-166q-14-12-13.5-32t14.5-33q13-14 31.5-13.5T407-712l199 199q6 6 10 14.5t4 17.5q0 10-4 18t-10 14L408-251q-13 13-32 12.5T344-251Z"></path></svg>`;
+    document.querySelector(".tools").appendChild(document.querySelector(".fc-header-toolbar"));
+
+    window.addEventListener("resize", () => _calendar.render());
+    document.querySelector("#trigger").addEventListener("click", e => {
+        setTimeout(() => _calendar.render(), 250);
     });
 }

@@ -6,9 +6,9 @@
         <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
             {{ __('Edit Client') . ' #' . $data->id }}
         </h1>
-        <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6">
+        <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
             <form action="{{ route('actions.clients.patch', $data->id) }}" method="POST"
-                class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6">
+                class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
                 <div class="flex flex-col gap-1 lg:col-span-6">
@@ -96,8 +96,8 @@
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Address') }}
                     </label>
-                    <neo-textarea placeholder="{{ __('Address') }}" name="address"
-                        value="{{ $data->address }}"></neo-textarea>
+                    <neo-textarea auto="false" placeholder="{{ __('Address') }}" name="address"
+                        value="{{ $data->address }}" rows="2"></neo-textarea>
                 </div>
                 <div class="w-full flex lg:col-span-12">
                     <neo-button

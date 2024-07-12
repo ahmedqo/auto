@@ -34,6 +34,11 @@ class CoreController extends Controller
         return view('core.index', compact('count', 'work', 'money', 'charges', 'startDate', 'endDate'));
     }
 
+    public function calendar_view()
+    {
+        return view('core.calendar');
+    }
+
     public function setting_view()
     {
         return view('core.setting');
@@ -135,6 +140,37 @@ class CoreController extends Controller
                 'confirmed' => array_values($data['confirmed']),
                 'completed' => array_values($data['completed']),
             ]
+        ]);
+    }
+
+    public function calendar_action()
+    {
+        [$startDate, $endDate, $columns] = Core::getDates();
+
+        $colors = [
+            'completed' => '#22C55E',
+            'pendding' => '#EAB308',
+            'confirmed' => '#458CFE',
+            'canceled' => '#EC4899',
+        ];
+
+        $reservations =  Reservation::select('id', 'client', 'vehicle', 'status', 'from', 'to', 'price', 'total', 'updated_at')->with('Client', "Vehicle")
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->where('from', '<=', $endDate)
+                    ->where('to', '>=', $startDate);
+            })
+            ->get()->map(function ($item) use (&$colors) {
+                return [
+                    'start' => $item->from,
+                    'end' => $item->to,
+                    'title' => ucwords($item->Client->first_name . ' ' . $item->Client->last_name) . ' (' . ucwords($item->Vehicle->name_en) . ')',
+                    'color' => $colors[$item->status],
+                    'groupId' => 'reservation',
+                ];
+            });
+
+        return response()->json([
+            'data' => $reservations
         ]);
     }
 

@@ -26,14 +26,14 @@
     /** */
     --color-0: #458cfe;
     --color-1: #8B5CF6;
-    --color-2: #F43F5E;
-    --color-3: #22C55E;
-    --color-4: #14B8A6;
-    --color-5: #EC4899;
-    --color-6: #EAB308;
-    --color-7: #ef44d0;
-    --color-8: #F97316;
-    --color-9: #06B6D4;
+    --color-2: #06B6D4;
+    --color-3: #F43F5E;
+    --color-4: #22C55E;
+    --color-5: #14B8A6;
+    --color-6: #EC4899;
+    --color-7: #EAB308;
+    --color-8: #ef44d0;
+    --color-9: #F97316;
 }
 
 *,
@@ -124,6 +124,28 @@ neo-imagetransfer {
     border: 1px solid rgb(var(--shade) / 1);
 }
 
+neo-select::part(field),
+neo-textbox::part(field),
+neo-password::part(field),
+neo-textarea::part(field),
+neo-explorer::part(field),
+neo-datepicker::part(field),
+neo-timepicker::part(field),
+neo-autocomplete::part(field) {
+    font-size: 1.15rem;
+    margin: .5rem 0;
+}
+
+neo-select-item,
+neo-autocomplete::part(item) {
+    padding: .5rem 1rem;
+}
+
+neo-datavisualizer::part(table-body-col) {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
 neo-button,
 neo-select,
 neo-textbox,
@@ -149,17 +171,147 @@ neo-datavisualizer::part(search-wrapper) {
     background-color: rgb(var(--light) / 1) !important;
 }
 
-neo-autocomplete.loading::part(icon) {
-    display: none;
-}
-
-neo-autocomplete.loading>.icon {
-    display: block !important;
-    animation: rotate 500ms ease-in-out infinite
-}
-
 neo-datavisualizer::part(title) {
     font-weight: var(--w-thin);
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.fc-toolbar-chunk:not(:last-child) {
+    display: none !important;
+}
+
+.fc-header-toolbar {
+    margin: 0;
+}
+
+.tools .fc-toolbar-chunk,
+.tools .fc-button-group {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tools .fc-button-group:first-child {
+    gap: 0;
+}
+
+.tools .fc-button-group:last-child {
+    gap: .5rem;
+}
+
+.fc-prev-button,
+.fc-next-button {
+    outline: none;
+    color: rgb(var(--black)) !important;
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    position: relative;
+    isolation: isolate;
+    background: transparent !important;
+    border: unset !important;
+    padding: 0 !important;
+    outline: unset !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.fc-prev-button::before,
+.fc-next-button::before {
+    content: "";
+    border-radius: var(--r-thin) !important;
+    position: absolute;
+    display: block;
+    width: 130%;
+    height: 130%;
+    inset: -15%;
+    z-index: -1;
+}
+
+.fc-prev-button:hover::before,
+.fc-next-button:hover::before,
+.fc-prev-button:focus::before,
+.fc-next-button:focus::before,
+.fc-prev-button:focus-within::before,
+.fc-next-button:focus-within::before {
+    background: rgb(var(--shade) / 0.4);
+}
+
+.fc-prev-button .fc-icon,
+.fc-next-button .fc-icon {
+    display: none !important;
+}
+
+.fc-today-button:disabled {
+    display: none !important;
+}
+
+.fc-today-button,
+.fc-dayGridMonth-button,
+.fc-timeGridWeek-button,
+.fc-timeGridDay-button {
+    outline: none;
+    color: rgb(var(--black)) !important;
+    display: block;
+    position: relative;
+    isolation: isolate;
+    background: transparent !important;
+    border: unset !important;
+    padding: .25rem .5rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+    font-weight: var(--w-thin) !important;
+    outline: unset !important;
+    border-radius: var(--r-thin) !important;
+    box-shadow: none !important;
+}
+
+.fc-today-button:hover,
+.fc-dayGridMonth-button:hover,
+.fc-timeGridWeek-button:hover,
+.fc-timeGridDay-button:hover,
+.fc-today-button:focus,
+.fc-dayGridMonth-button:focus,
+.fc-timeGridWeek-button:focus,
+.fc-timeGridDay-button:focus,
+.fc-today-button:focus-within,
+.fc-dayGridMonth-button:focus-within,
+.fc-timeGridWeek-button:focus-within,
+.fc-timeGridDay-button:focus-within {
+    background: rgb(var(--shade) / 0.4) !important;
+}
+
+.fc-view-harness {
+    background: rgb(var(--white));
+    border: 1px solid rgb(var(--shade));
+    border-radius: var(--r-thin);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.fc-scrollgrid {
+    border: unset !important;
+}
+
+.fc-timegrid-axis,
+.fc-col-header-cell,
+.fc-timegrid-slot-label {
+    font-weight: 700;
+    color: rgb(var(--black) / 1);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    background: rgb(var(--light) / 1);
+}
+
+.fc-timegrid-axis,
+.fc-col-header-cell {
+    padding: 0.5rem 1rem !important;
+}
+
+.fc-daygrid-day-number {
+    padding: .5rem !important;
 }
 
 .ui-grid {
@@ -427,6 +579,18 @@ input[type="range"]::-webkit-slider-runnable-track {
     }
     neo-imagetransfer.video {
         aspect-ratio: 16/4;
+    }
+    neo-datavisualizer::part(title) {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+    .fc-header-toolbar {
+        flex-direction: row;
+    }
+    .fc-toolbar-title {
+        text-align: start;
+        font-size: 1.5rem !important;
+        line-height: 2rem !important;
     }
     .full-size::part(wrapper) {
         max-width: 100%;

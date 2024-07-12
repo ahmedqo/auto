@@ -18,7 +18,7 @@
             <ul class="w-full flex flex-col">
                 <li class="w-full">
                     <a href="{{ route('actions.language.index', 'en') }}"
-                        class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('en') ? '!bg-x-black' : '' }}">
+                        class="w-full flex flex-wrap gap-2 px-4 py-2 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('en') ? '!bg-x-black' : '' }}">
                         <img src="{{ asset('lang/en.png') }}?v={{ env('APP_VERSION') }}" alt="english flag"
                             class="block w-6 h-4 object-contain" />
                         <span class="block flex-1 text-base text-start">{{ __('English') }}</span>
@@ -26,7 +26,7 @@
                 </li>
                 <li class="w-full">
                     <a href="{{ route('actions.language.index', 'fr') }}"
-                        class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('fr') ? '!bg-x-black' : '' }}">
+                        class="w-full flex flex-wrap gap-2 px-4 py-2 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('fr') ? '!bg-x-black' : '' }}">
                         <img src="{{ asset('lang/fr.png') }}?v={{ env('APP_VERSION') }}" alt="french flag"
                             class="block w-6 h-4 object-contain" />
                         <span class="block flex-1 text-base text-start">{{ __('French') }}</span>
@@ -34,7 +34,7 @@
                 </li>
                 <li class="w-full">
                     <a href="{{ route('actions.language.index', 'it') }}"
-                        class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('it') ? '!bg-x-black' : '' }}">
+                        class="w-full flex flex-wrap gap-2 px-4 py-2 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('it') ? '!bg-x-black' : '' }}">
                         <img src="{{ asset('lang/it.png') }}?v={{ env('APP_VERSION') }}" alt="arabic flag"
                             class="block w-6 h-4 object-contain" />
                         <span class="block flex-1 text-base text-start">{{ __('Italian') }}</span>
@@ -42,7 +42,7 @@
                 </li>
                 <li class="w-full">
                     <a href="{{ route('actions.language.index', 'sp') }}"
-                        class="w-full flex flex-wrap gap-2 px-2 py-1 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('sp') ? '!bg-x-black' : '' }}">
+                        class="w-full flex flex-wrap gap-2 px-4 py-2 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('sp') ? '!bg-x-black' : '' }}">
                         <img src="{{ asset('lang/sp.png') }}?v={{ env('APP_VERSION') }}" alt="arabic flag"
                             class="block w-6 h-4 object-contain" />
                         <span class="block flex-1 text-base text-start">{{ __('Spanish') }}</span>
@@ -61,7 +61,7 @@
             <ul class="sys-colors w-full flex flex-col">
                 <li class="w-full">
                     <a href="{{ route('views.profile.patch') }}"
-                        class="w-full flex flex-wrap gap-2 px-2 py-1 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ request()->routeIs('views.profile.patch') ? '!bg-x-black' : '' }}">
+                        class="w-full flex flex-wrap gap-2 px-4 py-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ request()->routeIs('views.profile.patch') ? '!bg-x-black' : '' }}">
                         <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                             <path
                                 d="M310-279h340v-23q0-45.622-44.534-69.811Q560.931-396 479.966-396 399-396 354.5-371.811T310-302v23Zm170.044-184q33.431 0 55.693-22.975Q558-508.95 558-542.212q0-33.263-22.343-55.525Q513.314-620 479.832-620t-55.657 22.431Q402-575.139 402-542t22.307 56.069Q446.613-463 480.044-463ZM150-99q-37.175 0-64.088-26.594Q59-152.188 59-190v-495q0-36.588 26.912-64.294Q112.825-777 150-777h133l55-65q12.136-16 30.508-24 18.373-8 38.492-8h148q18.125 0 36.562 8Q610-858 623-842l55 65h132q37.225 0 64.613 27.706Q902-721.588 902-685v495q0 37.812-27.387 64.406Q847.225-99 810-99H150Z" />
@@ -71,7 +71,7 @@
                 </li>
                 <li class="w-full">
                     <a href="{{ route('views.password.patch') }}"
-                        class="w-full flex flex-wrap gap-2 px-2 py-1 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ request()->routeIs('views.password.patch') ? '!bg-x-black' : '' }}">
+                        class="w-full flex flex-wrap gap-2 px-4 py-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ request()->routeIs('views.password.patch') ? '!bg-x-black' : '' }}">
                         <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                             <path
                                 d="M229-62q-36.775 0-63.888-27.112Q138-116.225 138-153v-415q0-38.588 27.112-65.294Q192.225-660 229-660h53v-74q0-83.965 57.921-142.483Q397.843-935 479.731-935q81.889 0 140.079 58.517Q678-817.965 678-734v74h53q37.188 0 64.594 26.706Q823-606.588 823-568v415q0 36.775-27.406 63.888Q768.188-62 731-62H229Zm251.248-223Q512-285 533.5-306.615q21.5-21.616 21.5-51.969Q555-388 533.252-412q-21.748-24-53.5-24T426.5-412.064Q405-388.128 405-358.42q0 30.12 21.748 51.77 21.748 21.65 53.5 21.65ZM373-660h214v-73.769q0-47.731-30.973-78.481Q525.054-843 480.235-843q-44.818 0-76.027 30.75Q373-781.5 373-733.769V-660Z" />
@@ -83,7 +83,7 @@
                     <form action="{{ route('actions.close.index') }}" method="POST">
                         @csrf
                         <button type="submit" aria-label="logout_trigger"
-                            class="w-full flex flex-wrap gap-2 px-2 py-1 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
+                            class="w-full flex flex-wrap gap-2 px-4 py-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black">
                             <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
                                 <path
                                     d="M635-306q-13-15-13.5-33.125T635-371l64-63H409q-19.775 0-32.388-13.36Q364-460.719 364-479.86q0-20.14 12.612-32.64Q389.225-525 409-525h288l-66-67q-13-12.267-12.5-30.081t14.714-31.866Q644.661-666 664.705-665.5 684.75-665 699-653l141 142q4.909 6.327 8.955 15.008Q853-487.311 853-478.676q0 8.636-4.045 17.106Q844.909-453.1 840-448L699.006-305.089Q686-292 668-293t-33-13ZM181-97q-38.1 0-65.05-26.975Q89-150.95 89-188v-584q0-37.463 26.95-64.731Q142.9-864 181-864h251q20.2 0 33.1 13.763 12.9 13.763 12.9 32.816 0 20.053-12.9 32.737Q452.2-772 432-772H181v584h251q20.2 0 33.1 12.675 12.9 12.676 12.9 32.816 0 19.141-12.9 32.325Q452.2-97 432-97H181Z" />

@@ -9,7 +9,7 @@
                     class="block w-full" width="500" height="349" loading="lazy" />
             </a>
             <form action="{{ route('actions.blank.index') }}" method="POST"
-                class="w-full flex flex-col gap-4 lg:gap-6 p-4 lg:p-6 bg-x-white rounded-x-huge shadow-x-core">
+                class="w-full flex flex-col gap-6 lg:gap-8 p-6 lg:p-8 bg-x-white rounded-x-huge shadow-x-core">
                 <p class="text-base text-x-black">
                     {{ __('Forgot your password? No problem. Just tell us your email, and we will send you a link that will allow you to choose a new password') }}
                 </p>

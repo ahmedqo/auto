@@ -6,9 +6,9 @@
         <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
             {{ __('Edit Brand') . ' #' . $data->id }}
         </h1>
-        <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6">
+        <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
             <form action="{{ route('actions.brands.patch', $data->id) }}" method="POST" enctype="multipart/form-data"
-                class="w-full grid grid-rows-1 grid-cols-1 gap-6">
+                class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
                 <div class="flex flex-col gap-1">

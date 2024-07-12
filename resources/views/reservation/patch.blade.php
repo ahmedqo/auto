@@ -8,9 +8,9 @@
         <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
             {{ __('Edit Reservation') . ' #' . $data->id }}
         </h1>
-        <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6">
+        <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
             <form action="{{ route('actions.reservations.patch', $data->id) }}" method="POST" enctype="multipart/form-data"
-                class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6">
+                class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
                 <div class="flex flex-col gap-1">
@@ -31,7 +31,7 @@
                         query="{{ $data->vehicle ? $data->Vehicle->name_en : null }}">
                     </neo-autocomplete>
                 </div>
-                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:col-span-2">
+                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 lg:col-span-2">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Pick-up Date') }} (*)
@@ -54,7 +54,7 @@
                             value="{{ $data->pick_up }}"></neo-textbox>
                     </div>
                 </div>
-                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:col-span-2">
+                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 lg:col-span-2">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Drop-off Date') }} (*)

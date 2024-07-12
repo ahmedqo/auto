@@ -14,7 +14,7 @@
                     class="block w-full" width="500" height="349" loading="lazy" />
             </a>
             <form action="{{ route('actions.reset.index', $token) }}" method="POST"
-                class="w-full flex flex-col gap-4 lg:gap-6 p-4 lg:p-6 bg-x-white rounded-x-huge shadow-x-core">
+                class="w-full flex flex-col gap-6 lg:gap-8 p-6 lg:p-8 bg-x-white rounded-x-huge shadow-x-core">
                 @csrf
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">

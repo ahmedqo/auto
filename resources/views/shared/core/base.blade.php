@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="NOINDEX">
     <meta name="currency" content="{{ Core::$UNIT }}" />
+    <meta name="period" content="{{ Core::getSetting('period') }}" />
     @include('shared.base.styles', ['type' => 'admin'])
     @yield('styles')
     <title>@yield('title')</title>
@@ -21,7 +22,7 @@
         @include('shared.core.sidebar')
         <main class="w-full lg:w-0 lg:flex-1">
             @include('shared.core.topbar')
-            <div class="p-4 container mx-auto">
+            <div class="p-4 lg:py-6 lg:px-8 container mx-auto">
                 @yield('content')
             </div>
         </main>
