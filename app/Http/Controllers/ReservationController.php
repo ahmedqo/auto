@@ -24,8 +24,14 @@ class ReservationController extends Controller
 
     public function patch_view($id)
     {
-        $data = Reservation::findorfail($id);
+        $data = Reservation::with('Client', 'Vehicle')->findorfail($id);
         return view('reservation.patch', compact('data'));
+    }
+
+    public function print_view($id)
+    {
+        $data = Reservation::findorfail($id);
+        return view('reservation.print', compact('data'));
     }
 
     public function search_action(Request $Request)

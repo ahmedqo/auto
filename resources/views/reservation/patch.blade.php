@@ -1,8 +1,6 @@
 @extends('shared.core.base')
 @section('title', __('Edit Reservation') . ' #' . $data->id)
-@php
-    $charges = json_decode($data->charges, true);
-@endphp
+
 @section('content')
     <div class="flex flex-col gap-2">
         <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">

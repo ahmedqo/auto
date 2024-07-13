@@ -68,8 +68,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Full Name') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ ucwords($data->first_name) }} {{ ucwords($data->last_name) }}
                         </div>
                     </div>
@@ -77,8 +76,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Birth Date') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ $data->birth_date ?? 'N/A' }}
                         </div>
                     </div>
@@ -86,8 +84,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Nationality') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ ucwords($data->nationality ?? 'N/A') }}
                         </div>
                     </div>
@@ -95,8 +92,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Identity') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ $data->identity ?? 'N/A' }}
                         </div>
                     </div>
@@ -104,8 +100,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Identity Type') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ ucwords($data->identity_type ?? 'N/A') }}
                         </div>
                     </div>
@@ -113,8 +108,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('License Number') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ $data->license_number ?? 'N/A' }}
                         </div>
                     </div>
@@ -122,8 +116,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Gender') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ ucwords($data->gender ?? 'N/A') }}
                         </div>
                     </div>
@@ -131,8 +124,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Phone') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ $data->phone ?? 'N/A' }}
                         </div>
                     </div>
@@ -140,8 +132,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Email') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ $data->email ?? 'N/A' }}
                         </div>
                     </div>
@@ -149,8 +140,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Address') }}
                         </label>
-                        <div
-                            class="text-x-black font-x-thin text-base px-4 py-2 rounded-x-thin bg-x-light border border-x-shade">
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ $data->address ?? 'N/A' }}
                         </div>
                     </div>

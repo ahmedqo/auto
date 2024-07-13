@@ -22,6 +22,7 @@
         TableVisualizer(document.querySelector("neo-datavisualizer"), "reservations", {
             Search: "{{ route('actions.reservations.search') }}",
             Patch: "{{ route('views.reservations.patch', 'XXX') }}",
+            Print: "{{ route('views.reservations.print', 'XXX') }}",
             Clear: "{{ route('actions.reservations.clear', 'XXX') }}",
             Csrf: "{{ csrf_token() }}",
         });
