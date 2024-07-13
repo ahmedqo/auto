@@ -3,6 +3,12 @@
 
 @section('content')
     <div class="w-full flex flex-col gap-8">
+        @if ($data->Blacklist)
+            <div class="bg-red-400 text-x-white text-lg font-x-thin rounded-x-thin shadow-x-core border border-x-shade p-4">
+                {{ __('This client is blacklisted') }}
+                {{ $data->Blacklist->details ? __('due to') . ' "' . strtolower($data->Blacklist->details) . '"' : '' }}
+            </div>
+        @endif
         <div class="flex flex-col gap-2">
             <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
                 {{ __('Statistics') }}
@@ -56,7 +62,7 @@
             <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
                 {{ __('General Info') }}
             </h1>
-            <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8"">
+            <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
                 <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">

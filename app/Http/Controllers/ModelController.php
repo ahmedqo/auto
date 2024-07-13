@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Functions\Core;
 use App\Models\Model;
 use App\Models\Image;
 use Illuminate\Http\Request;
@@ -51,9 +52,11 @@ class ModelController extends Controller
             ]);
         }
 
-        Model::create($Request->merge([
+        $Request->merge([
             'slug' =>  Str::slug($Request->name_en),
-        ])->all());
+        ]);
+
+        Model::create(Core::fillable(Model::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -74,10 +77,12 @@ class ModelController extends Controller
             ]);
         }
 
-        $Model = Model::findorfail($id);
-        $Model->update($Request->merge([
+        $Request->merge([
             'slug' =>  Str::slug($Request->name_en),
-        ])->all());
+        ]);
+
+        $Model = Model::findorfail($id);
+        $Model->update(Core::fillable(Model::class, $Request));
 
         if ($Request->hasFile('image')) {
             Image::$FILE = $Request->file('image');

@@ -43,4 +43,14 @@ class Client extends Model
         'phone',
         'address',
     ];
+
+    public function Reservations()
+    {
+        return $this->hasMany(Reservation::class, 'client');
+    }
+
+    public function Blacklist()
+    {
+        return $this->hasOne(Blacklist::class, 'client');
+    }
 }

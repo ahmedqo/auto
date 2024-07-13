@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Functions\Core;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,7 @@ class ProfileController extends Controller
         }
 
         User::findorfail($data->id)->update(
-            $Request->all()
+            Core::fillable(User::class, $Request)
         );
 
         return Redirect::back()->with([

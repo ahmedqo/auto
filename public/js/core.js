@@ -350,6 +350,22 @@ const Locale = document.documentElement.lang,
                 return {...this.headStyle, background: Background, color: Color };
             },
         }, {
+            name: "blacklist",
+            text: Neo.Helper.trans("BlackList"),
+            headStyle: { width: 20, textAlign: "center" },
+            bodyStyle: { width: 20, textAlign: "center" },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => `<span style="width:100%;height:1rem;display:block;border-radius:9999px;background:${row.blacklist ? "#F43F5E" : "#22C55E"}"></span>`,
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: (row) => Neo.Helper.trans(row.blacklist ? "True" : "False")
+        }, {
             name: "gender",
             text: Neo.Helper.trans("Gender"),
             visible: false,
@@ -561,6 +577,80 @@ const Locale = document.documentElement.lang,
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
+        }],
+        blacklist: ({
+            Csrf,
+            Patch,
+            Clear
+        }) => [{
+            name: "id",
+            text: Neo.Helper.trans("Id"),
+            headStyle: { width: 20, textAlign: "center" },
+            bodyStyle: { width: 20, textAlign: "center" },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) =>
+                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "client",
+            text: Neo.Helper.trans("Client"),
+            headPdfStyle: {
+                background: Background,
+                color: Color
+            },
+            bodyRender: (row) => row.client ? Neo.Helper.Str.capitalize(row.client.first_name) + ' ' + Neo.Helper.Str.capitalize(row.client.last_name) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "details",
+            text: Neo.Helper.trans('Details'),
+            headStyle: {
+                maxWidth: '500px',
+            },
+            bodyStyle: function() {
+                return this.headStyle;
+            },
+            headPdfStyle: function() {
+                return {
+                    ...this.headStyle,
+                    background: Background,
+                    color: Color
+                }
+            },
+            bodyRender: (row) => row.details ? Neo.Helper.Str.capitalize(row.details) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "action",
+            text: Neo.Helper.trans("Actions"),
+            headStyle: { width: 20, textAlign: "center" },
+            bodyStyle: { width: 20, textAlign: "center" },
+            bodyRender: (row) => {
+                return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
+            },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyPdfRender: () => empty(),
+            bodyCsvRender: () => empty(),
         }],
         brands: ({
             Csrf,
@@ -1485,7 +1575,7 @@ Neo.load(function() {
 });
 
 function empty() {
-    return "__";
+    return "N/A";
 }
 
 function betweenDates(date1, date2) {
@@ -1653,7 +1743,7 @@ function ReservationInitializer({ Client, Vehicle }) {
 
             if (merge) {
                 d = d.map(e => {
-                    return {...e, name: Neo.Helper.Str.capitalize(e.first_name) + ' ' + Neo.Helper.Str.capitalize(e.last_name) }
+                    return {...e, name: Neo.Helper.Str.capitalize(e.first_name) + ' ' + Neo.Helper.Str.capitalize(e.last_name) + (e.blacklist ? " (blacklisted)" : "") }
                 })
             }
 
@@ -1695,6 +1785,28 @@ function ChargeInitializer({ Search }) {
                 auto.loading = false;
                 resolver(data);
             }, 250);
+        });
+    });
+}
+
+function BlackListInitializer({ Search }) {
+    const auto = document.querySelector("neo-autocomplete");
+    var timer;
+    auto.addEventListener("input", async(e) => {
+        if (timer) clearTimeout(timer);
+        auto.loading = true;
+        const data = await new Promise((resolver, rejecter) => {
+            timer = setTimeout(async() => {
+                const data = await getData(Search + "?search=" +
+                    encodeURIComponent(
+                        auto.query.trim()));
+                auto.loading = false;
+                resolver(data);
+            }, 250);
+        });
+
+        auto.data = data.map(e => {
+            return {...e, name: Neo.Helper.Str.capitalize(e.first_name) + ' ' + Neo.Helper.Str.capitalize(e.last_name) + (e.blacklist ? " (blacklisted)" : "") }
         });
     });
 }

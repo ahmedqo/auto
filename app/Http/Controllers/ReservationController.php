@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Functions\Core;
 use App\Models\Vehicle;
 use App\Models\Reservation;
 use Carbon\Carbon;
@@ -62,13 +63,15 @@ class ReservationController extends Controller
         $period = (int) ceil($from->diffInHours($to) / 24);
         $total = $period * $Vehicle->price;
 
-        Reservation::create($Request->merge([
+        $Request->merge([
             'from' => $from,
             'to' => $to,
             'period' => $period,
             'total' => $total,
             'price' => $Vehicle->price,
-        ])->all());
+        ]);
+
+        Reservation::create(Core::fillable(Reservation::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -101,14 +104,16 @@ class ReservationController extends Controller
         $period = (int) ceil($from->diffInHours($to) / 24);
         $total = $period * $Vehicle->price;
 
-        $Reservation = Reservation::findorfail($id);
-        $Reservation->update($Request->merge([
+        $Request->merge([
             'from' => $from,
             'to' => $to,
             'period' => $period,
             'total' => $total,
             'price' => $Vehicle->price,
-        ])->all());
+        ]);
+
+        $Reservation = Reservation::findorfail($id);
+        $Reservation->update(Core::fillable(Reservation::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

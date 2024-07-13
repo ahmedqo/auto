@@ -67,6 +67,16 @@
                     <hr class="border-x-shade">
                 </li>
                 <li class="w-full">
+                    <a href="{{ route('views.blacklist.index') }}"
+                        class="w-full flex flex-wrap gap-2 p-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::matchRoute('blacklist') ? '!bg-x-black' : '' }}">
+                        <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
+                            <path
+                                d="M320-278q18.6 0 31.8-13.2T365-323q0-18.6-13.2-31.8T320-368q-18.6 0-31.8 13.2T275-323q0 18.6 13.2 31.8T320-278Zm0-157q18.6 0 31.8-13.2T365-480q0-18.6-13.2-31.8T320-525q-18.6 0-31.8 13.2T275-480q0 18.6 13.2 31.8T320-435Zm0-158q18.6 0 31.8-13.08t13.2-31.5q0-18.42-13.2-31.92T320-683q-18.6 0-31.8 13.28t-13.2 32Q275-619 288.2-606t31.8 13Zm118 315h247v-90H438v90Zm0-157h247v-90H438v90Zm0-157h247v-90H438v90ZM212-76q-57.12 0-96.56-39.44Q76-154.88 76-212v-536q0-57.13 39.44-96.56Q154.88-884 212-884h536q57.13 0 96.56 39.44Q884-805.13 884-748v536q0 57.12-39.44 96.56Q805.13-76 748-76H212Z" />
+                        </svg>
+                        <span class="block flex-1 text-base">{{ __('Blacklist') }}</span>
+                    </a>
+                </li>
+                <li class="w-full">
                     <a href="{{ route('views.clients.index') }}"
                         class="w-full flex flex-wrap gap-2 p-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::matchRoute('clients') ? '!bg-x-black' : '' }}">
                         <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">

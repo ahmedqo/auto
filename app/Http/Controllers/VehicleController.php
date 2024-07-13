@@ -175,9 +175,11 @@ class VehicleController extends Controller
             ]);
         }
 
-        Vehicle::create($Request->merge([
+        $Request->merge([
             'slug' =>  Str::slug($Request->name_en),
-        ])->all());
+        ]);
+
+        Vehicle::create(Core::fillable(Vehicle::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -216,9 +218,11 @@ class VehicleController extends Controller
             ]);
         }
 
-        $Vehicle->update($Request->merge([
+        $Request->merge([
             'slug' =>  Str::slug($Request->name_en),
-        ])->all());
+        ]);
+
+        $Vehicle->update(Core::fillable(Vehicle::class, $Request));
 
         if ($Request->hasFile('images')) {
             foreach ($Request->file('images') as $Image) {

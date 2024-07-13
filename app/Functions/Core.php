@@ -11,6 +11,17 @@ class Core
 {
     public static $CURRENCY = 'MAD';
     public static $UNIT = 'MAD';
+
+    public static function fillable($Class, $Request)
+    {
+        $data = [];
+
+        foreach ((new $Class())->getFillable() as $key => $prop) {
+            $data[$prop] = $Request->{$prop};
+        }
+
+        return $data;
+    }
     public static function formatNumber($num)
     {
         $formattedNumber = number_format($num);

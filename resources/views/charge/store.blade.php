@@ -35,7 +35,7 @@
                 </div>
                 <div class="flex flex-col gap-1 lg:col-span-2">
                     <label class="text-sm text-x-black font-x-thin">
-                        {{ __('Details') }} (*)
+                        {{ __('Details') }}
                     </label>
                     <neo-textarea auto="false" placeholder="{{ __('Details') }}" name="details"
                         value="{{ old('details') }}" rows="8"></neo-textarea>

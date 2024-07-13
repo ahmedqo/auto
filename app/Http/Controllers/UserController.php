@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Functions\Core;
 use App\Functions\Mail as Mailer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -55,7 +56,9 @@ class UserController extends Controller
             ]);
         }
 
-        User::create($Request->merge(['password' =>  Hash::make(Str::random(20))])->all());
+        $Request->merge(['password' =>  Hash::make(Str::random(20))]);
+
+        User::create(Core::fillable(User::class, $Request));
         Mailer::reset($Request->email);
 
         return Redirect::back()->with([
@@ -80,7 +83,7 @@ class UserController extends Controller
             ]);
         }
 
-        User::findorfail($id)->update($Request->all());
+        User::findorfail($id)->update(Core::fillable(User::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

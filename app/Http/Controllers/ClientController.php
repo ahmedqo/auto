@@ -29,7 +29,7 @@ class ClientController extends Controller
 
     public function scene_view($id)
     {
-        $data = Client::findorfail($id);
+        $data = Client::with('Blacklist')->findorfail($id);
 
         [$startDate, $endDate, $columns] = Core::getDates();
 
@@ -87,7 +87,7 @@ class ClientController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Client::orderBy('id', 'DESC');
+        $data = Client::with('Blacklist')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -127,7 +127,7 @@ class ClientController extends Controller
             ]);
         }
 
-        Client::create($Request->all());
+        Client::create(Core::fillable(Client::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -153,7 +153,7 @@ class ClientController extends Controller
         }
 
         $Client = Client::findorfail($id);
-        $Client->update($Request->all());
+        $Client->update(Core::fillable(Client::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

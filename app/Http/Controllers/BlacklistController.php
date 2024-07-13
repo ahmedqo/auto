@@ -3,34 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Functions\Core;
-use App\Models\Brand;
+use App\Models\Blacklist;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
-class BrandController extends Controller
+class BlacklistController extends Controller
 {
     public function index_view()
     {
-        return view('brand.index');
+        return view('blacklist.index');
     }
 
     public function store_view()
     {
-        return view('brand.store');
+        return view('blacklist.store');
     }
 
     public function patch_view($id)
     {
-        $data = Brand::findorfail($id);
-        return view('brand.patch', compact('data'));
+        $data = Blacklist::findorfail($id);
+        return view('blacklist.patch', compact('data'));
     }
 
     public function search_action(Request $Request)
     {
-        $data = Brand::with('Image')->orderBy('id', 'DESC');
+        $data = Blacklist::with('Client')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -41,8 +41,7 @@ class BrandController extends Controller
     public function store_action(Request $Request)
     {
         $validator = Validator::make($Request->all(), [
-            'name_en' => ['required', 'string', 'unique:brands'],
-            'image' => ['required', 'image'],
+            'client' => ['required', 'integer'],
         ]);
 
         if ($validator->fails()) {
@@ -52,11 +51,7 @@ class BrandController extends Controller
             ]);
         }
 
-        $Request->merge([
-            'slug' =>  Str::slug($Request->name_en),
-        ]);
-
-        Brand::create(Core::fillable(Brand::class, $Request));
+        Blacklist::create(Core::fillable(Blacklist::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -67,7 +62,7 @@ class BrandController extends Controller
     public function patch_action(Request $Request, $id)
     {
         $validator = Validator::make($Request->all(), [
-            'name_en' => ['required', 'string', 'unique:brands,name_en,' . $id],
+            'client' => ['required', 'integer'],
         ]);
 
         if ($validator->fails()) {
@@ -77,18 +72,7 @@ class BrandController extends Controller
             ]);
         }
 
-        $Request->merge([
-            'slug' =>  Str::slug($Request->name_en),
-        ]);
-
-        $Brand = Brand::findorfail($id);
-        $Brand->update(Core::fillable(Brand::class, $Request));
-
-        if ($Request->hasFile('image')) {
-            Image::$FILE = $Request->file('image');
-            $Brand->Image->delete();
-            $Brand->Image()->create();
-        }
+        Blacklist::findorfail($id)->update(Core::fillable(Blacklist::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),
@@ -98,9 +82,9 @@ class BrandController extends Controller
 
     public function clear_action($id)
     {
-        Brand::findorfail($id)->delete();
+        Blacklist::findorfail($id)->delete();
 
-        return Redirect::route('views.brands.index')->with([
+        return Redirect::route('views.blacklist.index')->with([
             'message' => __('Deleted successfully'),
             'type' => 'success'
         ]);

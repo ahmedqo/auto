@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Functions\Core;
 use App\Models\Charge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -51,7 +52,7 @@ class ChargeController extends Controller
             ]);
         }
 
-        Charge::create($Request->all());
+        Charge::create(Core::fillable(Charge::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -74,7 +75,7 @@ class ChargeController extends Controller
             ]);
         }
 
-        Charge::findorfail($id)->update($Request->all());
+        Charge::findorfail($id)->update(Core::fillable(Charge::class, $Request));
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
