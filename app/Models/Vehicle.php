@@ -26,6 +26,7 @@ class Vehicle extends MD implements Sitemapable
         'brand',
         'price',
         'passengers',
+        'milage',
         'doors',
         'cargo',
         'transmission',
@@ -41,6 +42,7 @@ class Vehicle extends MD implements Sitemapable
     protected $searchable = [
         'price',
         'passengers',
+        'milage',
         'doors',
         'cargo',
         'transmission',
@@ -120,6 +122,11 @@ class Vehicle extends MD implements Sitemapable
     public function Charges()
     {
         return $this->hasMany(Charge::class, 'vehicle');
+    }
+
+    public function Alerts()
+    {
+        return $this->hasMany(Alert::class, 'vehicle');
     }
 
     public function Images(): MorphMany

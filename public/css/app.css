@@ -27,13 +27,19 @@
     --color-0: #458cfe;
     --color-1: #8B5CF6;
     --color-2: #06B6D4;
-    --color-3: #F43F5E;
-    --color-4: #EC4899;
-    --color-5: #22C55E;
+    --color-3: #22C55E;
+    --color-4: #F43F5E;
+    --color-5: #EC4899;
     --color-6: #14B8A6;
     --color-7: #EAB308;
-    --color-8: #ef44d0;
-    --color-9: #F97316;
+    --color-8: #F97316;
+    --color-9: #7C3AED;
+    --color-10: #0BC5EA;
+    --color-11: #ef44d0;
+    --color-12: #10B981;
+    --color-13: #FF5722;
+    --color-14: #FFC107;
+    --color-15: #9C27B0;
 }
 
 *,

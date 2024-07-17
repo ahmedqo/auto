@@ -34,28 +34,33 @@
                     <neo-textarea auto="false" placeholder="{{ __('Details') }}" name="details_en"
                         value="{{ old('details_en') }}" rows="4"></neo-textarea>
                 </div>
-                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 lg:col-span-2">
-                    <div class="flex flex-col gap-1">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Passengers') }} (*)
-                        </label>
-                        <neo-textbox type="number" placeholder="{{ __('Passengers') }} (*)" name="passengers"
-                            value="{{ old('passengers') }}"></neo-textbox>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Doors') }} (*)
-                        </label>
-                        <neo-textbox type="number" placeholder="{{ __('Doors') }} (*)" name="doors"
-                            value="{{ old('doors') }}"></neo-textbox>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Cargo') }} (*)
-                        </label>
-                        <neo-textbox type="number" placeholder="{{ __('Cargo') }} (*)" name="cargo"
-                            value="{{ old('cargo') }}"></neo-textbox>
-                    </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm text-x-black font-x-thin">
+                        {{ __('Passengers') }} (*)
+                    </label>
+                    <neo-textbox type="number" placeholder="{{ __('Passengers') }} (*)" name="passengers"
+                        value="{{ old('passengers') }}"></neo-textbox>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm text-x-black font-x-thin">
+                        {{ __('Milage') }} (*)
+                    </label>
+                    <neo-textbox type="number" placeholder="{{ __('Milage') }} (*)" name="milage"
+                        value="{{ old('milage') }}"></neo-textbox>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm text-x-black font-x-thin">
+                        {{ __('Doors') }} (*)
+                    </label>
+                    <neo-textbox type="number" placeholder="{{ __('Doors') }} (*)" name="doors"
+                        value="{{ old('doors') }}"></neo-textbox>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm text-x-black font-x-thin">
+                        {{ __('Cargo') }} (*)
+                    </label>
+                    <neo-textbox type="number" placeholder="{{ __('Cargo') }} (*)" name="cargo"
+                        value="{{ old('cargo') }}"></neo-textbox>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">
@@ -126,7 +131,7 @@
                 </div>
                 <div class="w-full flex lg:col-span-2">
                     <neo-button
-                        class="w-full lg:w-max lg:px-20 lg:ms-auto px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
+                        class="w-full lg:w-max lg:px-20 lg:ms-auto px-4 py-3 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
                         <span>{{ __('Save') }}</span>
                     </neo-button>
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Functions\Core;
+use App\Models\Alert;
 use App\Models\Charge;
 use App\Models\Reservation;
 use App\Models\Setting;
@@ -16,14 +17,19 @@ class CoreController extends Controller
     {
         [$startDate, $endDate, $columns] = Core::getDates();
 
-        $reservations = Reservation::where('status', 'completed')->where(function ($query) use ($startDate, $endDate) {
+        $reservations = Reservation::where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         })->get();
 
         $count = $reservations->count();
         $work = $reservations->sum('period');
-        $money = $reservations->sum('total');
+        $money = $reservations->reduce(function ($carry, $res) {
+            return $carry + array_sum(json_decode($res->payment));
+        }, 0);
+        $rest = $reservations->reduce(function ($carry, $res) {
+            return $carry + ($res->total - array_sum(json_decode($res->payment)));
+        }, 0);
         $charges = Charge::where(function ($query) use ($startDate, $endDate) {
             $query->where('updated_at', '<=', $endDate)
                 ->where('updated_at', '>=', $startDate);
@@ -31,7 +37,7 @@ class CoreController extends Controller
             return $carry + $charge->cost;
         }, 0);
 
-        return view('core.index', compact('count', 'work', 'money', 'charges', 'startDate', 'endDate'));
+        return view('core.index', compact('count', 'work', 'money', 'rest', 'charges', 'startDate', 'endDate'));
     }
 
     public function calendar_view()
@@ -95,28 +101,22 @@ class CoreController extends Controller
 
         $data = [
             'charges' => array_slice($columns, 0),
-            'canceled' => array_slice($columns, 0),
-            'pendding' => array_slice($columns, 0),
-            'confirmed' => array_slice($columns, 0),
-            'completed' => array_slice($columns, 0),
+            'payments' => array_slice($columns, 0),
+            'creances' => array_slice($columns, 0),
         ];
 
-        Reservation::select('id', 'status', 'from', 'to', 'price', 'total', 'updated_at')
-            ->where(function ($query) use ($startDate, $endDate) {
-                $query->where('from', '<=', $endDate)
-                    ->where('to', '>=', $startDate);
-            })
-            ->get()->groupBy('status')->each(function ($row, $key) use (&$data) {
-                $row->groupBy(function ($model) {
-                    return Core::groupKey($model);
-                })->map(function ($group) {
-                    return $group->sum(function ($carry) {
-                        return $carry->total;
-                    });
-                })->each(function ($item, $col) use (&$data, &$key) {
-                    $data[$key][$col] = $item;
-                });
+        Reservation::where(function ($query) use ($startDate, $endDate) {
+            $query->where('from', '<=', $endDate)
+                ->where('to', '>=', $startDate);
+        })->get()->groupBy(function ($model) {
+            return Core::groupKey($model);
+        })->each(function ($group, $key) use (&$data) {
+            $group->each(function ($carry) use (&$data, &$key) {
+                $pay = array_sum(json_decode($carry->payment));
+                $data['creances'][$key] += $carry->total - $pay;
+                $data['payments'][$key] += $pay;
             });
+        });
 
         Charge::where(function ($query) use ($startDate, $endDate) {
             $query->where('updated_at', '<=', $endDate)
@@ -135,42 +135,41 @@ class CoreController extends Controller
             'data' => [
                 'keys' => array_keys($columns),
                 'charges' => array_values($data['charges']),
-                'canceled' => array_values($data['canceled']),
-                'pendding' => array_values($data['pendding']),
-                'confirmed' => array_values($data['confirmed']),
-                'completed' => array_values($data['completed']),
+                'payments' => array_values($data['payments']),
+                'creances' => array_values($data['creances']),
             ]
         ]);
     }
 
     public function calendar_action()
     {
-        [$startDate, $endDate, $columns] = Core::getDates();
-
         $colors = [
             'completed' => '#22C55E',
             'pendding' => '#EAB308',
-            'confirmed' => '#458CFE',
-            'canceled' => '#EC4899',
         ];
 
-        $reservations =  Reservation::select('id', 'client', 'vehicle', 'status', 'from', 'to', 'price', 'total', 'updated_at')->with('Client', "Vehicle")
-            ->where(function ($query) use ($startDate, $endDate) {
-                $query->where('from', '<=', $endDate)
-                    ->where('to', '>=', $startDate);
-            })
-            ->get()->map(function ($item) use (&$colors) {
-                return [
-                    'start' => $item->from,
-                    'end' => $item->to,
-                    'title' => ucwords($item->Client->first_name . ' ' . $item->Client->last_name) . ' (' . ucwords($item->Vehicle->name_en) . ')',
-                    'color' => $colors[$item->status],
-                    'groupId' => 'reservation',
-                ];
-            });
+        $reservations =  Reservation::get()->map(function ($item) use (&$colors) {
+            return [
+                'start' => $item->from,
+                'end' => $item->to,
+                'title' => ucwords($item->Client->first_name . ' ' . $item->Client->last_name) . ' (' . ucwords($item->Vehicle->name_en) . ')',
+                'color' => $colors[$item->status],
+                'groupId' => 'reservation',
+            ];
+        });
+
+        $alerts =  Alert::get()->map(function ($item) {
+            return [
+                'start' => $item->date,
+                'end' => $item->date,
+                'title' => ucwords($item->name),
+                'color' => '#458cfe',
+                'groupId' => 'alert',
+            ];
+        });
 
         return response()->json([
-            'data' => $reservations
+            'data' => $reservations->merge($alerts)
         ]);
     }
 
@@ -178,7 +177,7 @@ class CoreController extends Controller
     {
         [$startDate, $endDate, $columns] = Core::getDates();
 
-        $data = Reservation::with('Vehicle')->where('status', 'completed')->where(function ($query) use ($startDate, $endDate) {
+        $data = Reservation::with('Vehicle')->where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         })->get()->groupBy('vehicle')->map(

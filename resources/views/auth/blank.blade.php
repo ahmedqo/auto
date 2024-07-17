@@ -22,7 +22,7 @@
                         value="{{ old('email') }}"></neo-textbox>
                 </div>
                 <neo-button
-                    class="w-full px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
+                    class="w-full px-4 py-3 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
                     <span>{{ __('Send') }}</span>
                 </neo-button>
             </form>

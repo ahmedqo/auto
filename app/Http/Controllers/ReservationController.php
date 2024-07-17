@@ -51,9 +51,9 @@ class ReservationController extends Controller
             'to_date' => ['required', 'date', 'after:from_date'],
             'from_time' => ['required', 'string'],
             'to_time' => ['required', 'string'],
-            'status' => ['required', 'string'],
             'vehicle' => ['required', 'integer'],
             'client' => ['required', 'integer'],
+            'price' => ['required', 'numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -63,18 +63,18 @@ class ReservationController extends Controller
             ]);
         }
 
-        $Vehicle = Vehicle::findorfail($Request->vehicle);
         $from = Carbon::parse($Request->from_date . ' ' . $Request->from_time);
         $to = Carbon::parse($Request->to_date . ' ' . $Request->to_time);
         $period = (int) ceil($from->diffInHours($to) / 24);
-        $total = $period * $Vehicle->price;
+        $total = $period * $Request->price;
 
         $Request->merge([
             'from' => $from,
             'to' => $to,
             'period' => $period,
             'total' => $total,
-            'price' => $Vehicle->price,
+            'payment' => $Request->json,
+            'status' => array_sum(json_decode($Request->json)) >= $total ? 'completed' : 'pendding'
         ]);
 
         Reservation::create(Core::fillable(Reservation::class, $Request));
@@ -92,9 +92,9 @@ class ReservationController extends Controller
             'to_date' => ['required', 'date', 'after:from_date'],
             'from_time' => ['required', 'string'],
             'to_time' => ['required', 'string'],
-            'status' => ['required', 'string'],
             'vehicle' => ['required', 'integer'],
             'client' => ['required', 'integer'],
+            'price' => ['required', 'numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -104,18 +104,18 @@ class ReservationController extends Controller
             ]);
         }
 
-        $Vehicle = Vehicle::findorfail($Request->vehicle);
         $from = Carbon::parse($Request->from_date . ' ' . $Request->from_time);
         $to = Carbon::parse($Request->to_date . ' ' . $Request->to_time);
         $period = (int) ceil($from->diffInHours($to) / 24);
-        $total = $period * $Vehicle->price;
+        $total = $period * $Request->price;
 
         $Request->merge([
             'from' => $from,
             'to' => $to,
             'period' => $period,
             'total' => $total,
-            'price' => $Vehicle->price,
+            'payment' => $Request->json,
+            'status' => array_sum(json_decode($Request->json)) >= $total ? 'completed' : 'pendding'
         ]);
 
         $Reservation = Reservation::findorfail($id);

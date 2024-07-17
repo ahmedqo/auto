@@ -563,6 +563,36 @@ const Locale = document.documentElement.lang,
                 return this.bodyRender(row);
             },
         }, {
+            name: "payment",
+            text: Neo.Helper.trans("Payment") + " (" + Currency + ")",
+            headStyle: { width: 160, textAlign: "center", },
+            bodyStyle: { width: 160, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(JSON.parse(row.payment).reduce((a, e) => a + e, 0), 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "creance",
+            text: Neo.Helper.trans("Creance") + " (" + Currency + ")",
+            headStyle: { width: 160, textAlign: "center", },
+            bodyStyle: { width: 160, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(row.total - JSON.parse(row.payment).reduce((a, e) => a + e, 0), 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
             name: "status",
             text: Neo.Helper.trans("Status"),
             headStyle: { width: 100, textAlign: "center", },
@@ -575,6 +605,30 @@ const Locale = document.documentElement.lang,
             },
             bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.status)),
             bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "insurance",
+            text: Neo.Helper.trans('Insurance'),
+            headStyle: {
+                maxWidth: 500,
+            },
+            visible: false,
+            bodyStyle: function() {
+                return this.headStyle;
+            },
+            headPdfStyle: function() {
+                return {
+                    ...this.headStyle,
+                    background: Background,
+                    color: Color
+                }
+            },
+            bodyRender: (row) => row.insurance ? Neo.Helper.Str.capitalize(row.insurance) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
                 return this.bodyRender(row);
             },
         }],
@@ -616,7 +670,7 @@ const Locale = document.documentElement.lang,
             name: "details",
             text: Neo.Helper.trans('Details'),
             headStyle: {
-                maxWidth: '500px',
+                maxWidth: 500,
             },
             bodyStyle: function() {
                 return this.headStyle;
@@ -694,7 +748,7 @@ const Locale = document.documentElement.lang,
             name: "name_en",
             text: Neo.Helper.trans('Name'),
             headStyle: {
-                maxWidth: '300px',
+                maxWidth: 300,
             },
             bodyStyle: function() {
                 return this.headStyle;
@@ -717,7 +771,7 @@ const Locale = document.documentElement.lang,
             name: "description_en",
             text: Neo.Helper.trans('Description'),
             headStyle: {
-                maxWidth: '500px',
+                maxWidth: 500,
             },
             bodyStyle: function() {
                 return this.headStyle;
@@ -795,7 +849,7 @@ const Locale = document.documentElement.lang,
             name: "name_en",
             text: Neo.Helper.trans('Name'),
             headStyle: {
-                maxWidth: '300px',
+                maxWidth: 300,
             },
             bodyStyle: function() {
                 return this.headStyle;
@@ -818,7 +872,7 @@ const Locale = document.documentElement.lang,
             name: "description_en",
             text: Neo.Helper.trans('Description'),
             headStyle: {
-                maxWidth: '500px',
+                maxWidth: 500,
             },
             bodyStyle: function() {
                 return this.headStyle;
@@ -985,6 +1039,18 @@ const Locale = document.documentElement.lang,
         }, {
             name: "passengers",
             text: Neo.Helper.trans("Passengers"),
+            visible: false,
+            headStyle: { width: 100, textAlign: "center", },
+            bodyStyle: { width: 100, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+        }, {
+            name: "milage",
+            text: Neo.Helper.trans("Milage"),
             visible: false,
             headStyle: { width: 100, textAlign: "center", },
             bodyStyle: { width: 100, textAlign: "center", },
@@ -1185,6 +1251,36 @@ const Locale = document.documentElement.lang,
                 return this.bodyRender(row);
             },
         }, {
+            name: "payment",
+            text: Neo.Helper.trans("Payment") + " (" + Currency + ")",
+            headStyle: { width: 160, textAlign: "center", },
+            bodyStyle: { width: 160, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(JSON.parse(row.payment).reduce((a, e) => a + e, 0), 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "creance",
+            text: Neo.Helper.trans("Creance") + " (" + Currency + ")",
+            headStyle: { width: 160, textAlign: "center", },
+            bodyStyle: { width: 160, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(row.total - JSON.parse(row.payment).reduce((a, e) => a + e, 0), 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
             name: "status",
             text: Neo.Helper.trans("Status"),
             headStyle: { width: 100, textAlign: "center", },
@@ -1197,6 +1293,30 @@ const Locale = document.documentElement.lang,
             },
             bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.status)),
             bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "insurance",
+            text: Neo.Helper.trans('Insurance'),
+            headStyle: {
+                maxWidth: 500,
+            },
+            visible: false,
+            bodyStyle: function() {
+                return this.headStyle;
+            },
+            headPdfStyle: function() {
+                return {
+                    ...this.headStyle,
+                    background: Background,
+                    color: Color
+                }
+            },
+            bodyRender: (row) => row.insurance ? Neo.Helper.Str.capitalize(row.insurance) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
                 return this.bodyRender(row);
             },
         }],
@@ -1220,7 +1340,7 @@ const Locale = document.documentElement.lang,
             name: "name",
             text: Neo.Helper.trans("Name"),
             headStyle: {
-                maxWidth: '300px',
+                maxWidth: 300,
             },
             bodyStyle: function() {
                 return this.headStyle;
@@ -1258,7 +1378,7 @@ const Locale = document.documentElement.lang,
             name: "details",
             text: Neo.Helper.trans('Details'),
             headStyle: {
-                maxWidth: '500px',
+                maxWidth: 500,
             },
             visible: false,
             bodyStyle: function() {
@@ -1278,6 +1398,140 @@ const Locale = document.documentElement.lang,
             bodyCsvRender: function(row) {
                 return this.bodyRender(row);
             },
+        }],
+        alerts: ({
+            Csrf,
+            Patch,
+            Clear
+        }) => [{
+            name: "id",
+            text: Neo.Helper.trans("Id"),
+            headStyle: { width: 20, textAlign: "center" },
+            bodyStyle: { width: 20, textAlign: "center" },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) =>
+                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "vehicle",
+            text: Neo.Helper.trans("Vehicle"),
+            headPdfStyle: {
+                background: Background,
+                color: Color
+            },
+            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name_en) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "name",
+            text: Neo.Helper.trans('Name'),
+            headStyle: {
+                maxWidth: 300,
+            },
+            bodyStyle: function() {
+                return this.headStyle;
+            },
+            headPdfStyle: function() {
+                return {
+                    ...this.headStyle,
+                    background: Background,
+                    color: Color
+                }
+            },
+            bodyRender: (row) => Neo.Helper.Str.capitalize(row.name),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "date",
+            text: Neo.Helper.trans("date"),
+            headPdfStyle: {
+                background: Background,
+                color: Color
+            },
+        }, {
+            name: "recurrence",
+            text: Neo.Helper.trans("Recurrence"),
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.trans(Neo.Helper.Str.capitalize(row.recurrence)),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "threshold",
+            text: Neo.Helper.trans("Threshold"),
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+        }, {
+            name: "details",
+            text: Neo.Helper.trans('Details'),
+            headStyle: {
+                maxWidth: 500,
+            },
+            visible: false,
+            bodyStyle: function() {
+                return this.headStyle;
+            },
+            headPdfStyle: function() {
+                return {
+                    ...this.headStyle,
+                    background: Background,
+                    color: Color
+                }
+            },
+            bodyRender: (row) => row.details ? Neo.Helper.Str.capitalize(row.details) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "action",
+            text: Neo.Helper.trans("Actions"),
+            headStyle: { width: 20, textAlign: "center" },
+            bodyStyle: { width: 20, textAlign: "center" },
+            bodyRender: (row) => {
+                return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
+            },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyPdfRender: () => empty(),
+            bodyCsvRender: () => empty(),
         }],
         reservations: ({
             Csrf,
@@ -1419,6 +1673,36 @@ const Locale = document.documentElement.lang,
                 return this.bodyRender(row);
             },
         }, {
+            name: "payment",
+            text: Neo.Helper.trans("Payment") + " (" + Currency + ")",
+            headStyle: { width: 160, textAlign: "center", },
+            bodyStyle: { width: 160, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(JSON.parse(row.payment).reduce((a, e) => a + e, 0), 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "creance",
+            text: Neo.Helper.trans("Creance") + " (" + Currency + ")",
+            headStyle: { width: 160, textAlign: "center", },
+            bodyStyle: { width: 160, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(row.total - JSON.parse(row.payment).reduce((a, e) => a + e, 0), 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
             name: "status",
             text: Neo.Helper.trans("Status"),
             headStyle: { width: 100, textAlign: "center", },
@@ -1431,6 +1715,30 @@ const Locale = document.documentElement.lang,
             },
             bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.status)),
             bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "insurance",
+            text: Neo.Helper.trans('Insurance'),
+            headStyle: {
+                maxWidth: 500,
+            },
+            visible: false,
+            bodyStyle: function() {
+                return this.headStyle;
+            },
+            headPdfStyle: function() {
+                return {
+                    ...this.headStyle,
+                    background: Background,
+                    color: Color
+                }
+            },
+            bodyRender: (row) => row.insurance ? Neo.Helper.Str.capitalize(row.insurance) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
                 return this.bodyRender(row);
             },
         }, {
@@ -1474,7 +1782,7 @@ const Locale = document.documentElement.lang,
             name: "name",
             text: Neo.Helper.trans("Name"),
             headStyle: {
-                maxWidth: '300px',
+                maxWidth: 300,
             },
             bodyStyle: function() {
                 return this.headStyle;
@@ -1526,7 +1834,7 @@ const Locale = document.documentElement.lang,
             name: "details",
             text: Neo.Helper.trans('Details'),
             headStyle: {
-                maxWidth: '500px',
+                maxWidth: 500,
             },
             visible: false,
             bodyStyle: function() {
@@ -1563,15 +1871,140 @@ const Locale = document.documentElement.lang,
             bodyPdfRender: () => empty(),
             bodyCsvRender: () => empty(),
         }],
+        payments: ({
+            Csrf,
+            Patch,
+            Print,
+        }) => [{
+            name: "reservation",
+            text: Neo.Helper.trans("Reservation"),
+            headStyle: { width: 20, textAlign: "center" },
+            bodyStyle: { width: 20, textAlign: "center" },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) =>
+                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "client",
+            text: Neo.Helper.trans("Client"),
+            headPdfStyle: {
+                background: Background,
+                color: Color
+            },
+            bodyRender: (row) => row.client ? Neo.Helper.Str.capitalize(row.client.first_name) + ' ' + Neo.Helper.Str.capitalize(row.client.last_name) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "vehicle",
+            text: Neo.Helper.trans("Vehicle"),
+            headPdfStyle: {
+                background: Background,
+                color: Color
+            },
+            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name_en) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "price",
+            text: Neo.Helper.trans("Price") + " (" + Currency + ")",
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(row.price, 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "total",
+            text: Neo.Helper.trans("Total") + " (" + Currency + ")",
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(row.total, 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "payment",
+            text: Neo.Helper.trans("Payment") + " (" + Currency + ")",
+            headStyle: { width: 160, textAlign: "center", },
+            bodyStyle: { width: 160, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(JSON.parse(row.payment).reduce((a, e) => a + e, 0), 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "creance",
+            text: Neo.Helper.trans("Creance") + " (" + Currency + ")",
+            headStyle: { width: 160, textAlign: "center", },
+            bodyStyle: { width: 160, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyRender: (row) => Neo.Helper.Str.money(row.total - JSON.parse(row.payment).reduce((a, e) => a + e, 0), 3),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "action",
+            text: Neo.Helper.trans("Actions"),
+            headStyle: { width: 20, textAlign: "center" },
+            bodyStyle: { width: 20, textAlign: "center" },
+            bodyRender: (row) => {
+                return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"print="${Print}"></action-tools>`;
+            },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyPdfRender: () => empty(),
+            bodyCsvRender: () => empty(),
+        }],
     }
 
 Neo.load(function() {
     document.querySelectorAll(".nav-colors svg").forEach((svg, i) => {
-        if (i < 10) svg.style.color = "var(--color-" + i + ")";
+        svg.style.color = "var(--color-" + i + ")";
     });
 
     document.querySelectorAll(".sys-colors svg").forEach((svg, i) => {
-        if (i < 10) svg.style.color = "var(--color-sys-" + i + ")";
+        svg.style.color = "var(--color-sys-" + i + ")";
     });
 });
 
@@ -1717,6 +2150,38 @@ function VehicleInitializer(List = [], imageTransfer) {
     });
 }
 
+function AlertInitializer({ Vehicle }) {
+    const
+        vehicle = document.querySelector("neo-autocomplete[name=vehicle]");
+
+    function fill(auto, url, merge) {
+        var timer;
+        auto.addEventListener("input", async(e) => {
+            if (timer) clearTimeout(timer);
+            auto.loading = true;
+            const d = await new Promise((resolver, rejecter) => {
+                timer = setTimeout(async() => {
+                    const data = await getData(url + "?search=" +
+                        encodeURIComponent(
+                            auto.query.trim()));
+                    auto.loading = false;
+                    resolver(data);
+                }, 250);
+            });
+
+            if (merge) {
+                d = d.map(e => {
+                    return {...e, name: Neo.Helper.Str.capitalize(e.first_name) + ' ' + Neo.Helper.Str.capitalize(e.last_name) + (e.blacklist ? " (blacklisted)" : "") }
+                })
+            }
+
+            auto.data = d;
+        });
+    }
+
+    fill(vehicle, Vehicle);
+}
+
 function ReservationInitializer({ Client, Vehicle }) {
     const client = document.querySelector("neo-autocomplete[name=client]"),
         vehicle = document.querySelector("neo-autocomplete[name=vehicle]"),
@@ -1725,7 +2190,15 @@ function ReservationInitializer({ Client, Vehicle }) {
         from_date = document.querySelector("neo-datepicker[name=from_date]"),
         from_time = document.querySelector("neo-timepicker[name=from_time]"),
         to_date = document.querySelector("neo-datepicker[name=to_date]"),
-        to_time = document.querySelector("neo-timepicker[name=to_time]");
+        to_time = document.querySelector("neo-timepicker[name=to_time]"),
+        payment = document.querySelector("neo-textbox[name=payment]"),
+        creance = document.querySelector("neo-textbox[name=creance]"),
+        overlay = document.querySelector("neo-overlay"),
+        list = document.querySelector("#list"),
+        cost = document.querySelector("#cost"),
+        json = document.querySelector("#json"),
+        div = document.createElement("table"),
+        data = JSON.parse(json.value);
 
     function fill(auto, url, merge) {
         var timer;
@@ -1754,22 +2227,110 @@ function ReservationInitializer({ Client, Vehicle }) {
 
     function calc() {
         const days = betweenDates(from_date.value + ' ' + from_time.value, to_date.value + ' ' + to_time.value);
-        total.value = Neo.Helper.Str.money(parseFloat(price.value) * days, 3) + ' ' + Currency;
+        total.value = Neo.Helper.Str.money(parseFloat(price.value || 0) * days, 3);
+        payment.value = Neo.Helper.Str.money(data.reduce((a, e) => a + e, 0), 3);
+        creance.value = Neo.Helper.Str.money(parseFloat(total.value) - parseFloat(payment.value), 3);
     }
 
     fill(client, Client, true);
     fill(vehicle, Vehicle);
 
+    function row(index, value) {
+        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="w-[20px] ps-8 p-4 text-base font-x-huge text-x-black text-center">#${index}</td><td class="px-4 py-2 text-lg text-x-black text-center">${Neo.Helper.Str.money(value, 3)} ${Currency}</td><td class="w-[80px] pe-8 px-4 py-2 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
+        const tr = div.querySelector("tr");
+        tr.querySelector("button").addEventListener("click", e => {
+            data.splice([...list.children].indexOf(tr), 1);
+            json.value = JSON.stringify(data);
+            tr.remove();
+            calc();
+        });
+        return tr;
+    }
+
+    payment.addEventListener("click", e => {
+        overlay.show();
+    });
+
+    cost.addEventListener("submit", e => {
+        e.preventDefault();
+        if (e.target.elements[0].value) {
+            data.push(parseFloat(e.target.elements[0].value));
+            list.insertAdjacentElement("beforeend", row(data.length, +e.target.elements[0].value));
+            e.target.elements[0].value = "";
+            json.value = JSON.stringify(data);
+            calc();
+        }
+    });
+
     vehicle.addEventListener("select", e => {
-        price.value = Neo.Helper.Str.money(e.detail.data.price, 3) + ' ' + Currency;
+        price.value = Neo.Helper.Str.money(e.detail.data.price, 3);
         calc();
     });
 
-    [from_date, from_time, to_date, to_time].forEach(el => {
+    [from_date, from_time, to_date, to_time, price].forEach(el => {
         el.addEventListener("change", e => {
             calc();
         })
-    })
+    });
+
+    if (data.length) {
+        data.forEach((e, i) => {
+            list.insertAdjacentElement("beforeend", row(i + 1, +e));
+        });
+    }
+    calc();
+}
+
+function paymentInitializer() {
+    const
+        total = document.querySelector("neo-textbox[name=total]"),
+        payment = document.querySelector("neo-textbox[name=payment]"),
+        creance = document.querySelector("neo-textbox[name=creance]"),
+        overlay = document.querySelector("neo-overlay"),
+        list = document.querySelector("#list"),
+        cost = document.querySelector("#cost"),
+        json = document.querySelector("#json"),
+        div = document.createElement("table"),
+        data = JSON.parse(json.value);
+
+    function calc() {
+        payment.value = Neo.Helper.Str.money(data.reduce((a, e) => a + e, 0), 3);
+        creance.value = Neo.Helper.Str.money(parseFloat(total.value) - parseFloat(payment.value), 3);
+    }
+
+    function row(index, value) {
+        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="w-[20px] ps-8 p-4 text-base font-x-huge text-x-black text-center">#${index}</td><td class="px-4 py-2 text-lg text-x-black text-center">${Neo.Helper.Str.money(value, 3)} ${Currency}</td><td class="w-[80px] pe-8 px-4 py-2 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
+        const tr = div.querySelector("tr");
+        tr.querySelector("button").addEventListener("click", e => {
+            data.splice([...list.children].indexOf(tr), 1);
+            json.value = JSON.stringify(data);
+            tr.remove();
+            calc();
+        });
+        return tr;
+    }
+
+    payment.addEventListener("click", e => {
+        overlay.show();
+    });
+
+    cost.addEventListener("submit", e => {
+        e.preventDefault();
+        if (e.target.elements[0].value) {
+            data.push(parseFloat(e.target.elements[0].value));
+            list.insertAdjacentElement("beforeend", row(data.length, +e.target.elements[0].value));
+            e.target.elements[0].value = "";
+            json.value = JSON.stringify(data);
+            calc();
+        }
+    });
+
+    if (data.length) {
+        data.forEach((e, i) => {
+            list.insertAdjacentElement("beforeend", row(i + 1, +e));
+        });
+    }
+    calc();
 }
 
 function ChargeInitializer({ Search }) {
@@ -1845,35 +2406,20 @@ async function CoreInitializer({ Table, Pie, Line, Search, Data, Total, Charges 
         data: {
             labels: data['keys'],
             datasets: [{
-                type: "line",
-                data: data['completed'],
+                data: data['payments'],
+                order: 2,
                 borderWidth: 2,
                 backgroundColor: "#22C55E",
                 borderColor: "#22C55E",
-                label: Neo.Helper.trans('Completed')
+                label: Neo.Helper.trans('Payments')
             }, {
-                data: data['confirmed'],
-                order: 2,
-                borderWidth: 2,
-                backgroundColor: "#458CFE",
-                borderColor: "#458CFE",
-                label: Neo.Helper.trans('Confirmed')
-            }, {
-                data: data['pendding'],
+                data: data['creances'],
                 order: 2,
                 borderWidth: 2,
                 backgroundColor: "#EAB308",
                 borderColor: "#EAB308",
-                label: Neo.Helper.trans('Pendding')
+                label: Neo.Helper.trans('Creances')
             }, {
-                data: data['canceled'],
-                order: 2,
-                borderWidth: 2,
-                backgroundColor: "#1F2937",
-                borderColor: "#1F2937",
-                label: Neo.Helper.trans('Canceled')
-            }, {
-                type: "line",
                 data: data['charges'],
                 borderWidth: 2,
                 backgroundColor: "#EC4899",
@@ -1920,11 +2466,9 @@ async function CoreInitializer({ Table, Pie, Line, Search, Data, Total, Charges 
 
     const csv = [
         ["", ...data['keys']],
+        [Neo.Helper.trans("Payments"), ...data['payments']],
+        [Neo.Helper.trans("Creances"), ...data['creances']],
         [Neo.Helper.trans("Charges"), ...data['charges']],
-        [Neo.Helper.trans("canceled"), ...data['canceled']],
-        [Neo.Helper.trans("pendding"), ...data['pendding']],
-        [Neo.Helper.trans("confirmed"), ...data['confirmed']],
-        [Neo.Helper.trans("completed"), ...data['completed']]
     ].map(e => e.map(c => parse(typeof c === "number" ? Neo.Helper.Str.money(c) : c)).join(',')).join("\n");
     document.querySelector("#download").href = URL.createObjectURL(new Blob([csv], {
         type: "text/csv",
@@ -1949,35 +2493,20 @@ async function SceneInitializer({ Line, Search, Data }) {
         data: {
             labels: data['keys'],
             datasets: [{
-                type: "line",
-                data: data['completed'],
+                data: data['payments'],
+                order: 2,
                 borderWidth: 2,
                 backgroundColor: "#22C55E",
                 borderColor: "#22C55E",
-                label: Neo.Helper.trans('Completed')
+                label: Neo.Helper.trans('Payments')
             }, {
-                data: data['confirmed'],
-                order: 2,
-                borderWidth: 2,
-                backgroundColor: "#458CFE",
-                borderColor: "#458CFE",
-                label: Neo.Helper.trans('Confirmed')
-            }, {
-                data: data['pendding'],
+                data: data['creances'],
                 order: 2,
                 borderWidth: 2,
                 backgroundColor: "#EAB308",
                 borderColor: "#EAB308",
-                label: Neo.Helper.trans('Pendding')
-            }, {
-                ...(data['charges'] ? { order: 2, } : { type: "line", }),
-                data: data['canceled'],
-                borderWidth: 2,
-                backgroundColor: data['charges'] ? "#1F2937" : "#EC4899",
-                borderColor: data['charges'] ? "#1F2937" : "#EC4899",
-                label: Neo.Helper.trans('Canceled')
+                label: Neo.Helper.trans('Creances')
             }, ...(data['charges'] ? [{
-                type: "line",
                 data: data['charges'],
                 borderWidth: 2,
                 backgroundColor: "#EC4899",
@@ -2022,12 +2551,11 @@ async function SceneInitializer({ Line, Search, Data }) {
 
     const csv = [
         ["", ...data['keys']],
+        [Neo.Helper.trans("Payments"), ...data['payments']],
+        [Neo.Helper.trans("Creances"), ...data['creances']],
         ...(data['charges'] ? [
             [Neo.Helper.trans("Charges"), ...data['charges']]
-        ] : []), [Neo.Helper.trans("canceled"), ...data['canceled']],
-        [Neo.Helper.trans("pendding"), ...data['pendding']],
-        [Neo.Helper.trans("confirmed"), ...data['confirmed']],
-        [Neo.Helper.trans("completed"), ...data['completed']]
+        ] : []),
     ].map(e => e.map(c => parse(typeof c === "number" ? Neo.Helper.Str.money(c) : c)).join(',')).join("\n");
     document.querySelector("#download").href = URL.createObjectURL(new Blob([csv], {
         type: "text/csv",

@@ -49,6 +49,16 @@
                     </a>
                 </li>
                 <li class="w-full">
+                    <a href="{{ route('views.payments.index') }}"
+                        class="w-full flex flex-wrap gap-2 p-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::matchRoute('payments') ? '!bg-x-black' : '' }}">
+                        <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
+                            <path
+                                d="M430-97v-92q-63-14-104-55t-57-115l112-42q13 54 41.5 77t69.5 23q38 0 58-13.5t20-40.5q0-26-23.5-46T450-442q-86-25-121.5-70T293-615q0-62 38.5-103.5T430-774v-89h105v89q52 12 90 47t55 87l-110 45q-11-30-33-48t-57-18q-36 0-51 13t-15 29q0 24 20 39t102 40q75 23 115 70t40 113q-1 77-44.5 118T535-186v89H430Z" />
+                        </svg>
+                        <span class="block flex-1 text-base">{{ __('Payments') }}</span>
+                    </a>
+                </li>
+                <li class="w-full">
                     <a href="{{ route('views.charges.index') }}"
                         class="w-full flex flex-wrap gap-2 p-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::matchRoute('charges') ? '!bg-x-black' : '' }}">
                         <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
@@ -132,6 +142,16 @@
                                 d="M244-161v8q0 30.6-22.5 51.3Q199-81 166.7-81h-10.89Q125-81 102.5-103.29 80-125.58 80-156v-331.43L167-735q9.64-28.8 34.86-46.4Q227.08-799 258-799h444q30.92 0 56.14 17.6T793-735l87 247.57V-156q0 30.42-22.5 52.71T804.19-81H793.3q-32.3 0-54.8-20.7T716-153v-8H244Zm1-404h470l-36-105H281l-36 105Zm60 241q26 0 44-18.38t18-43.5q0-25.12-18-43.62-18-18.5-43.5-18.5T262-429.62q-18 18.38-18 43.5t18.13 43.62Q280.25-324 305-324Zm349.5 0q25.5 0 43.5-18.38t18-43.5q0-25.12-18.12-43.62Q679.75-448 655-448q-26 0-44 18.38t-18 43.5q0 25.12 18 43.62 18 18.5 43.5 18.5Z" />
                         </svg>
                         <span class="block flex-1 text-base">{{ __('Vehicles') }}</span>
+                    </a>
+                </li>
+                <li class="w-full">
+                    <a href="{{ route('views.alerts.index') }}"
+                        class="w-full flex flex-wrap gap-2 p-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::matchRoute('alerts') ? '!bg-x-black' : '' }}">
+                        <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
+                            <path
+                                d="M479-61q-79 0-148-30t-121-80.5q-52-50.5-82-120T98-441q0-79 30-148t82-120.5Q262-761 331-792t148-31q79 0 148 31t120 82.5Q798-658 829-589t31 148q0 80-31 149.5t-82 120Q696-121 627-91T479-61Zm116-212 50-50-129-128v-188h-69v219l148 147ZM204-895l49 49L71-669l-48-49 181-177Zm549 0 183 177-49 49-183-177 49-49Z" />
+                        </svg>
+                        <span class="block flex-1 text-base">{{ __('Alerts') }}</span>
                     </a>
                 </li>
             </ul>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('name_en')->unique();
             $table->float('price', 15, 5);
             $table->integer('passengers');
+            $table->float('milage', 15, 5);
             $table->integer('doors');
             $table->integer('cargo');
             $table->string('transmission');

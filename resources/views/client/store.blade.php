@@ -28,7 +28,7 @@
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Identity') }} (*)
                     </label>
-                    <neo-textbox placeholder="{{ __('Identity') }} (*)" name="identity"
+                    <neo-textbox id="identity" placeholder="{{ __('Identity') }} (*)" name="identity"
                         value="{{ old('identity') }}"></neo-textbox>
                 </div>
                 <div class="flex flex-col gap-1 lg:col-span-4">
@@ -100,11 +100,19 @@
                 </div>
                 <div class="w-full flex lg:col-span-12">
                     <neo-button
-                        class="w-full lg:w-max lg:px-20 lg:ms-auto px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
+                        class="w-full lg:w-max lg:px-20 lg:ms-auto px-4 py-3 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
                         <span>{{ __('Save') }}</span>
                     </neo-button>
                 </div>
             </form>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.querySelector("#identity").addEventListener("keyup", e => {
+            e.target.value = e.target.value.replace(/\s*/g, '');
+        });
+    </script>
 @endsection

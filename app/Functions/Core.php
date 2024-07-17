@@ -78,7 +78,7 @@ class Core
 
     public static function identityList()
     {
-        return ['passport', 'national id', 'residence permit', 'visa'];
+        return ['cin', 'visa', 'passport', 'residence permit'];
     }
 
     public static function orderList()

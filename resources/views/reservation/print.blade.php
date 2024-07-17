@@ -108,34 +108,16 @@
                             {{ __('Vehicle Details') }}
                         </h2>
                         <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                            <div class="flex flex-col gap-1">
+                            <div class="flex flex-col gap-1 lg:col-span-2">
                                 <label class="text-sm text-x-black font-x-thin">
                                     {{ __('Name') }}
                                 </label>
                                 <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                                    {{ ucwords($data->Vehicle->Brand ? $data->Vehicle->Brand->name_en : '') }}
+                                    {{ ucwords($data->Vehicle->Model ? $data->Vehicle->Model->name_en : '') }}
                                     {{ ucwords($data->Vehicle->name_en) }}
                                 </div>
                             </div>
-                            @if ($data->Vehicle->Brand)
-                                <div class="flex flex-col gap-1">
-                                    <label class="text-sm text-x-black font-x-thin">
-                                        {{ __('Brand') }}
-                                    </label>
-                                    <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                        {{ ucwords($data->Vehicle->Brand->name_en) }}
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($data->Vehicle->Model)
-                                <div class="flex flex-col gap-1">
-                                    <label class="text-sm text-x-black font-x-thin">
-                                        {{ __('Model') }}
-                                    </label>
-                                    <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                        {{ ucwords($data->Vehicle->Model->name_en) }}
-                                    </div>
-                                </div>
-                            @endif
                             <div class="flex flex-col gap-1">
                                 <label class="text-sm text-x-black font-x-thin">
                                     {{ __('Transmission') }}
@@ -158,6 +140,14 @@
                                 </label>
                                 <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                                     {{ $data->Vehicle->passengers }}
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-sm text-x-black font-x-thin">
+                                    {{ __('Milage') }}
+                                </label>
+                                <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                                    {{ $data->Vehicle->milage }}
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
@@ -218,14 +208,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="lg:col-span-7 hidden lg:block"></div>
-                <div class="w-full flex flex-col gap-4 lg:col-span-5 mt-10">
+                <div class="lg:col-span-8 hidden lg:block"></div>
+                <div class="w-full flex flex-col gap-4 lg:col-span-4 mt-10">
                     <div class="w-full flex flex-col gap-4">
                         <div class="flex items-center justify-between gap-4">
                             <span class="text-base text-x-black font-x-thin">
                                 {{ __('Period') }}
                             </span>
-                            <span class="text-lg text-x-black font-x-thin">
+                            <span class="text-base text-x-black font-x-thin">
                                 {{ $data->period }} {{ __('Days') }}
                             </span>
                         </div>
@@ -233,13 +223,13 @@
                             <span class="text-base text-x-black font-x-thin">
                                 {{ __('Price Per Day') }}
                             </span>
-                            <span class="text-lg text-x-black font-x-thin">
+                            <span class="text-base text-x-black font-x-thin">
                                 {{ Core::formatNumber($data->price) }} {{ Core::$UNIT }}
                             </span>
                         </div>
                         <div class="h-px bg-x-shade"></div>
                         <div class="flex items-center justify-between gap-4">
-                            <span class="text-lg text-x-black font-x-thin">
+                            <span class="text-base text-x-black font-x-thin">
                                 {{ __('Total') }}
                             </span>
                             <span class="text-xl text-x-black font-x-thin">
@@ -345,34 +335,16 @@
                         {{ __('Vehicle Details') }}
                     </h2>
                     <div class="w-full grid grid-rows-1 grid-cols-2 gap-4">
-                        <div class="flex flex-col gap-1">
+                        <div class="flex flex-col gap-1 col-span-2">
                             <label class="text-sm text-x-black font-x-thin">
                                 {{ __('Name') }}
                             </label>
                             <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                                {{ ucwords($data->Vehicle->Brand ? $data->Vehicle->Brand->name_en : '') }}
+                                {{ ucwords($data->Vehicle->Model ? $data->Vehicle->Model->name_en : '') }}
                                 {{ ucwords($data->Vehicle->name_en) }}
                             </div>
                         </div>
-                        @if ($data->Vehicle->Brand)
-                            <div class="flex flex-col gap-1">
-                                <label class="text-sm text-x-black font-x-thin">
-                                    {{ __('Brand') }}
-                                </label>
-                                <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                    {{ ucwords($data->Vehicle->Brand->name_en) }}
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data->Vehicle->Model)
-                            <div class="flex flex-col gap-1">
-                                <label class="text-sm text-x-black font-x-thin">
-                                    {{ __('Model') }}
-                                </label>
-                                <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                    {{ ucwords($data->Vehicle->Model->name_en) }}
-                                </div>
-                            </div>
-                        @endif
                         <div class="flex flex-col gap-1">
                             <label class="text-sm text-x-black font-x-thin">
                                 {{ __('Transmission') }}
@@ -395,6 +367,14 @@
                             </label>
                             <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                                 {{ $data->Vehicle->passengers }}
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-sm text-x-black font-x-thin">
+                                {{ __('Milage') }}
+                            </label>
+                            <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                                {{ $data->Vehicle->milage }}
                             </div>
                         </div>
                         <div class="flex flex-col gap-1">
@@ -455,14 +435,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-span-7 block"></div>
-            <div class="w-full flex flex-col gap-4 col-span-5 mt-10">
+            <div class="col-span-8 block"></div>
+            <div class="w-full flex flex-col gap-4 col-span-4 mt-10">
                 <div class="w-full flex flex-col gap-4">
                     <div class="flex items-center justify-between gap-4">
                         <span class="text-base text-x-black font-x-thin">
                             {{ __('Period') }}
                         </span>
-                        <span class="text-lg text-x-black font-x-thin">
+                        <span class="text-base text-x-black font-x-thin">
                             {{ $data->period }} {{ __('Days') }}
                         </span>
                     </div>
@@ -470,13 +450,13 @@
                         <span class="text-base text-x-black font-x-thin">
                             {{ __('Price Per Day') }}
                         </span>
-                        <span class="text-lg text-x-black font-x-thin">
+                        <span class="text-base text-x-black font-x-thin">
                             {{ Core::formatNumber($data->price) }} {{ Core::$UNIT }}
                         </span>
                     </div>
                     <div class="h-px bg-x-shade"></div>
                     <div class="flex items-center justify-between gap-4">
-                        <span class="text-lg text-x-black font-x-thin">
+                        <span class="text-base text-x-black font-x-thin">
                             {{ __('Total') }}
                         </span>
                         <span class="text-xl text-x-black font-x-thin">

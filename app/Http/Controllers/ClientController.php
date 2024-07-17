@@ -33,16 +33,21 @@ class ClientController extends Controller
 
         [$startDate, $endDate, $columns] = Core::getDates();
 
-        $reservations = Reservation::where('client', $id)->where('status', 'completed')->where(function ($query) use ($startDate, $endDate) {
+        $reservations = Reservation::where('client', $id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         })->get();
 
         $count = $reservations->count();
         $work = $reservations->sum('period');
-        $money = $reservations->sum('total');
+        $money =  $reservations->reduce(function ($carry, $res) {
+            return $carry + array_sum(json_decode($res->payment));
+        }, 0);
+        $rest =  $reservations->reduce(function ($carry, $res) {
+            return $carry + ($res->total - array_sum(json_decode($res->payment)));
+        }, 0);
 
-        return view('client.scene', compact('data', 'count', 'work', 'money', 'startDate', 'endDate'));
+        return view('client.scene', compact('data', 'count', 'work', 'money', 'rest', 'startDate', 'endDate'));
     }
 
     public function chart_action($id)
@@ -50,37 +55,30 @@ class ClientController extends Controller
         [$startDate, $endDate, $columns] = Core::getDates();
 
         $data = [
-            'canceled' => array_slice($columns, 0),
-            'pendding' => array_slice($columns, 0),
-            'confirmed' => array_slice($columns, 0),
-            'completed' => array_slice($columns, 0),
+            'payments' => array_slice($columns, 0),
+            'creances' => array_slice($columns, 0),
         ];
 
-        Reservation::select('id', 'status', 'from', 'to', 'price', 'total', 'updated_at')
-            ->where('client', $id)
+        Reservation::where('client', $id)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->where('from', '<=', $endDate)
                     ->where('to', '>=', $startDate);
             })
-            ->get()->groupBy('status')->each(function ($row, $key) use (&$data) {
-                $row->groupBy(function ($model) {
-                    return Core::groupKey($model);
-                })->map(function ($group) {
-                    return $group->sum(function ($carry) {
-                        return $carry->total;
-                    });
-                })->each(function ($item, $col) use (&$data, &$key) {
-                    $data[$key][$col] = $item;
+            ->get()->groupBy(function ($model) {
+                return Core::groupKey($model);
+            })->each(function ($group, $key) use (&$data) {
+                $group->each(function ($carry) use (&$data, &$key) {
+                    $pay = array_sum(json_decode($carry->payment));
+                    $data['creances'][$key] += $carry->total - $pay;
+                    $data['payments'][$key] += $pay;
                 });
             });
 
         return response()->json([
             'data' => [
                 'keys' => array_keys($columns),
-                'canceled' => array_values($data['canceled']),
-                'pendding' => array_values($data['pendding']),
-                'confirmed' => array_values($data['confirmed']),
-                'completed' => array_values($data['completed']),
+                'payments' => array_values($data['payments']),
+                'creances' => array_values($data['creances']),
             ]
         ]);
     }

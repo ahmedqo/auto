@@ -66,7 +66,7 @@
                 </div>
                 <div class="w-full flex lg:col-span-2">
                     <neo-button
-                        class="w-full lg:w-max lg:px-20 lg:ms-auto px-4 py-2 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
+                        class="w-full lg:w-max lg:px-20 lg:ms-auto px-4 py-3 text-base lg:text-lg font-x-huge text-x-white bg-x-core bg-gradient-to-br rtl:bg-gradient-to-bl">
                         <span>{{ __('Save') }}</span>
                     </neo-button>
                 </div>

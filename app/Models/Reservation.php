@@ -25,7 +25,9 @@ class Reservation extends Model
         'period',
         'price',
         'total',
+        'payment',
         'status',
+        'insurance'
     ];
 
     protected $searchable = [

@@ -22,7 +22,9 @@ return new class extends Migration
             $table->integer('period');
             $table->float('price', 15, 5);
             $table->float('total', 15, 5);
+            $table->json('payment');
             $table->string('status');
+            $table->text('insurance')->nullable();
             $table->timestamps();
 
             $table->foreign('client')->references('id')->on('clients')->onUpdate('cascade')->onDelete('set null');
@@ -35,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('reservations');
     }
 };

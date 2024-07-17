@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Functions\Core;
+use App\Models\Alert;
 use App\Models\Charge;
 use App\Models\Vehicle;
 use App\Models\Image;
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -36,14 +38,19 @@ class VehicleController extends Controller
 
         [$startDate, $endDate, $columns] = Core::getDates();
 
-        $reservations = Reservation::where('vehicle', $id)->where('status', 'completed')->where(function ($query) use ($startDate, $endDate) {
+        $reservations = Reservation::where('vehicle', $id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         })->get();
 
         $count = $reservations->count();
         $work = $reservations->sum('period');
-        $money = $reservations->sum('total');
+        $money =  $reservations->reduce(function ($carry, $res) {
+            return $carry + array_sum(json_decode($res->payment));
+        }, 0);
+        $rest =  $reservations->reduce(function ($carry, $res) {
+            return $carry + ($res->total - array_sum(json_decode($res->payment)));
+        }, 0);
         $charges = Charge::where('vehicle', $id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('updated_at', '<=', $endDate)
                 ->where('updated_at', '>=', $startDate);
@@ -51,7 +58,30 @@ class VehicleController extends Controller
             return $carry + $charge->cost;
         }, 0);
 
-        return view('vehicle.scene', compact('data', 'count', 'work', 'money', 'charges', 'startDate', 'endDate'));
+        $now = Carbon::now();
+        $alerts = Alert::where('vehicle', $id)
+            ->where(function ($query) use ($now) {
+                $date = $now->copy()->dayOfWeekIso + 1;
+                $query->where('recurrence', 'week')
+                    ->whereRaw("DAYOFWEEK(DATE_ADD(date, INTERVAL threshold HOUR)) >= ?", [$date])
+                    ->WhereRaw("DAYOFWEEK(DATE_SUB(date, INTERVAL threshold HOUR)) <= ?", [$date]);
+            })
+            ->orWhere(function ($query) use ($now) {
+                $date = $now->copy()->format('d H:i:s');
+                $query->where('recurrence', 'month')
+                    ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%d %H:%i:%s') >= ?", [$date])
+                    ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%d %H:%i:%s') <= ?", [$date]);
+            })
+            ->orWhere(function ($query) use ($now) {
+                $date = $now->copy()->format('m-d H:i:s');
+                $query->where('recurrence', 'year')
+                    ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') >= ?", [$date])
+                    ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') <= ?", [$date]);
+            })
+            ->orderBy('Date', 'ASC')
+            ->get();
+
+        return view('vehicle.scene', compact('alerts', 'data', 'count', 'work', 'money', 'rest', 'charges', 'startDate', 'endDate'));
     }
 
     public function chart_action($id)
@@ -60,29 +90,25 @@ class VehicleController extends Controller
 
         $data = [
             'charges' => array_slice($columns, 0),
-            'canceled' => array_slice($columns, 0),
-            'pendding' => array_slice($columns, 0),
-            'confirmed' => array_slice($columns, 0),
-            'completed' => array_slice($columns, 0),
+            'payments' => array_slice($columns, 0),
+            'creances' => array_slice($columns, 0),
         ];
 
-        Reservation::select('id', 'status', 'from', 'to', 'price', 'total', 'updated_at')
-            ->where('vehicle', $id)
+        Reservation::where('vehicle', $id)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->where('from', '<=', $endDate)
                     ->where('to', '>=', $startDate);
             })
-            ->get()->groupBy('status')->each(function ($row, $key) use (&$data) {
-                $row->groupBy(function ($model) {
-                    return Core::groupKey($model);
-                })->map(function ($group) {
-                    return $group->sum(function ($carry) {
-                        return $carry->total;
-                    });
-                })->each(function ($item, $col) use (&$data, &$key) {
-                    $data[$key][$col] = $item;
+            ->get()->groupBy(function ($model) {
+                return Core::groupKey($model);
+            })->each(function ($group, $key) use (&$data) {
+                $group->each(function ($carry) use (&$data, &$key) {
+                    $pay = array_sum(json_decode($carry->payment));
+                    $data['creances'][$key] += $carry->total - $pay;
+                    $data['payments'][$key] += $pay;
                 });
             });
+
 
         Charge::where('vehicle', $id)
             ->where(function ($query) use ($startDate, $endDate) {
@@ -103,10 +129,8 @@ class VehicleController extends Controller
             'data' => [
                 'keys' => array_keys($columns),
                 'charges' => array_values($data['charges']),
-                'canceled' => array_values($data['canceled']),
-                'pendding' => array_values($data['pendding']),
-                'confirmed' => array_values($data['confirmed']),
-                'completed' => array_values($data['completed']),
+                'payments' => array_values($data['payments']),
+                'creances' => array_values($data['creances']),
             ]
         ]);
     }
@@ -157,6 +181,7 @@ class VehicleController extends Controller
             'name_en' => ['required', 'string', 'unique:vehicles'],
             'transmission' => ['required', 'string'],
             'passengers' => ['required', 'integer'],
+            'milage' => ['required', 'numeric'],
             'model' => ['required', 'integer'],
             'status' => ['required', 'string'],
             'doors' => ['required', 'integer'],
@@ -193,6 +218,7 @@ class VehicleController extends Controller
             'name_en' => ['required', 'string', 'unique:vehicles,name_en,' . $id],
             'transmission' => ['required', 'string'],
             'passengers' => ['required', 'integer'],
+            'milage' => ['required', 'numeric'],
             'model' => ['required', 'integer'],
             'status' => ['required', 'string'],
             'doors' => ['required', 'integer'],
