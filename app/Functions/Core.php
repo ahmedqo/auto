@@ -2,6 +2,7 @@
 
 namespace App\Functions;
 
+use App\Models\Alert;
 use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
@@ -197,5 +198,32 @@ class Core
         $dayOfMonth = $date->format('j');
         $startDayOfWeek = (new \DateTime($date->format('Y-m-01')))->format('N');
         return (int) ceil(($dayOfMonth + $startDayOfWeek - $dayOfWeek) / 7);
+    }
+
+    public static function alerts($limit)
+    {
+        $now = Carbon::now();
+        $alerts = Alert::with('Vehicle')->where(function ($query) use ($now) {
+            $date = $now->copy()->dayOfWeekIso + 1;
+            $query->where('recurrence', 'week')
+                ->whereRaw("DAYOFWEEK(DATE_ADD(date, INTERVAL threshold HOUR)) >= ?", [$date])
+                ->WhereRaw("DAYOFWEEK(DATE_SUB(date, INTERVAL threshold HOUR)) <= ?", [$date]);
+        })
+            ->orWhere(function ($query) use ($now) {
+                $date = $now->copy()->format('d H:i:s');
+                $query->where('recurrence', 'month')
+                    ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%d %H:%i:%s') >= ?", [$date])
+                    ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%d %H:%i:%s') <= ?", [$date]);
+            })
+            ->orWhere(function ($query) use ($now) {
+                $date = $now->copy()->format('m-d H:i:s');
+                $query->where('recurrence', 'year')
+                    ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') >= ?", [$date])
+                    ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') <= ?", [$date]);
+            });
+
+        if ($limit) $alerts = $alerts->limit($limit);
+
+        return $alerts->orderBy('Date', 'ASC')->get();
     }
 }

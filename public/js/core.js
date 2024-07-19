@@ -61,22 +61,6 @@ const Locale = document.documentElement.lang,
     Currency = document.querySelector("[name=currency]").content,
     COLS = {
         most: () => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "image",
             text: Neo.Helper.trans('Image'),
             headStyle: { width: 20, textAlign: "center" },
@@ -144,22 +128,6 @@ const Locale = document.documentElement.lang,
             Patch,
             Clear
         }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "first_name",
             text: Neo.Helper.trans("First Name"),
             headPdfStyle: {
@@ -270,21 +238,6 @@ const Locale = document.documentElement.lang,
             Scene,
             Clear
         }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) => `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             text: Neo.Helper.trans("Full Name"),
             headPdfStyle: {
                 background: Background,
@@ -444,29 +397,13 @@ const Locale = document.documentElement.lang,
             bodyCsvRender: () => empty(),
         }],
         client_reservation: () => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "vehicle",
             text: Neo.Helper.trans("Vehicle"),
             headPdfStyle: {
                 background: Background,
                 color: Color
             },
-            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name_en) : empty(),
+            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -637,22 +574,6 @@ const Locale = document.documentElement.lang,
             Patch,
             Clear
         }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "client",
             text: Neo.Helper.trans("Client"),
             headPdfStyle: {
@@ -706,230 +627,12 @@ const Locale = document.documentElement.lang,
             bodyPdfRender: () => empty(),
             bodyCsvRender: () => empty(),
         }],
-        brands: ({
-            Csrf,
-            Patch,
-            Clear
-        }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "image",
-            text: Neo.Helper.trans('Image'),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) => `<img part="image" style="margin:auto;display:block;width:4rem;aspect-ratio:1/1;object-fit:contain;object-position:center;background:rgb(209 209 209);" src="${BasePath + row.image.storage}" />`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return BasePath + row.image.storage;
-            },
-        }, {
-            name: "name_en",
-            text: Neo.Helper.trans('Name'),
-            headStyle: {
-                maxWidth: 300,
-            },
-            bodyStyle: function() {
-                return this.headStyle;
-            },
-            headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
-            },
-            bodyRender: (row) => Neo.Helper.Str.capitalize(row.name_en),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "description_en",
-            text: Neo.Helper.trans('Description'),
-            headStyle: {
-                maxWidth: 500,
-            },
-            bodyStyle: function() {
-                return this.headStyle;
-            },
-            headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
-            },
-            bodyRender: (row) => row.description_en ? Neo.Helper.Str.capitalize(row.description_en) : empty(),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "action",
-            text: Neo.Helper.trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            bodyRender: (row) => {
-                return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
-            },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyPdfRender: () => empty(),
-            bodyCsvRender: () => empty(),
-        }],
-        models: ({
-            Csrf,
-            Patch,
-            Clear
-        }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "image",
-            text: Neo.Helper.trans('Image'),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) => `<img part="image" style="margin:auto;display:block;width:4rem;aspect-ratio:1/1;object-fit:contain;object-position:center;background:rgb(209 209 209);" src="${BasePath + row.image.storage}" />`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return BasePath + row.image.storage;
-            },
-        }, {
-            name: "name_en",
-            text: Neo.Helper.trans('Name'),
-            headStyle: {
-                maxWidth: 300,
-            },
-            bodyStyle: function() {
-                return this.headStyle;
-            },
-            headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
-            },
-            bodyRender: (row) => Neo.Helper.Str.capitalize(row.name_en),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "description_en",
-            text: Neo.Helper.trans('Description'),
-            headStyle: {
-                maxWidth: 500,
-            },
-            bodyStyle: function() {
-                return this.headStyle;
-            },
-            headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
-            },
-            bodyRender: (row) => row.description_en ? Neo.Helper.Str.capitalize(row.description_en) : empty(),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "action",
-            text: Neo.Helper.trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            bodyRender: (row) => {
-                return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
-            },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyPdfRender: () => empty(),
-            bodyCsvRender: () => empty(),
-        }],
         vehicles: ({
             Csrf,
             Patch,
             Scene,
             Clear
         }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "image",
             text: Neo.Helper.trans('Image'),
             headStyle: { width: 20, textAlign: "center" },
@@ -948,41 +651,13 @@ const Locale = document.documentElement.lang,
                 return BasePath + row.image.storage;
             },
         }, {
-            name: "name_en",
+            name: "name",
             text: Neo.Helper.trans('Name'),
             headPdfStyle: {
                 background: Background,
                 color: Color
             },
-            bodyRender: (row) => Neo.Helper.Str.capitalize(row.name_en),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "brand",
-            text: Neo.Helper.trans('Brand'),
-            headPdfStyle: {
-                background: Background,
-                color: Color,
-            },
-            bodyRender: (row) => Neo.Helper.Str.capitalize(row.brand ? row.brand.name_en : empty()),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "model",
-            text: Neo.Helper.trans('Model'),
-            headPdfStyle: {
-                background: Background,
-                color: Color,
-            },
-            bodyRender: (row) => Neo.Helper.Str.capitalize(row.model ? row.model.name_en : empty()),
+            bodyRender: (row) => Neo.Helper.Str.capitalize(row.name),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -1007,7 +682,6 @@ const Locale = document.documentElement.lang,
         }, {
             name: "transmission",
             text: Neo.Helper.trans("Transmission"),
-            visible: false,
             headStyle: { width: 100, textAlign: "center", },
             bodyStyle: { width: 100, textAlign: "center", },
             headPdfStyle: function() {
@@ -1023,7 +697,6 @@ const Locale = document.documentElement.lang,
         }, {
             name: "fuel",
             text: Neo.Helper.trans("Fuel"),
-            visible: false,
             headStyle: { width: 100, textAlign: "center", },
             bodyStyle: { width: 100, textAlign: "center", },
             headPdfStyle: function() {
@@ -1050,10 +723,9 @@ const Locale = document.documentElement.lang,
             },
         }, {
             name: "milage",
-            text: Neo.Helper.trans("Milage"),
-            visible: false,
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            text: Neo.Helper.trans("Milage") + " (" + Neo.Helper.trans('Km') + ")",
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
             headPdfStyle: function() {
                 return {...this.headStyle, background: Background, color: Color };
             },
@@ -1085,29 +757,14 @@ const Locale = document.documentElement.lang,
                 return this.bodyStyle;
             },
         }, {
-            name: "status",
-            text: Neo.Helper.trans("Status"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.status)),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "details_en",
+            name: "details",
             text: Neo.Helper.trans('Details'),
             visible: false,
             headPdfStyle: {
                 background: Background,
                 color: Color
             },
-            bodyRender: (row) => row.details_en ? Neo.Helper.Str.capitalize(row.details_en) : empty(),
+            bodyRender: (row) => row.details ? Neo.Helper.Str.capitalize(row.details) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -1132,22 +789,6 @@ const Locale = document.documentElement.lang,
             bodyCsvRender: () => empty(),
         }],
         vehicle_reservation: () => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "client",
             text: Neo.Helper.trans("Client"),
             headPdfStyle: {
@@ -1321,22 +962,6 @@ const Locale = document.documentElement.lang,
             },
         }],
         vehicle_charge: () => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "name",
             text: Neo.Helper.trans("Name"),
             headStyle: {
@@ -1404,29 +1029,13 @@ const Locale = document.documentElement.lang,
             Patch,
             Clear
         }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "vehicle",
             text: Neo.Helper.trans("Vehicle"),
             headPdfStyle: {
                 background: Background,
                 color: Color
             },
-            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name_en) : empty(),
+            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -1539,22 +1148,6 @@ const Locale = document.documentElement.lang,
             Print,
             Clear
         }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "client",
             text: Neo.Helper.trans("Client"),
             headPdfStyle: {
@@ -1575,7 +1168,7 @@ const Locale = document.documentElement.lang,
                 background: Background,
                 color: Color
             },
-            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name_en) : empty(),
+            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -1763,22 +1356,6 @@ const Locale = document.documentElement.lang,
             Patch,
             Clear
         }) => [{
-            name: "id",
-            text: Neo.Helper.trans("Id"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "name",
             text: Neo.Helper.trans("Name"),
             headStyle: {
@@ -1808,7 +1385,7 @@ const Locale = document.documentElement.lang,
                 background: Background,
                 color: Color
             },
-            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name_en) : empty(),
+            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -1876,22 +1453,6 @@ const Locale = document.documentElement.lang,
             Patch,
             Print,
         }) => [{
-            name: "reservation",
-            text: Neo.Helper.trans("Reservation"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
-            headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
-            },
-            bodyPdfStyle: function() {
-                return this.bodyStyle;
-            },
-            bodyRender: (row) =>
-                `<span style="font-weight: 500; text-align: center; display: block;">#${row.id}</span>`,
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
             name: "client",
             text: Neo.Helper.trans("Client"),
             headPdfStyle: {
@@ -1912,7 +1473,7 @@ const Locale = document.documentElement.lang,
                 background: Background,
                 color: Color
             },
-            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name_en) : empty(),
+            bodyRender: (row) => row.vehicle ? Neo.Helper.Str.capitalize(row.vehicle.name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -2012,6 +1573,56 @@ function empty() {
     return "N/A";
 }
 
+function tabs() {
+    const tabs = [...document.querySelectorAll('[data-tabs]')].reduce((a, e) => ({...a, [+e.dataset.tabs]: e }), {}),
+        view = [...document.querySelectorAll('[data-view]')].reduce((a, e) => ({...a, [+e.dataset.view]: e }), {}),
+        next = document.querySelector("#next"),
+        save = document.querySelector("#save"),
+        atabs = Object.values(tabs),
+        aview = Object.values(view);
+
+    var cur = 1;
+
+    function flip() {
+        if (cur === atabs.length) {
+            next.classList.add("hidden");
+            save.classList.remove("hidden");
+        } else {
+            next.classList.remove("hidden");
+            save.classList.add("hidden");
+        }
+    }
+
+    Object.entries(tabs).forEach(([i, tab]) => {
+        tab.addEventListener("click", e => {
+            atabs.forEach(t => t.classList.remove('active'));
+            aview.forEach(v => {
+                v.classList.remove('grid');
+                v.classList.add('hidden');
+            });
+            tab.classList.add('active')
+            view[i].classList.add('grid');
+            view[i].classList.remove('hidden');
+            cur = +i;
+            flip();
+        });
+    });
+
+    next.addEventListener("click", e => {
+        cur = cur + 1;
+        atabs.forEach(t => t.classList.remove('active'));
+        aview.forEach(v => {
+            v.classList.remove('grid');
+            v.classList.add('hidden');
+        });
+        tabs[cur].classList.add('active')
+        view[cur].classList.add('grid');
+        view[cur].classList.remove('hidden');
+
+        flip()
+    });
+}
+
 function betweenDates(date1, date2) {
     const startDate = new Date(date1);
     const endDate = new Date(date2);
@@ -2051,7 +1662,7 @@ function TableVisualizer(dataVisualizer, Type, Data) {
                 const _preva = Links.querySelector("#prev").cloneNode(true);
                 _preva.addEventListener("click", event);
                 if (nexta) dataVisualizer.insertBefore(_preva, nexta);
-                else dataVisualizer.appendChild(_preva);
+                else dataVisualizer.insertAdjacentElement("afterstart", _preva);
                 _preva.title = Neo.Helper.trans("Prev");
                 _preva.href = href;
             }
@@ -2067,7 +1678,7 @@ function TableVisualizer(dataVisualizer, Type, Data) {
             else {
                 const _nexta = Links.querySelector("#next").cloneNode(true);
                 _nexta.addEventListener("click", event);
-                dataVisualizer.appendChild(_nexta);
+                dataVisualizer.insertAdjacentElement("afterstart", _nexta);
                 _nexta.title = Neo.Helper.trans("Next");
                 _nexta.href = href;
             }
@@ -2094,59 +1705,32 @@ function TableVisualizer(dataVisualizer, Type, Data) {
         Csrf: Data.Csrf,
     });
 
-    dataVisualizer.addEventListener("search", async e => {
-        e.preventDefault();
+    var url = Data.Search;
+
+    async function search(e) {
         if (timer) clearTimeout(timer);
         dataVisualizer.loading = true;
         dataVisualizer.rows = await new Promise((resolver, rejecter) => {
             timer = setTimeout(async() => {
-                const data = await getData(Data.Search + "?search=" +
+                const data = await getData(url + (e ? ("?search=" +
                     encodeURIComponent(e.detail
-                        .data), createLinks);
+                        .data)) : ""), createLinks);
                 resolver(data);
             }, 2000);
         });
         dataVisualizer.loading = false;
-    });
-}
+    }
 
-function VehicleInitializer(List = [], imageTransfer) {
-    ["#description_en"].forEach(editor => {
-        new RichTextEditor(editor);
-    });
+    var all = dataVisualizer.querySelector("#all");
 
-    document.querySelectorAll("[rte-cmd-name=fullscreenenter]").forEach(el => {
-        el.addEventListener("click", e => {
-            Neo.Wrapper.rules.closed();
-        })
+    if (all) all.addEventListener("change", e => {
+        url = e.target.active ? Data.Filter : Data.Search;
+        search();
     });
 
-    document.querySelectorAll("[rte-cmd-name=fullscreenexit]").forEach(el => {
-        el.addEventListener("click", e => {
-            Neo.Wrapper.rules.opened();
-        })
-    });
-
-    if (imageTransfer) imageTransfer.addEventListener("delete", ({ detail: { data } }) => {
-        if (data instanceof File) return;
-        imageTransfer.insertAdjacentHTML("afterend", `<input type="hidden" name="deleted[]" value="${data.id}" />`);
-    });
-
-    List.forEach(Item => {
-        var timer;
-        Item.Auto.addEventListener("input", async(e) => {
-            Item.Auto.loading = true;
-            if (timer) clearTimeout(timer);
-            Item.Auto.data = await new Promise((resolver, rejecter) => {
-                timer = setTimeout(async() => {
-                    const data = await getData(Item.Link + "?search=" +
-                        encodeURIComponent(
-                            Item.Auto.query.trim()));
-                    Item.Auto.loading = false;
-                    resolver(data);
-                }, 250);
-            });
-        });
+    dataVisualizer.addEventListener("search", async e => {
+        e.preventDefault();
+        search(e);
     });
 }
 
@@ -2177,13 +1761,20 @@ function AlertInitializer({ Vehicle }) {
 
             auto.data = d;
         });
+
+        auto.addEventListener("select", e => {
+            e.target.querySelector("input").value = e.detail.data[e.target.setQuery];
+        });
     }
 
     fill(vehicle, Vehicle);
+    tabs();
 }
 
 function ReservationInitializer({ Client, Vehicle }) {
-    const client = document.querySelector("neo-autocomplete[name=client]"),
+    const
+        client = document.querySelector("neo-autocomplete[name=client]"),
+        sclient = document.querySelector("neo-autocomplete[name=secondary_client]"),
         vehicle = document.querySelector("neo-autocomplete[name=vehicle]"),
         price = document.querySelector("neo-textbox[name=price]"),
         total = document.querySelector("neo-textbox[name=total]"),
@@ -2223,6 +1814,10 @@ function ReservationInitializer({ Client, Vehicle }) {
 
             auto.data = d;
         });
+
+        auto.addEventListener("select", e => {
+            e.target.querySelector("input").value = e.detail.data[e.target.setQuery];
+        });
     }
 
     function calc() {
@@ -2232,11 +1827,8 @@ function ReservationInitializer({ Client, Vehicle }) {
         creance.value = Neo.Helper.Str.money(parseFloat(total.value) - parseFloat(payment.value), 3);
     }
 
-    fill(client, Client, true);
-    fill(vehicle, Vehicle);
-
-    function row(index, value) {
-        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="w-[20px] ps-8 p-4 text-base font-x-huge text-x-black text-center">#${index}</td><td class="px-4 py-2 text-lg text-x-black text-center">${Neo.Helper.Str.money(value, 3)} ${Currency}</td><td class="w-[80px] pe-8 px-4 py-2 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
+    function row(value) {
+        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="w-[160px] ps-8 px-4 py-2 text-lg text-x-black text-center">${Neo.Helper.Str.money(value, 3)} ${Currency}</td><td></td><td class="w-[80px] pe-8 px-4 py-2 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
         const tr = div.querySelector("tr");
         tr.querySelector("button").addEventListener("click", e => {
             data.splice([...list.children].indexOf(tr), 1);
@@ -2255,7 +1847,7 @@ function ReservationInitializer({ Client, Vehicle }) {
         e.preventDefault();
         if (e.target.elements[0].value) {
             data.push(parseFloat(e.target.elements[0].value));
-            list.insertAdjacentElement("beforeend", row(data.length, +e.target.elements[0].value));
+            list.insertAdjacentElement("beforeend", row(+e.target.elements[0].value));
             e.target.elements[0].value = "";
             json.value = JSON.stringify(data);
             calc();
@@ -2275,10 +1867,15 @@ function ReservationInitializer({ Client, Vehicle }) {
 
     if (data.length) {
         data.forEach((e, i) => {
-            list.insertAdjacentElement("beforeend", row(i + 1, +e));
+            list.insertAdjacentElement("beforeend", row(+e));
         });
     }
+
+    fill(sclient, Client, true);
+    fill(vehicle, Vehicle);
+    fill(client, Client, true);
     calc();
+    tabs();
 }
 
 function paymentInitializer() {
@@ -2298,8 +1895,8 @@ function paymentInitializer() {
         creance.value = Neo.Helper.Str.money(parseFloat(total.value) - parseFloat(payment.value), 3);
     }
 
-    function row(index, value) {
-        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="w-[20px] ps-8 p-4 text-base font-x-huge text-x-black text-center">#${index}</td><td class="px-4 py-2 text-lg text-x-black text-center">${Neo.Helper.Str.money(value, 3)} ${Currency}</td><td class="w-[80px] pe-8 px-4 py-2 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
+    function row(value) {
+        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="w-[160px] ps-8 px-4 py-2 text-lg text-x-black text-center">${Neo.Helper.Str.money(value, 3)} ${Currency}</td><td></td><td class="w-[80px] pe-8 px-4 py-2 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
         const tr = div.querySelector("tr");
         tr.querySelector("button").addEventListener("click", e => {
             data.splice([...list.children].indexOf(tr), 1);
@@ -2318,7 +1915,7 @@ function paymentInitializer() {
         e.preventDefault();
         if (e.target.elements[0].value) {
             data.push(parseFloat(e.target.elements[0].value));
-            list.insertAdjacentElement("beforeend", row(data.length, +e.target.elements[0].value));
+            list.insertAdjacentElement("beforeend", row(+e.target.elements[0].value));
             e.target.elements[0].value = "";
             json.value = JSON.stringify(data);
             calc();
@@ -2327,7 +1924,7 @@ function paymentInitializer() {
 
     if (data.length) {
         data.forEach((e, i) => {
-            list.insertAdjacentElement("beforeend", row(i + 1, +e));
+            list.insertAdjacentElement("beforeend", row(+e));
         });
     }
     calc();
@@ -2347,6 +1944,10 @@ function ChargeInitializer({ Search }) {
                 auto.loading = false;
                 resolver(data);
             }, 250);
+        });
+
+        auto.addEventListener("select", e => {
+            e.target.querySelector("input").value = e.detail.data[e.target.setQuery];
         });
     });
 }
@@ -2369,6 +1970,10 @@ function BlackListInitializer({ Search }) {
 
         auto.data = data.map(e => {
             return {...e, name: Neo.Helper.Str.capitalize(e.first_name) + ' ' + Neo.Helper.Str.capitalize(e.last_name) + (e.blacklist ? " (blacklisted)" : "") }
+        });
+
+        auto.addEventListener("select", e => {
+            e.target.querySelector("input").value = e.detail.data[e.target.setQuery];
         });
     });
 }
@@ -2481,8 +2086,8 @@ async function CoreInitializer({ Table, Pie, Line, Search, Data, Total, Charges 
 }
 
 async function SceneInitializer({ Line, Search, Data }) {
-    Search.forEach(([id, type, url]) => {
-        TableVisualizer(document.querySelector(id), type, { Search: url });
+    Search.forEach(([id, type, url, fil]) => {
+        TableVisualizer(document.querySelector(id), type, { Search: url, Filter: fil });
     });
 
     const data = await getData(Data);

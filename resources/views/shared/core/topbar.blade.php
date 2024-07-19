@@ -50,6 +50,42 @@
                 </li>
             </ul>
         </neo-dropdown>
+        <neo-dropdown label="{{ __('Notifications') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
+            @php
+                $alerts = Core::alerts(8);
+            @endphp
+            <button slot="trigger" aria-label="notifications_trigger"
+                class="flex items-center justify-center w-6 h-6 text-x-white outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
+                @if ($alerts->count())
+                    <span
+                        class="block w-2 h-2 rounded-full bg-red-500 absolute -top-0 -right-0 rtl:right-auto rtl:-left-0 animate-ping duration-200"></span>
+                @endif
+                <svg class="block w-5 h-5 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
+                    <path
+                        d="M139-179v-91h71v-278q0-91.69 51.5-166.35Q313-789 405-810v-17q0-30.58 21.84-53.29T479.88-903q31.2 0 53.16 22.71Q555-857.58 555-827v17q91 19 144 94.39T752-548v278h71v91H139ZM480.46-51q-36.94 0-62.2-25.85Q393-102.7 393-139h175q0 37-25.95 62.5T480.46-51Z" />
+                </svg>
+            </button>
+            <ul class="w-full lg:max-w-[300px] flex flex-col">
+                @forelse($alerts as $alert)
+                    <li
+                        class="w-full block text-x-black text-base p-4 {{ $loop->index === 0 ? '' : 'border-t border-x-shade' }}">
+                        "{{ ucwords($alert->name) }}" {{ __('On') }} {{ ucwords($alert->Vehicle->name) }}
+                        {{ __('At') }} {{ $alert->date }}
+                    </li>
+                @empty
+                    <li class="w-full text-center block text-x-black font-x-huge text-base px-4 py-8">
+                        {{ __('No Data Found') }}
+                    </li>
+                @endforelse
+                <li
+                    class="w-full px-4 py-2 bg-x-white flex justify-center items-center sticky left-0 right-0 bottom-0 border-t border-x-shade">
+                    <a href="{{ route('views.core.notification') }}"
+                        class="w-max text-sm font-x-thin text-x-prime underline underline-offset-2">
+                        {{ __('view notifications') }}
+                    </a>
+                </li>
+            </ul>
+        </neo-dropdown>
         <neo-dropdown label="{{ __('Settings') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
             <button slot="trigger" aria-label="setting_trigger"
                 class="flex items-center justify-center w-6 h-6 text-x-white outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">

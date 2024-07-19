@@ -9,5 +9,6 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::get('/payments/{id}/print', [PaymentController::class, 'print_view'])->name('views.payments.print');
 
     Route::get('/payments/search', [PaymentController::class, 'search_action'])->name('actions.payments.search');
+    Route::get('/payments/filter', [PaymentController::class, 'filter_action'])->name('actions.payments.filter');
     Route::patch('/payments/{id}/patch', [PaymentController::class, 'patch_action'])->name('actions.payments.patch');
 });

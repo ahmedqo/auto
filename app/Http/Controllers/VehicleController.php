@@ -28,13 +28,13 @@ class VehicleController extends Controller
 
     public function patch_view($id)
     {
-        $data = Vehicle::with('Images', 'Brand', 'Model')->findorfail($id);
+        $data = Vehicle::with('Images')->findorfail($id);
         return view('vehicle.patch', compact('data'));
     }
 
     public function scene_view($id)
     {
-        $data = Vehicle::with('Images', 'Brand', 'Model')->findorfail($id);
+        $data = Vehicle::with('Images')->findorfail($id);
 
         [$startDate, $endDate, $columns] = Core::getDates();
 
@@ -59,13 +59,12 @@ class VehicleController extends Controller
         }, 0);
 
         $now = Carbon::now();
-        $alerts = Alert::where('vehicle', $id)
-            ->where(function ($query) use ($now) {
-                $date = $now->copy()->dayOfWeekIso + 1;
-                $query->where('recurrence', 'week')
-                    ->whereRaw("DAYOFWEEK(DATE_ADD(date, INTERVAL threshold HOUR)) >= ?", [$date])
-                    ->WhereRaw("DAYOFWEEK(DATE_SUB(date, INTERVAL threshold HOUR)) <= ?", [$date]);
-            })
+        $alerts = Alert::where(function ($query) use ($now) {
+            $date = $now->copy()->dayOfWeekIso + 1;
+            $query->where('recurrence', 'week')
+                ->whereRaw("DAYOFWEEK(DATE_ADD(date, INTERVAL threshold HOUR)) >= ?", [$date])
+                ->WhereRaw("DAYOFWEEK(DATE_SUB(date, INTERVAL threshold HOUR)) <= ?", [$date]);
+        })
             ->orWhere(function ($query) use ($now) {
                 $date = $now->copy()->format('d H:i:s');
                 $query->where('recurrence', 'month')
@@ -78,6 +77,7 @@ class VehicleController extends Controller
                     ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') >= ?", [$date])
                     ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') <= ?", [$date]);
             })
+            ->where('vehicle', $id)
             ->orderBy('Date', 'ASC')
             ->get();
 
@@ -137,7 +137,7 @@ class VehicleController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Vehicle::with('Images', 'Brand', 'Model')->orderBy('id', 'DESC');
+        $data = Vehicle::with('Images')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -145,7 +145,22 @@ class VehicleController extends Controller
         return response()->json($data);
     }
 
-    public function reservations_action(Request $Request, $id)
+    public function search_reservations_action(Request $Request, $id)
+    {
+        [$startDate, $endDate, $columns] = Core::getDates();
+
+        $data = Reservation::with('Client')->where('vehicle', $id)->where('status', '!=', 'completed')->where(function ($query) use ($startDate, $endDate) {
+            $query->where('from', '<=', $endDate)
+                ->where('to', '>=', $startDate);
+        });
+        if ($Request->search) {
+            $data = $data->search(urldecode($Request->search));
+        }
+        $data = $data->cursorPaginate(50);
+        return response()->json($data);
+    }
+
+    public function filter_reservations_action(Request $Request, $id)
     {
         [$startDate, $endDate, $columns] = Core::getDates();
 
@@ -178,15 +193,12 @@ class VehicleController extends Controller
     public function store_action(Request $Request)
     {
         $validator = Validator::make($Request->all(), [
-            'name_en' => ['required', 'string', 'unique:vehicles'],
+            'name' => ['required', 'string', 'unique:vehicles'],
             'transmission' => ['required', 'string'],
             'passengers' => ['required', 'integer'],
             'milage' => ['required', 'numeric'],
-            'model' => ['required', 'integer'],
-            'status' => ['required', 'string'],
             'doors' => ['required', 'integer'],
             'cargo' => ['required', 'integer'],
-            'brand' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
             'fuel' => ['required', 'string'],
             'images' => ['required', 'array'],
@@ -201,7 +213,7 @@ class VehicleController extends Controller
         }
 
         $Request->merge([
-            'slug' =>  Str::slug($Request->name_en),
+            'slug' =>  Str::slug($Request->name),
         ]);
 
         Vehicle::create(Core::fillable(Vehicle::class, $Request));
@@ -215,15 +227,12 @@ class VehicleController extends Controller
     public function patch_action(Request $Request, $id)
     {
         $validator = Validator::make($Request->all(), [
-            'name_en' => ['required', 'string', 'unique:vehicles,name_en,' . $id],
+            'name' => ['required', 'string', 'unique:vehicles,name,' . $id],
             'transmission' => ['required', 'string'],
             'passengers' => ['required', 'integer'],
             'milage' => ['required', 'numeric'],
-            'model' => ['required', 'integer'],
-            'status' => ['required', 'string'],
             'doors' => ['required', 'integer'],
             'cargo' => ['required', 'integer'],
-            'brand' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
             'fuel' => ['required', 'string'],
         ]);
@@ -245,7 +254,7 @@ class VehicleController extends Controller
         }
 
         $Request->merge([
-            'slug' =>  Str::slug($Request->name_en),
+            'slug' =>  Str::slug($Request->name),
         ]);
 
         $Vehicle->update(Core::fillable(Vehicle::class, $Request));

@@ -50,6 +50,12 @@ class CoreController extends Controller
         return view('core.setting');
     }
 
+    public function notification_view()
+    {
+        $data = Core::alerts(null);
+        return view('core.notification', compact('data'));
+    }
+
     public function setting_action(Request $Request)
     {
         $validator = Validator::make($Request->all(), [
@@ -148,21 +154,21 @@ class CoreController extends Controller
             'pendding' => '#EAB308',
         ];
 
-        $reservations =  Reservation::get()->map(function ($item) use (&$colors) {
+        $reservations =  Reservation::with('Client', 'Vehicle')->get()->map(function ($item) use (&$colors) {
             return [
                 'start' => $item->from,
                 'end' => $item->to,
-                'title' => ucwords($item->Client->first_name . ' ' . $item->Client->last_name) . ' (' . ucwords($item->Vehicle->name_en) . ')',
+                'title' => ucwords($item->Client->first_name . ' ' . $item->Client->last_name) . ' (' . ucwords($item->Vehicle->name) . ')',
                 'color' => $colors[$item->status],
                 'groupId' => 'reservation',
             ];
         });
 
-        $alerts =  Alert::get()->map(function ($item) {
+        $alerts =  Alert::with('Vehicle')->get()->map(function ($item) {
             return [
                 'start' => $item->date,
                 'end' => $item->date,
-                'title' => ucwords($item->name),
+                'title' => ucwords($item->name) . ' (' . ucwords($item->Vehicle->name) . ')',
                 'color' => '#458cfe',
                 'groupId' => 'alert',
             ];

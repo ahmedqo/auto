@@ -36,6 +36,16 @@ class ReservationController extends Controller
 
     public function search_action(Request $Request)
     {
+        $data = Reservation::with('Vehicle', 'Client')->where('status', '!=', 'completed')->orderBy('id', 'DESC');
+        if ($Request->search) {
+            $data = $data->search(urldecode($Request->search));
+        }
+        $data = $data->cursorPaginate(50);
+        return response()->json($data);
+    }
+
+    public function filter_action(Request $Request)
+    {
         $data = Reservation::with('Vehicle', 'Client')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));

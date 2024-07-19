@@ -16,6 +16,7 @@
                     </label>
                     <neo-autocomplete set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)" name="client"
                         value="{{ old('client') }}" query="{{ old('client_name') }}">
+                        <input type="hidden" name="client_name" value="{{ old('client_name') }}" />
                     </neo-autocomplete>
                 </div>
                 <div class="flex flex-col gap-1">

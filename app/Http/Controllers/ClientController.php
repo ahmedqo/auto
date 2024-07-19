@@ -93,7 +93,22 @@ class ClientController extends Controller
         return response()->json($data);
     }
 
-    public function reservations_action(Request $Request, $id)
+    public function search_reservations_action(Request $Request, $id)
+    {
+        [$startDate, $endDate, $columns] = Core::getDates();
+
+        $data = Reservation::with('Vehicle')->where('client', $id)->where('status', '!=', 'completed')->where(function ($query) use ($startDate, $endDate) {
+            $query->where('from', '<=', $endDate)
+                ->where('to', '>=', $startDate);
+        });
+        if ($Request->search) {
+            $data = $data->search(urldecode($Request->search));
+        }
+        $data = $data->cursorPaginate(50);
+        return response()->json($data);
+    }
+
+    public function filter_reservations_action(Request $Request, $id)
     {
         [$startDate, $endDate, $columns] = Core::getDates();
 
@@ -116,6 +131,8 @@ class ClientController extends Controller
             'identity' => ['required', 'string', 'unique:clients'],
             'license_number' => ['required', 'string', 'unique:clients'],
             'phone' => ['required', 'string', 'unique:clients'],
+            'identity_location' => ['required', 'string'],
+            'license_location' => ['required', 'string'],
         ]);
 
         if ($validator->fails()) {
@@ -141,6 +158,8 @@ class ClientController extends Controller
             'identity' => ['required', 'string', 'unique:clients,identity,' . $id],
             'license_number' => ['required', 'string', 'unique:clients,license_number,' . $id],
             'phone' => ['required', 'string', 'unique:clients,phone,' . $id],
+            'identity_location' => ['required', 'string'],
+            'license_location' => ['required', 'string'],
         ]);
 
         if ($validator->fails()) {

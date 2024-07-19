@@ -15,7 +15,7 @@
                     </label>
                     <neo-textbox placeholder="{{ __('Client') }}" name="client"
                         value="{{ $data->client ? ucwords($data->Client->first_name . ' ' . $data->Client->last_name) . ($data->Client->Blacklist ? ' (blacklisted)' : '') : null }}"
-                        diable>
+                        disable>
                     </neo-textbox>
                 </div>
                 <div class="flex flex-col gap-1">
@@ -76,10 +76,10 @@
                 <table class="min-w-full rounded-x-thin">
                     <thead class="bg-x-light">
                         <tr>
-                            <td class="w-[20px] ps-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
-                                {{ __('Id') }}
+                            <td class="w-[160px] ps-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
+                                {{ __('Amount') }}
                             </td>
-                            <td class="px-4 py-2 text-base font-x-huge text-x-black text-center">{{ __('Amount') }}</td>
+                            <td></td>
                             <td class="w-[80px] pe-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
                                 {{ __('Action') }}
                             </td>

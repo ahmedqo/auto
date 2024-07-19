@@ -14,9 +14,9 @@
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Vehicle') }} (*)
                     </label>
-                    <neo-autocomplete set-query="{{ 'name_' . Core::lang() }}" set-value="id"
-                        placeholder="{{ __('Vehicle') }} (*)" name="vehicle" value="{{ old('vehicle') }}"
-                        query="{{ old('vehicle_name') }}">
+                    <neo-autocomplete set-query="name" set-value="id" placeholder="{{ __('Vehicle') }} (*)" name="vehicle"
+                        value="{{ old('vehicle') }}" query="{{ old('vehicle_name') }}">
+                        <input type="hidden" name="vehicle_name" value="{{ old('vehicle_name') }}" />
                     </neo-autocomplete>
                 </div>
                 <div class="flex flex-col gap-1">

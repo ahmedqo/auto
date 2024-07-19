@@ -14,6 +14,7 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::patch('/vehicles/{id}/patch', [VehicleController::class, 'patch_action'])->name('actions.vehicles.patch');
     Route::delete('/vehicles/{id}/clear', [VehicleController::class, 'clear_action'])->name('actions.vehicles.clear');
     Route::get('/vehicles/{id}/charges', [VehicleController::class, 'charges_action'])->name('actions.vehicles.charges');
-    Route::get('/vehicles/{id}/reservations', [VehicleController::class, 'reservations_action'])->name('actions.vehicles.reservations');
+    Route::get('/vehicles/{id}/reservations/search', [VehicleController::class, 'search_reservations_action'])->name('actions.vehicles.reservations.search');
+    Route::get('/vehicles/{id}/reservations/filter', [VehicleController::class, 'filter_reservations_action'])->name('actions.vehicles.reservations.filter');
     Route::get('/vehicles/{id}/chart', [VehicleController::class, 'chart_action'])->name('actions.vehicles.chart');
 });

@@ -113,9 +113,7 @@
                                     {{ __('Name') }}
                                 </label>
                                 <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                    {{ ucwords($data->Vehicle->Brand ? $data->Vehicle->Brand->name_en : '') }}
-                                    {{ ucwords($data->Vehicle->Model ? $data->Vehicle->Model->name_en : '') }}
-                                    {{ ucwords($data->Vehicle->name_en) }}
+                                    {{ ucwords($data->Vehicle->name) }}
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
@@ -340,9 +338,7 @@
                                 {{ __('Name') }}
                             </label>
                             <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                {{ ucwords($data->Vehicle->Brand ? $data->Vehicle->Brand->name_en : '') }}
-                                {{ ucwords($data->Vehicle->Model ? $data->Vehicle->Model->name_en : '') }}
-                                {{ ucwords($data->Vehicle->name_en) }}
+                                {{ ucwords($data->Vehicle->name) }}
                             </div>
                         </div>
                         <div class="flex flex-col gap-1">

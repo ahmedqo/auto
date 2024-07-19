@@ -14,6 +14,7 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::get('/clients/search', [ClientController::class, 'search_action'])->name('actions.clients.search');
     Route::patch('/clients/{id}/patch', [ClientController::class, 'patch_action'])->name('actions.clients.patch');
     Route::delete('/clients/{id}/clear', [ClientController::class, 'clear_action'])->name('actions.clients.clear');
-    Route::get('/clients/{id}/reservations', [ClientController::class, 'reservations_action'])->name('actions.clients.reservations');
+    Route::get('/clients/{id}/reservations/search', [ClientController::class, 'search_reservations_action'])->name('actions.clients.reservations.search');
+    Route::get('/clients/{id}/reservations/filter', [ClientController::class, 'filter_reservations_action'])->name('actions.clients.reservations.filter');
     Route::get('/clients/{id}/chart', [ClientController::class, 'chart_action'])->name('actions.clients.chart');
 });

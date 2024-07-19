@@ -11,7 +11,7 @@
                 <div class="flex flex-col bg-x-white rounded-x-thin shadow-x-core border border-x-shade">
                     @foreach ($alerts as $alert)
                         <div class="text-x-black text-base p-4 {{ $loop->index === 0 ? '' : 'border-t border-x-shade' }}">
-                            "{{ ucwords($alert->name) }}" {{ __('On') }} {{ $alert->date }}
+                            "{{ ucwords($alert->name) }}" {{ __('At') }} {{ $alert->date }}
                         </div>
                     @endforeach
                 </div>
@@ -113,16 +113,16 @@
                 {{ __('General Info') }}
             </h1>
             <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-6 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Name') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->name_en) }}
+                            {{ ucwords($data->name) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Price') }}
                         </label>
@@ -130,27 +130,7 @@
                             {{ Core::formatNumber($data->price) }} {{ Core::$UNIT }}
                         </div>
                     </div>
-                    @if ($data->Brand)
-                        <div class="flex flex-col gap-1">
-                            <label class="text-sm text-x-black font-x-thin">
-                                {{ __('Brand') }}
-                            </label>
-                            <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                {{ ucwords($data->Brand->name_en) }}
-                            </div>
-                        </div>
-                    @endif
-                    @if ($data->Model)
-                        <div class="flex flex-col gap-1">
-                            <label class="text-sm text-x-black font-x-thin">
-                                {{ __('Model') }}
-                            </label>
-                            <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                {{ ucwords($data->Model->name_en) }}
-                            </div>
-                        </div>
-                    @endif
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Transmission') }}
                         </label>
@@ -158,7 +138,7 @@
                             {{ ucwords($data->transmission) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Fuel') }}
                         </label>
@@ -166,7 +146,7 @@
                             {{ ucwords($data->fuel) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Passengers') }}
                         </label>
@@ -174,7 +154,7 @@
                             {{ $data->passengers }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Milage') }}
                         </label>
@@ -182,7 +162,7 @@
                             {{ $data->milage }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Doors') }}
                         </label>
@@ -190,7 +170,7 @@
                             {{ $data->doors }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Cargo') }}
                         </label>
@@ -240,6 +220,7 @@
             </neo-printer>
         </div>
         <neo-datavisualizer id="reservations" print search filter download title="{{ __('Reservations List') }}">
+            <neo-switch slot="start" title="{{ __('Show All') }}" id="all"></neo-switch>
             @include('shared.page.print')
         </neo-datavisualizer>
         <neo-datavisualizer id="charges" print search filter download title="{{ __('Charges List') }}">
@@ -254,7 +235,8 @@
         SceneInitializer({
             Search: [
                 ["#reservations", "vehicle_reservation",
-                    "{{ route('actions.vehicles.reservations', $data->id) }}"
+                    "{{ route('actions.vehicles.reservations.search', $data->id) }}",
+                    "{{ route('actions.vehicles.reservations.filter', $data->id) }}"
                 ],
                 ["#charges", "vehicle_charge", "{{ route('actions.vehicles.charges', $data->id) }}"]
             ],

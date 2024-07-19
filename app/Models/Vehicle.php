@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Functions\Core;
 use App\Traits\HasSearch;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,8 +21,6 @@ class Vehicle extends MD implements Sitemapable
      * @var array<int, string>
      */
     protected $fillable = [
-        'model',
-        'brand',
         'price',
         'passengers',
         'milage',
@@ -31,12 +28,9 @@ class Vehicle extends MD implements Sitemapable
         'cargo',
         'transmission',
         'fuel',
-        'status',
-
         'slug',
-        'name_en',
-        'details_en',
-        'description_en',
+        'name',
+        'details',
     ];
 
     protected $searchable = [
@@ -47,16 +41,8 @@ class Vehicle extends MD implements Sitemapable
         'cargo',
         'transmission',
         'fuel',
-
-        'name_en',
-
-        'details_en',
-
-        'description_en',
-
-        'brand.name_en',
-
-        'model.name_en',
+        'name',
+        'details',
     ];
 
     protected static function booted()
@@ -82,36 +68,6 @@ class Vehicle extends MD implements Sitemapable
             ->setLastModificationDate(Carbon::create($this->updated_at))
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
             ->setPriority(0.1);
-    }
-
-    public function getNameAttribute()
-    {
-        return $this->{'name_' . Core::lang()};
-    }
-
-    public function getDetailsAttribute()
-    {
-        return $this->{'details_' . Core::lang()};
-    }
-
-    public function getDescriptionAttribute()
-    {
-        return $this->{'description_' . Core::lang()};
-    }
-
-    public function getDetailsArrayAttribute()
-    {
-        return $this->details ? preg_split("/\n\r|\n/", $this->details) : null;
-    }
-
-    public function Brand()
-    {
-        return $this->belongsTo(Brand::class, 'brand');
-    }
-
-    public function Model()
-    {
-        return $this->belongsTo(Model::class, 'model');
     }
 
     public function Reservations()

@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('identity')->unique();
+            $table->string('identity_location');
             $table->string('identity_type')->nullable();
             $table->string('nationality')->nullable();
             $table->string('license_number')->unique();
+            $table->string('license_location');
             $table->enum('gender', Core::genderList())->nullable();
             $table->date('birth_date')->nullable();
             $table->string('email')->unique()->nullable();

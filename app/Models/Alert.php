@@ -25,7 +25,7 @@ class Alert extends Model
     ];
 
     protected $searchable = [
-        'vehicle.name_en',
+        'vehicle.name',
         'name',
         'date',
         'threshold',

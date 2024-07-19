@@ -12,6 +12,7 @@ Route::get('/language/{locale}', function ($locale) {
 Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::get('/dashboard', [CoreController::class, 'index_view'])->name('views.core.index');
     Route::get('/calendar', [CoreController::class, 'calendar_view'])->name('views.core.calendar');
+    Route::get('/notifications', [CoreController::class, 'notification_view'])->name('views.core.notification');
     Route::get('/data/most', [CoreController::class, 'most_action'])->name('actions.core.most');
     Route::get('/settings', [CoreController::class, 'setting_view'])->name('views.core.settings');
     Route::get('/data/chart', [CoreController::class, 'chart_action'])->name('actions.core.chart');

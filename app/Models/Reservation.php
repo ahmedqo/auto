@@ -18,6 +18,7 @@ class Reservation extends Model
     protected $fillable = [
         'client',
         'vehicle',
+        'secondary_client',
         'from',
         'pick_up',
         'drop_off',
@@ -27,7 +28,6 @@ class Reservation extends Model
         'total',
         'payment',
         'status',
-        'insurance'
     ];
 
     protected $searchable = [
@@ -41,7 +41,17 @@ class Reservation extends Model
         'client.phone',
         'client.address',
 
-        'vehicle.name_en',
+        'sclient.first_name',
+        'sclient.last_name',
+        'sclient.identity',
+        'sclient.nationality',
+        'sclient.license_number',
+        'sclient.birth_date',
+        'sclient.email',
+        'sclient.phone',
+        'sclient.address',
+
+        'vehicle.name',
         'from',
         'pick_up',
         'drop_off',
@@ -55,6 +65,11 @@ class Reservation extends Model
     public function Client()
     {
         return $this->belongsTo(Client::class, 'client');
+    }
+
+    public function SClient()
+    {
+        return $this->belongsTo(Client::class, 'secondary_client');
     }
 
     public function Vehicle()

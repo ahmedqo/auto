@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('client')->nullable();
             $table->unsignedBigInteger('vehicle')->nullable();
+            $table->unsignedBigInteger('secondary_client')->nullable();
             $table->dateTime('from');
             $table->string('pick_up')->nullable();
             $table->dateTime('to');
@@ -24,11 +25,11 @@ return new class extends Migration
             $table->float('total', 15, 5);
             $table->json('payment');
             $table->string('status');
-            $table->text('insurance')->nullable();
             $table->timestamps();
 
             $table->foreign('client')->references('id')->on('clients')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('vehicle')->references('id')->on('vehicles')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('secondary_client')->references('id')->on('clients')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

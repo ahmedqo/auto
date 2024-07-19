@@ -102,18 +102,18 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Birth Date') }}
+                            {{ __('License Number') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ $data->birth_date ?? 'N/A' }}
+                            {{ $data->license_number ?? 'N/A' }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Nationality') }}
+                            {{ __('License Location') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->nationality ?? 'N/A') }}
+                            {{ $data->license_location ?? 'N/A' }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -134,18 +134,10 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('License Number') }}
+                            {{ __('Identity Location') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ $data->license_number ?? 'N/A' }}
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Gender') }}
-                        </label>
-                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->gender ?? 'N/A') }}
+                            {{ ucwords($data->identity_location ?? 'N/A') }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -164,7 +156,31 @@
                             {{ $data->email ?? 'N/A' }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Nationality') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ ucwords($data->nationality ?? 'N/A') }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Birth Date') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ $data->birth_date ?? 'N/A' }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Gender') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ ucwords($data->gender ?? 'N/A') }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Address') }}
                         </label>
@@ -214,6 +230,7 @@
             </neo-printer>
         </div>
         <neo-datavisualizer id="reservations" print search filter download title="{{ __('Reservations List') }}">
+            <neo-switch slot="start" title="{{ __('Show All') }}" id="all"></neo-switch>
             @include('shared.page.print')
         </neo-datavisualizer>
     </div>
@@ -225,7 +242,8 @@
         SceneInitializer({
             Search: [
                 ["#reservations", "client_reservation",
-                    "{{ route('actions.clients.reservations', $data->id) }}"
+                    "{{ route('actions.clients.reservations.search', $data->id) }}",
+                    "{{ route('actions.clients.reservations.filter', $data->id) }}"
                 ]
             ],
             Data: "{{ route('actions.clients.chart', $data->id) }}",

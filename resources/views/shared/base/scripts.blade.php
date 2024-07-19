@@ -17,10 +17,6 @@
     </script>
 @endif
 
-@if ($type == 'guest')
-    <script src="{{ asset('js/neo/plugins/guest.min.js') }}?v={{ env('APP_VERSION') }}"></script>
-@endif
-
 <script>
     Neo.load(function() {
         document.body.removeAttribute("close");
