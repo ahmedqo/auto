@@ -33,14 +33,14 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Name') }} (*)
                         </label>
-                        <neo-textbox placeholder="{{ __('Name') }} (*)" name="name"
+                        <neo-textbox require placeholder="{{ __('Name') }} (*)" name="name"
                             value="{{ old('name') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Price') }} (*)
                         </label>
-                        <neo-textbox type="number" placeholder="{{ __('Price') }} (*)" name="price"
+                        <neo-textbox require type="number" placeholder="{{ __('Price') }} (*)" name="price"
                             value="{{ old('price') }}"></neo-textbox>
                     </div>
                 </div>
@@ -49,28 +49,28 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Passengers') }} (*)
                         </label>
-                        <neo-textbox type="number" placeholder="{{ __('Passengers') }} (*)" name="passengers"
+                        <neo-textbox require type="number" placeholder="{{ __('Passengers') }} (*)" name="passengers"
                             value="{{ old('passengers') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Milage') }} (*)
                         </label>
-                        <neo-textbox type="number" placeholder="{{ __('Milage') }} (*)" name="milage"
+                        <neo-textbox require type="number" placeholder="{{ __('Milage') }} (*)" name="milage"
                             value="{{ old('milage') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Doors') }} (*)
                         </label>
-                        <neo-textbox type="number" placeholder="{{ __('Doors') }} (*)" name="doors"
+                        <neo-textbox require type="number" placeholder="{{ __('Doors') }} (*)" name="doors"
                             value="{{ old('doors') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Cargo') }} (*)
                         </label>
-                        <neo-textbox type="number" placeholder="{{ __('Cargo') }} (*)" name="cargo"
+                        <neo-textbox require type="number" placeholder="{{ __('Cargo') }} (*)" name="cargo"
                             value="{{ old('cargo') }}"></neo-textbox>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Transmission') }} (*)
                         </label>
-                        <neo-select placeholder="{{ __('Transmission') }} (*)" name="transmission">
+                        <neo-select require placeholder="{{ __('Transmission') }} (*)" name="transmission">
                             @foreach (Core::transmissionList() as $transmission)
                                 <neo-select-item value="{{ $transmission }}"
                                     {{ $transmission == old('transmission') ? 'active' : '' }}>
@@ -92,7 +92,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Fuel') }} (*)
                         </label>
-                        <neo-select placeholder="{{ __('Fuel') }} (*)" name="fuel">
+                        <neo-select require placeholder="{{ __('Fuel') }} (*)" name="fuel">
                             @foreach (Core::fuelList() as $fuel)
                                 <neo-select-item value="{{ $fuel }}" {{ $fuel == old('fuel') ? 'active' : '' }}>
                                     {{ __(ucwords($fuel)) }}

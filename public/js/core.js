@@ -1593,33 +1593,49 @@ function tabs() {
         }
     }
 
+    function valid(fn, next) {
+        if (next && next < cur) return fn();
+        const fields = view[cur].querySelectorAll("[require]"),
+            errors = [];
+        fields.forEach(f => {
+            if (String(f.value).trim()) f.classList.remove("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+            else f.classList.add("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+            errors.push(String(f.value).trim() ? true : false);
+        });
+
+        if (!errors.includes(false)) fn();
+    }
+
     Object.entries(tabs).forEach(([i, tab]) => {
         tab.addEventListener("click", e => {
+            valid(() => {
+                atabs.forEach(t => t.classList.remove('active'));
+                aview.forEach(v => {
+                    v.classList.remove('grid');
+                    v.classList.add('hidden');
+                });
+                tab.classList.add('active')
+                view[i].classList.add('grid');
+                view[i].classList.remove('hidden');
+                cur = +i;
+                flip();
+            }, +i);
+        });
+    });
+
+    next.addEventListener("click", e => {
+        valid(() => {
+            cur = cur + 1;
             atabs.forEach(t => t.classList.remove('active'));
             aview.forEach(v => {
                 v.classList.remove('grid');
                 v.classList.add('hidden');
             });
-            tab.classList.add('active')
-            view[i].classList.add('grid');
-            view[i].classList.remove('hidden');
-            cur = +i;
+            tabs[cur].classList.add('active')
+            view[cur].classList.add('grid');
+            view[cur].classList.remove('hidden');
             flip();
-        });
-    });
-
-    next.addEventListener("click", e => {
-        cur = cur + 1;
-        atabs.forEach(t => t.classList.remove('active'));
-        aview.forEach(v => {
-            v.classList.remove('grid');
-            v.classList.add('hidden');
-        });
-        tabs[cur].classList.add('active')
-        view[cur].classList.add('grid');
-        view[cur].classList.remove('hidden');
-
-        flip()
+        }, cur + 1);
     });
 }
 

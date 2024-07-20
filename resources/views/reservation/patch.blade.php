@@ -36,7 +36,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Client') }} (*)
                         </label>
-                        <neo-autocomplete set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)"
+                        <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)"
                             name="client" value="{{ $data->client }}"
                             query="{{ $data->client ? ucwords($data->Client->first_name . ' ' . $data->Client->last_name) . ($data->Client->Blacklist ? ' (blacklisted)' : '') : null }}">
                         </neo-autocomplete>
@@ -54,7 +54,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Vehicle') }} (*)
                         </label>
-                        <neo-autocomplete set-query="name" set-value="id" placeholder="{{ __('Vehicle') }} (*)"
+                        <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Vehicle') }} (*)"
                             name="vehicle" value="{{ $data->vehicle }}"
                             query="{{ $data->vehicle ? $data->Vehicle->name : null }}">
                         </neo-autocomplete>
@@ -63,7 +63,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Price') }} (*)
                         </label>
-                        <neo-textbox type="number" placeholder="{{ __('Price') }} (*)" name="price"
+                        <neo-textbox require type="number" placeholder="{{ __('Price') }} (*)" name="price"
                             value="{{ $data->price }}"></neo-textbox>
                     </div>
                 </div>
@@ -72,14 +72,14 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Pick-up Date') }} (*)
                         </label>
-                        <neo-datepicker full-day="3" placeholder="{{ __('Pick-up Date') }} (*)" name="from_date"
+                        <neo-datepicker require full-day="3" placeholder="{{ __('Pick-up Date') }} (*)" name="from_date"
                             value="{{ $data->from ?? '#now' }}" format="dddd dd mmmm yyyy"></neo-datepicker>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Pick-up Time') }} (*)
                         </label>
-                        <neo-timepicker placeholder="{{ __('Pick-up Time') }} (*)" name="from_time"
+                        <neo-timepicker require placeholder="{{ __('Pick-up Time') }} (*)" name="from_time"
                             value="{{ Carbon::parse($data->from)->format('H:i') ?? '#now' }}"
                             format="HH:MM AA"></neo-timepicker>
                     </div>
@@ -96,14 +96,14 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Drop-off Date') }} (*)
                         </label>
-                        <neo-datepicker full-day="3" placeholder="{{ __('Drop-off Date') }} (*)" name="to_date"
+                        <neo-datepicker require full-day="3" placeholder="{{ __('Drop-off Date') }} (*)" name="to_date"
                             value="{{ $data->to ?? '#now+1' }}" format="dddd dd mmmm yyyy"></neo-datepicker>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Drop-off Time') }} (*)
                         </label>
-                        <neo-timepicker placeholder="{{ __('Drop-off Time') }} (*)" name="to_time"
+                        <neo-timepicker require placeholder="{{ __('Drop-off Time') }} (*)" name="to_time"
                             value="{{ Carbon::parse($data->to)->format('H:i') ?? '#now' }}"
                             format="HH:MM AA"></neo-timepicker>
                     </div>

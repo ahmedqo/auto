@@ -33,7 +33,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Vehicle') }} (*)
                         </label>
-                        <neo-autocomplete set-query="name" set-value="id" placeholder="{{ __('Vehicle') }} (*)"
+                        <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Vehicle') }} (*)"
                             name="vehicle" value="{{ old('vehicle') }}" query="{{ old('vehicle_name') }}">
                             <input type="hidden" name="vehicle_name" value="{{ old('vehicle_name') }}" />
                         </neo-autocomplete>
@@ -42,7 +42,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Name') }} (*)
                         </label>
-                        <neo-textbox placeholder="{{ __('Name') }}  (*)" name="name"
+                        <neo-textbox require placeholder="{{ __('Name') }}  (*)" name="name"
                             value="{{ old('name') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1 lg:col-span-2">
@@ -58,28 +58,28 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Date') }} (*)
                         </label>
-                        <neo-datepicker full-day="3" placeholder="{{ __('Date') }} (*)" name="date"
+                        <neo-datepicker require full-day="3" placeholder="{{ __('Date') }} (*)" name="date"
                             value="{{ old('date') ?? '#now' }}" format="dddd dd mmmm yyyy"></neo-datepicker>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Time') }} (*)
                         </label>
-                        <neo-timepicker placeholder="{{ __('Time') }} (*)" name="time"
+                        <neo-timepicker require placeholder="{{ __('Time') }} (*)" name="time"
                             value="{{ old('time') ?? '#now' }}" format="HH:MM AA"></neo-timepicker>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Threshold') }} (*)
                         </label>
-                        <neo-textbox type="number" placeholder="{{ __('Threshold') }}  (*)" name="threshold"
+                        <neo-textbox require type="number" placeholder="{{ __('Threshold') }}  (*)" name="threshold"
                             value="{{ old('threshold') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Recurrence') }} (*)
                         </label>
-                        <neo-select placeholder="{{ __('Recurrence') }} (*)" name="recurrence">
+                        <neo-select require placeholder="{{ __('Recurrence') }} (*)" name="recurrence">
                             @foreach (Core::periodList() as $recurrence)
                                 <neo-select-item value="{{ $recurrence }}"
                                     {{ $recurrence == old('recurrence') ? 'active' : '' }}>

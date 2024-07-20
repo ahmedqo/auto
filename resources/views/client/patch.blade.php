@@ -34,14 +34,14 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('First Name') }} (*)
                         </label>
-                        <neo-textbox placeholder="{{ __('First Name') }} (*)" name="first_name"
+                        <neo-textbox require placeholder="{{ __('First Name') }} (*)" name="first_name"
                             value="{{ $data->first_name }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Last Name') }} (*)
                         </label>
-                        <neo-textbox placeholder="{{ __('Last Name') }} (*)" name="last_name"
+                        <neo-textbox require placeholder="{{ __('Last Name') }} (*)" name="last_name"
                             value="{{ $data->last_name }}"></neo-textbox>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Identity') }} (*)
                         </label>
-                        <neo-textbox id="identity" placeholder="{{ __('Identity') }} (*)" name="identity"
+                        <neo-textbox require id="identity" placeholder="{{ __('Identity') }} (*)" name="identity"
                             value="{{ $data->identity }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -99,7 +99,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Identity Location') }} (*)
                         </label>
-                        <neo-textbox placeholder="{{ __('Identity Location') }} (*)" name="identity_location"
+                        <neo-textbox require placeholder="{{ __('Identity Location') }} (*)" name="identity_location"
                             value="{{ $data->identity_location }}"></neo-textbox>
                     </div>
                 </div>
@@ -108,14 +108,14 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('License Number') }} (*)
                         </label>
-                        <neo-textbox placeholder="{{ __('License Number') }} (*)" name="license_number"
+                        <neo-textbox require placeholder="{{ __('License Number') }} (*)" name="license_number"
                             value="{{ $data->license_number }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('License Location') }} (*)
                         </label>
-                        <neo-textbox placeholder="{{ __('License Location') }} (*)" name="license_location"
+                        <neo-textbox require placeholder="{{ __('License Location') }} (*)" name="license_location"
                             value="{{ $data->license_location }}"></neo-textbox>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Phone') }} (*)
                         </label>
-                        <neo-textbox type="tel" placeholder="{{ __('Phone') }} (*)" name="phone"
+                        <neo-textbox require type="tel" placeholder="{{ __('Phone') }} (*)" name="phone"
                             value="{{ $data->phone }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
