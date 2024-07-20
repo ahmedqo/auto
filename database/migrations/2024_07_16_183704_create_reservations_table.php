@@ -24,6 +24,7 @@ return new class extends Migration
             $table->float('price', 15, 5);
             $table->float('total', 15, 5);
             $table->json('payment');
+            $table->json('state');
             $table->string('status');
             $table->timestamps();
 

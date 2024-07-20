@@ -1,11 +1,16 @@
 @extends('shared.core.base')
-@section('title', __('Preview Reservation') . ' #' . $data->id)
+@section('title', __('Preview Reservation') . ' ' . Carbon::parse($data->created_at)->format('Y-m') . $data->id)
+
+@php
+    $state = collect(json_decode($data->state));
+    $color = Core::stateList();
+@endphp
 
 @section('content')
     <div class="flex flex-col gap-2">
         <div class="flex flex-col items-center lg:flex-row lg:justify-between gap-2">
             <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
-                {{ __('Preview Reservation') . ' #' . $data->id }}
+                {{ __('Preview Reservation') . ' ' . Carbon::parse($data->created_at)->format('Y-m') . $data->id }}
             </h1>
             <div class="w-max flex gap-2">
                 <button id="printer" title="{{ __('Print') }}"
@@ -103,7 +108,7 @@
                     </table>
                 </div>
                 @if ($data->Vehicle)
-                    <div class="w-full flex flex-col gap-4 lg:col-span-8">
+                    <div class="w-full flex flex-col gap-4 lg:col-span-7">
                         <h2 class="text-xl text-x-black font-x-thin lg:col-span-4">
                             {{ __('Vehicle Details') }}
                         </h2>
@@ -167,7 +172,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="w-full flex flex-col gap-4 lg:col-span-4">
+                <div class="w-full flex flex-col gap-4 lg:col-span-5">
                     <h2 class="text-xl text-x-black font-x-thin">
                         {{ __('Duration') }}
                     </h2>
@@ -206,8 +211,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="lg:col-span-8 hidden lg:block"></div>
-                <div class="w-full flex flex-col gap-4 lg:col-span-4 mt-10">
+                <div class="w-full flex flex-col gap-4 lg:col-span-7">
+                    <h2 class="text-xl text-x-black font-x-thin lg:col-span-4">
+                        {{ __('State') }}
+                    </h2>
+                    <div class="w-full flex flex-wrap border border-x-shade rounded-x-thin p-6 gap-4">
+                        <div class="flex-1 w-0 relative">
+                            <img src="{{ asset('img/state.png') }}" class="block w-full" />
+                            <svg viewBox="0 0 819.000000 476.000000" class="block w-full h-full absolute inset-0">
+                                <g transform="translate(0.000000,476.000000) scale(0.100000,-0.100000)" fill="transparent"
+                                    stroke="none">
+                                    @foreach (Core::pathList() as $key => $path)
+                                        <path id="part-{{ $key + 1 * 100 }}" class="path cursor-pointer"
+                                            d="{{ $path }}" />
+                                    @endforeach
+                                </g>
+                            </svg>
+                        </div>
+                        @if ($state->count())
+                            <ul class="w-max flex flex-col gap-2 my-auto">
+                                @foreach ($state as $i)
+                                    <li class="flex items-center gap-2 flex-wrap">
+                                        <span class="block w-10 h-6 rounded-x-thin"
+                                            style="background:{{ $color[$i->type] }}"></span>
+                                        <span class="block">
+                                            {{ ucwords(__($i->type)) }}
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-4 lg:col-span-5 mt-10">
                     <div class="w-full flex flex-col gap-4">
                         <div class="flex items-center justify-between gap-4">
                             <span class="text-base text-x-black font-x-thin">
@@ -241,10 +277,10 @@
     </div>
     <neo-printer>
         <h1 class="text-center text-3xl text-x-black font-x-thin mb-6">
-            {{ __('Reservation') . ' #' . $data->id }}
+            {{ __('Reservation') . ' ' . Carbon::parse($data->created_at)->format('Y-m') . $data->id }}
         </h1>
-        <div class="w-full grid grid-rows-1 grid-cols-12 gap-8 p-4">
-            <div class="w-full border border-x-shade rounded-x-thin flex flex-col gap-4 p-4 col-span-6">
+        <div class="w-full grid grid-rows-1 grid-cols-12 gap-4 p-4">
+            <div class="w-full border border-x-shade rounded-x-thin flex flex-col gap-2 p-4 col-span-6">
                 <h2 class="text-lg text-x-black font-x-huge">
                     {{ __('Billing From') }}
                 </h2>
@@ -279,7 +315,7 @@
                     </tr>
                 </table>
             </div>
-            <div class="w-full border border-x-shade bg-x-light rounded-x-thin flex flex-col gap-4 p-4 col-span-6">
+            <div class="w-full border border-x-shade bg-x-light rounded-x-thin flex flex-col gap-2 p-4 col-span-6">
                 <h2 class="text-xl text-x-black font-x-thin">
                     {{ __('Billing To') }}
                 </h2>
@@ -328,8 +364,8 @@
                 </table>
             </div>
             @if ($data->Vehicle)
-                <div class="w-full flex flex-col gap-4 col-span-8">
-                    <h2 class="text-xl text-x-black font-x-thin">
+                <div class="w-full flex flex-col gap-2 col-span-7">
+                    <h2 class="text-xl text-x-black font-x-thin lg:col-span-4">
                         {{ __('Vehicle Details') }}
                     </h2>
                     <div class="w-full grid grid-rows-1 grid-cols-2 gap-4">
@@ -392,7 +428,7 @@
                     </div>
                 </div>
             @endif
-            <div class="w-full flex flex-col gap-4 col-span-4">
+            <div class="w-full flex flex-col gap-2 col-span-5">
                 <h2 class="text-xl text-x-black font-x-thin">
                     {{ __('Duration') }}
                 </h2>
@@ -431,8 +467,39 @@
                     </div>
                 </div>
             </div>
-            <div class="col-span-8 block"></div>
-            <div class="w-full flex flex-col gap-4 col-span-4 mt-10">
+            <div class="w-full flex flex-col gap-2 col-span-7">
+                <h2 class="text-xl text-x-black font-x-thin lg:col-span-4">
+                    {{ __('State') }}
+                </h2>
+                <div class="w-full flex flex-wrap border border-x-shade rounded-x-thin p-6 gap-4">
+                    <div class="flex-1 w-0 relative">
+                        <img src="{{ asset('img/state.png') }}" class="block w-full" />
+                        <svg viewBox="0 0 819.000000 476.000000" class="block w-full h-full absolute inset-0">
+                            <g transform="translate(0.000000,476.000000) scale(0.100000,-0.100000)" fill="transparent"
+                                stroke="none">
+                                @foreach (Core::pathList() as $key => $path)
+                                    <path id="part-{{ $key + 1 * 100 }}" class="path cursor-pointer"
+                                        d="{{ $path }}" />
+                                @endforeach
+                            </g>
+                        </svg>
+                    </div>
+                    @if ($state->count())
+                        <ul class="w-max flex flex-col gap-2 my-auto">
+                            @foreach ($state as $i)
+                                <li class="flex items-center gap-2 flex-wrap">
+                                    <span class="block w-10 h-6 rounded-x-thin"
+                                        style="background:{{ $color[$i->type] }}"></span>
+                                    <span class="block">
+                                        {{ ucwords(__($i->type)) }}
+                                    </span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
+            <div class="w-full flex flex-col gap-4 col-span-5 mt-8">
                 <div class="w-full flex flex-col gap-4">
                     <div class="flex items-center justify-between gap-4">
                         <span class="text-base text-x-black font-x-thin">
@@ -468,12 +535,9 @@
 
 @section('scripts')
     <script>
-        const trigger = document.querySelector("#printer"),
-            printer = document.querySelector("neo-printer");
-
-        trigger.addEventListener("click", () => printer.print());
-        document.addEventListener("DOMContentLoaded", () => setTimeout(() => {
-            printer.print();
-        }, 500));
+        StateScene({
+            Colors: {!! json_encode($color) !!},
+            Data: {!! json_encode($state) !!}
+        })
     </script>
 @endsection

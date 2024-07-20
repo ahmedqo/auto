@@ -98,7 +98,7 @@ class ReservationController extends Controller
     public function patch_action(Request $Request, $id)
     {
         $validator = Validator::make($Request->all(), [
-            'from_date' => ['required', 'date', 'after_or_equal:today'],
+            'from_date' => ['required', 'date'],
             'to_date' => ['required', 'date', 'after:from_date'],
             'from_time' => ['required', 'string'],
             'to_time' => ['required', 'string'],

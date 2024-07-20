@@ -1771,7 +1771,7 @@ function AlertInitializer({ Vehicle }) {
     tabs();
 }
 
-function ReservationInitializer({ Client, Vehicle }) {
+function ReservationInitializer({ Client, Vehicle, Colors }) {
     const
         client = document.querySelector("neo-autocomplete[name=client]"),
         sclient = document.querySelector("neo-autocomplete[name=secondary_client]"),
@@ -1831,6 +1831,7 @@ function ReservationInitializer({ Client, Vehicle }) {
         div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="w-[160px] ps-8 px-4 py-2 text-lg text-x-black text-center">${Neo.Helper.Str.money(value, 3)} ${Currency}</td><td></td><td class="w-[80px] pe-8 px-4 py-2 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
         const tr = div.querySelector("tr");
         tr.querySelector("button").addEventListener("click", e => {
+            e.preventDefault();
             data.splice([...list.children].indexOf(tr), 1);
             json.value = JSON.stringify(data);
             tr.remove();
@@ -1871,6 +1872,7 @@ function ReservationInitializer({ Client, Vehicle }) {
         });
     }
 
+    StateInitializer(Colors);
     fill(sclient, Client, true);
     fill(vehicle, Vehicle);
     fill(client, Client, true);
@@ -1899,6 +1901,7 @@ function paymentInitializer() {
         div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="w-[160px] ps-8 px-4 py-2 text-lg text-x-black text-center">${Neo.Helper.Str.money(value, 3)} ${Currency}</td><td></td><td class="w-[80px] pe-8 px-4 py-2 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
         const tr = div.querySelector("tr");
         tr.querySelector("button").addEventListener("click", e => {
+            e.preventDefault();
             data.splice([...list.children].indexOf(tr), 1);
             json.value = JSON.stringify(data);
             tr.remove();
@@ -2199,4 +2202,106 @@ async function CalendarInitializer({ Calendar, Data }) {
     document.querySelector("#trigger").addEventListener("click", e => {
         setTimeout(() => _calendar.render(), 250);
     });
+}
+
+function StateInitializer(colors) {
+    const damage = document.querySelector("neo-select[name=damage]"),
+        paths = document.querySelectorAll(".path"),
+        parts = document.querySelector("#parts"),
+        state = document.querySelector("#state"),
+        add = document.querySelector("#add"),
+        div = document.createElement("table"),
+        data = JSON.parse(state.value);
+
+    var active = [];
+
+    function row(name, color) {
+        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="ps-8 p-4 text-lg text-x-black"><div class="flex items-center gap-2 flex-wrap"><span class="block w-10 h-6 rounded-x-thin" style="background:${color}"></span><span class="block">${Neo.Helper.trans(Neo.Helper.Str.capitalize(name))}</span></div></td><td class="w-[80px] pe-8 p-4 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
+        const tr = div.querySelector("tr");
+        tr.querySelector("button").addEventListener("click", e => {
+            e.preventDefault();
+            const index = [...parts.children].indexOf(tr);
+            data[index].parts.forEach(part => {
+                const path = document.querySelector("#" + part);
+                path.classList.remove("selected");
+                path.style.fill = "";
+            });
+            data.splice(index, 1);
+            state.value = JSON.stringify(data);
+            tr.remove();
+        });
+        return tr;
+    }
+
+    add.addEventListener("click", e => {
+        if (!active.length || !damage.value) return;
+        const found = data.find(p => p.type === damage.value);
+        const cur = found || {
+            type: damage.value,
+            parts: []
+        };
+
+        active.forEach(path => {
+            path.classList.remove("active");
+            path.classList.add("selected");
+            path.style.fill = colors[damage.value];
+            cur.parts.push(path.id);
+        });
+
+        data.push(cur);
+        state.value = JSON.stringify(data);
+        if (!found) parts
+            .insertAdjacentElement("beforeend", row(damage.value, colors[damage.value]));
+        damage.reset();
+        active = [];
+    });
+
+    paths.forEach(path => {
+        path.addEventListener("click", e => {
+            if (path.classList.contains("selected")) return;
+            if (path.classList.contains("active")) {
+                active = active.filter(p => p.id !== path.id);
+                path.classList.remove("active");
+                path.style.fill = "";
+            } else {
+                path.classList.add("active");
+                path.style.fill = "#458cfe80";
+                active.push(path);
+            }
+        });
+    });
+
+    if (data.length) {
+        data.forEach(obj => {
+            obj.parts.forEach(part => {
+                const path = document.querySelector("#" + part);
+                path.classList.add("selected");
+                path.style.fill = colors[obj.type];
+            });
+            parts
+                .insertAdjacentElement("beforeend", row(obj.type, colors[obj.type]));
+        });
+    }
+}
+
+function StateScene({ Colors, Data }) {
+    const trigger = document.querySelector("#printer"),
+        printer = document.querySelector("neo-printer");
+
+    trigger.addEventListener("click", () => printer.print());
+
+    if (Data.length) {
+        Data.forEach(obj => {
+            obj.parts.forEach(part => {
+                const paths = document.querySelectorAll("#" + part);
+                paths.forEach(path => {
+                    path.style.fill = Colors[obj.type];
+                });
+            });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => setTimeout(() => {
+        printer.print();
+    }, 1000));
 }

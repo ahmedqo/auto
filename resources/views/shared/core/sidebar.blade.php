@@ -111,7 +111,7 @@
         <li class="w-full">
             <ul class="w-full flex flex-col">
                 <li class="w-full">
-                    <h3 class="font-x-thin text-x-black text-sm mx-2">{{ __('Agency') }}</h3>
+                    <h3 class="font-x-thin text-x-black text-sm mx-2">{{ __('Garage') }}</h3>
                     <hr class="border-x-shade">
                 </li>
                 <li class="w-full">

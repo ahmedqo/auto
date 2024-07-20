@@ -12,7 +12,7 @@
                 @csrf
                 <div class="w-full flex flex-row-reverse flex-wrap items-center justify-between lg:justify-around">
                     @php
-                        $len = 4;
+                        $len = 5;
                     @endphp
                     @for ($i = $len; $i > 0; $i--)
                         <button type="button" data-tabs={{ $i }}
@@ -28,7 +28,8 @@
                         @endif
                     @endfor
                 </div>
-                <input type="hidden" id="json" name="json" value="[]" />
+                <input type="hidden" id="json" name="json" value="{{ old('json') ?? '[]' }}" />
+                <input type="hidden" id="state" name="state" value="{{ old('state') ?? '[]' }}" />
                 <div data-view="1" class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
@@ -142,6 +143,62 @@
                             disable></neo-textbox>
                     </div>
                 </div>
+                <div data-view="5"
+                    class="hidden w-full grid-rows-1 grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-start">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('State') }}
+                        </label>
+                        <div class="w-full border border-x-shade rounded-x-thin p-6 lg:p-8">
+                            <div class="w-full relative">
+                                <img src="{{ asset('img/state.png') }}" class="block w-full" />
+                                <svg viewBox="0 0 819.000000 476.000000" class="block w-full h-full absolute inset-0">
+                                    <g transform="translate(0.000000,476.000000) scale(0.100000,-0.100000)"
+                                        fill="transparent" stroke="none">
+                                        @foreach (Core::pathList() as $key => $path)
+                                            <path id="part-{{ $key + 1 * 100 }}" class="path cursor-pointer"
+                                                d="{{ $path }}" />
+                                        @endforeach
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full lg:col-span-2 grid grid-rows-1 grid-cols-1 lg:mt-6 gap-6 lg:gap-8">
+                        <div class="flex gap-6 lg:gap-8 flex-wrap">
+                            <neo-select placeholder="{{ __('Damage') }}" name="damage" class="w-0 flex-1">
+                                @foreach (array_keys(Core::stateList()) as $damage)
+                                    <neo-select-item value="{{ $damage }}">
+                                        {{ ucwords(__($damage)) }}
+                                    </neo-select-item>
+                                @endforeach
+                            </neo-select>
+                            <neo-button id="add" type="button"
+                                class="w-max py-2 px-6 text-x-white bg-x-prime rounded-x-thin hover:bg-opacity-80 focus:bg-opacity-80">
+                                <svg class="block w-8 h-8 pointer-events-none" fill="currentcolor"
+                                    viewBox="0 -960 960 960">
+                                    <path
+                                        d="M479.825-185q-18.45 0-31.637-12.625Q435-210.25 435-231v-203H230q-18.375 0-31.688-13.56Q185-461.119 185-479.86q0-20.14 13.312-32.64Q211.625-525 230-525h205v-205q0-19.775 13.358-32.388Q461.716-775 480.158-775t32.142 12.612Q526-749.775 526-730v205h204q18.8 0 32.4 12.675 13.6 12.676 13.6 32.316 0 19.641-13.6 32.825Q748.8-434 730-434H526v203q0 20.75-13.65 33.375Q498.699-185 479.825-185Z" />
+                                </svg>
+                            </neo-button>
+                        </div>
+                        <div class="border border-x-shade rounded-x-thin overflow-auto">
+                            <table class="min-w-full rounded-x-thin">
+                                <thead class="bg-x-light">
+                                    <tr>
+                                        <td class="ps-8 px-4 py-2 text-base font-x-huge text-x-black">
+                                            {{ __('Damages') }}
+                                        </td>
+                                        <td class="w-[80px] pe-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
+                                            {{ __('Action') }}
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody id="parts"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <div class="w-full flex">
                     <neo-button type="button" id="next"
                         class="w-full lg:w-max lg:px-20 lg:ms-auto px-4 py-3 text-base lg:text-lg font-x-huge text-x-prime outline outline-2 border-x-prime hover:text-x-white focus-within:text-x-white transition-none"
@@ -174,7 +231,7 @@
                     <thead class="bg-x-light">
                         <tr>
                             <td class="w-[160px] ps-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
-                                {{ __('Amount') }}
+                                {{ __('Amounts') }}
                             </td>
                             <td></td>
                             <td class="w-[80px] pe-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
@@ -193,7 +250,8 @@
     <script>
         ReservationInitializer({
             Client: "{{ route('actions.clients.search') }}",
-            Vehicle: "{{ route('actions.vehicles.search') }}"
+            Vehicle: "{{ route('actions.vehicles.search') }}",
+            Colors: {!! json_encode(Core::stateList()) !!}
         });
     </script>
 @endsection

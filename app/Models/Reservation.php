@@ -27,6 +27,7 @@ class Reservation extends Model
         'price',
         'total',
         'payment',
+        'state',
         'status',
     ];
 
