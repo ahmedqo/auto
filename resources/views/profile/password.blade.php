@@ -7,7 +7,7 @@
             {{ __('Update Password') }}
         </h1>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <form action="{{ route('actions.password.patch') }}" method="POST"
+            <form require action="{{ route('actions.password.patch') }}" method="POST"
                 class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
@@ -15,21 +15,21 @@
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Old Password') }}
                     </label>
-                    <neo-password placeholder="{{ __('Old Password') }} (*)" name="old_password"
+                    <neo-password require placeholder="{{ __('Old Password') }} (*)" name="old_password"
                         value="{{ old('old_password') }}"></neo-password>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('New Password') }}
                     </label>
-                    <neo-password placeholder="{{ __('New Password') }} (*)" name="new_password"
+                    <neo-password require placeholder="{{ __('New Password') }} (*)" name="new_password"
                         value="{{ old('new_password') }}"></neo-password>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Confirm Password') }}
                     </label>
-                    <neo-password placeholder="{{ __('Confirm Password') }} (*)" name="confirm_password"
+                    <neo-password require placeholder="{{ __('Confirm Password') }} (*)" name="confirm_password"
                         value="{{ old('confirm_password') }}"></neo-password>
                 </div>
                 <div class="w-full flex lg:col-span-2">

@@ -9,10 +9,10 @@
             {{ url(env('APP_URL'), secure: true) }}
         </h3>
         <h3>
-            {{ Core::getSetting('print_phone') }}
+            {{ Core::company()->phone }}
         </h3>
         <h3>
-            {{ Core::getSetting('print_email') }}
+            {{ Core::company()->email }}
         </h3>
     </div>
 </div>

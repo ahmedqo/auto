@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Functions\Core;
 use App\Traits\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,7 @@ class Blacklist extends Model
     protected $fillable = [
         'client',
         'details',
+        'company',
     ];
 
     protected $searchable = [
@@ -35,6 +37,20 @@ class Blacklist extends Model
 
         'details',
     ];
+
+    protected static function booted()
+    {
+        self::saving(function ($Self) {
+            if (is_null($Self->company)) {
+                $Self->company = Core::company()->id;
+            }
+        });
+    }
+
+    public function Company()
+    {
+        return $this->hasOne(Company::class, 'id');
+    }
 
     public function Client()
     {

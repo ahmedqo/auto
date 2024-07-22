@@ -7,16 +7,16 @@
             {{ __('Edit BlackList') . ' #' . $data->id }}
         </h1>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <form action="{{ route('actions.blacklist.patch', $data->id) }}" method="POST" enctype="multipart/form-data"
-                class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
+            <form require action="{{ route('actions.blacklist.patch', $data->id) }}" method="POST"
+                enctype="multipart/form-data" class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Client') }} (*)
                     </label>
-                    <neo-autocomplete set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)" name="client"
-                        value="{{ $data->client }}"
+                    <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)"
+                        name="client" value="{{ $data->client }}"
                         query="{{ $data->client ? ucwords($data->Client->first_name . ' ' . $data->Client->last_name) . ($data->Client->Blacklist ? ' (blacklisted)' : '') : null }}">
                     </neo-autocomplete>
                 </div>

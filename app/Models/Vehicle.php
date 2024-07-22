@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
+use App\Functions\Core;
 use App\Traits\HasSearch;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model as MD;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Sitemap\Contracts\Sitemapable;
-use Spatie\Sitemap\Tags\Url;
 
-class Vehicle extends MD implements Sitemapable
+class Vehicle extends Model
 {
     use HasFactory, HasSearch;
 
@@ -31,6 +29,7 @@ class Vehicle extends MD implements Sitemapable
         'slug',
         'name',
         'details',
+        'company',
     ];
 
     protected $searchable = [
@@ -47,6 +46,12 @@ class Vehicle extends MD implements Sitemapable
 
     protected static function booted()
     {
+        self::saving(function ($Self) {
+            if (is_null($Self->company)) {
+                $Self->company = Core::company()->id;
+            }
+        });
+
         self::created(function ($Self) {
             foreach (request('images') as $Image) {
                 Image::$FILE = $Image;
@@ -62,13 +67,11 @@ class Vehicle extends MD implements Sitemapable
         });
     }
 
-    public function toSitemapTag(): Url | string | array
+    public function Company()
     {
-        return Url::create(url(route('views.guest.show', $this->slug), secure: true))
-            ->setLastModificationDate(Carbon::create($this->updated_at))
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-            ->setPriority(0.1);
+        return $this->hasOne(Company::class, 'id');
     }
+
 
     public function Reservations()
     {

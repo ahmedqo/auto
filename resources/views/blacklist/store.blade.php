@@ -7,15 +7,15 @@
             {{ __('New BlackList') }}
         </h1>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <form action="{{ route('actions.blacklist.store') }}" method="POST" enctype="multipart/form-data"
+            <form require action="{{ route('actions.blacklist.store') }}" method="POST" enctype="multipart/form-data"
                 class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                 @csrf
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Client') }} (*)
                     </label>
-                    <neo-autocomplete set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)" name="client"
-                        value="{{ old('client') }}" query="{{ old('client_name') }}">
+                    <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)"
+                        name="client" value="{{ old('client') }}" query="{{ old('client_name') }}">
                         <input type="hidden" name="client_name" value="{{ old('client_name') }}" />
                     </neo-autocomplete>
                 </div>

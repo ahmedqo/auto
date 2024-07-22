@@ -7,7 +7,7 @@
             {{ __('New Client') }}
         </h1>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <form action="{{ route('actions.clients.store') }}" method="POST"
+            <form require action="{{ route('actions.clients.store') }}" method="POST"
                 class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                 @csrf
                 <div class="w-full flex flex-row-reverse flex-wrap items-center justify-between lg:justify-around">
@@ -47,16 +47,22 @@
                 <div data-view="2" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Nationality') }}
+                            {{ __('Nationality') }} (*)
                         </label>
-                        <neo-textbox placeholder="{{ __('Nationality') }}" name="nationality"
-                            value="{{ old('nationality') }}"></neo-textbox>
+                        <neo-select search require placeholder="{{ __('Nationality') }} (*)" name="nationality">
+                            @foreach (Core::nationList() as $nationality)
+                                <neo-select-item value="{{ $nationality }}"
+                                    {{ $nationality == (old('nationality') ?? 'moroccan') ? 'active' : '' }}>
+                                    {{ ucwords(__($nationality)) }}
+                                </neo-select-item>
+                            @endforeach
+                        </neo-select>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Gender') }}
+                            {{ __('Gender') }} (*)
                         </label>
-                        <neo-select placeholder="{{ __('Gender') }}" name="gender">
+                        <neo-select require placeholder="{{ __('Gender') }} (*)" name="gender">
                             @foreach (Core::genderList() as $gender)
                                 <neo-select-item value="{{ $gender }}"
                                     {{ $gender == old('gender') ? 'active' : '' }}>
@@ -67,25 +73,19 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Birth Date') }}
+                            {{ __('Birth Date') }} (*)
                         </label>
-                        <neo-datepicker {{ !Core::lang('ar') ? 'full-day=3' : '' }} placeholder="{{ __('Birth Date') }}"
-                            name="birth_date" format="dddd dd mmmm yyyy" value="{{ old('birth_date') }}"></neo-datepicker>
+                        <neo-datepicker require {{ !Core::lang('ar') ? 'full-day=3' : '' }}
+                            placeholder="{{ __('Birth Date') }} (*)" name="birth_date" format="dddd dd mmmm yyyy"
+                            value="{{ old('birth_date') }}"></neo-datepicker>
                     </div>
                 </div>
-                <div data-view="3" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
-                    <div class="flex flex-col gap-1">
+                <div data-view="3" class="w-full hidden grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Identity') }} (*)
+                            {{ __('Identity Type') }} (*)
                         </label>
-                        <neo-textbox require id="identity" placeholder="{{ __('Identity') }} (*)" name="identity"
-                            value="{{ old('identity') }}"></neo-textbox>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Identity Type') }}
-                        </label>
-                        <neo-select placeholder="{{ __('Identity Type') }}" name="identity_type">
+                        <neo-select require placeholder="{{ __('Identity Type') }} (*)" name="identity_type">
                             @foreach (Core::identityList() as $identity_type)
                                 <neo-select-item value="{{ $identity_type }}"
                                     {{ $identity_type == old('identity_type') ? 'active' : '' }}>
@@ -94,6 +94,13 @@
                             @endforeach
                         </neo-select>
                     </div>
+                    <div class="flex flex-col gap-1 lg:col-span-2">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Identity') }} (*)
+                        </label>
+                        <neo-textbox require id="identity" placeholder="{{ __('Identity') }} (*)" name="identity"
+                            value="{{ old('identity') }}"></neo-textbox>
+                    </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Identity Location') }} (*)
@@ -101,14 +108,22 @@
                         <neo-textbox require placeholder="{{ __('Identity Location') }} (*)" name="identity_location"
                             value="{{ old('identity_location') }}"></neo-textbox>
                     </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Identity Production Date') }} (*)
+                        </label>
+                        <neo-datepicker require {{ !Core::lang('ar') ? 'full-day=3' : '' }}
+                            placeholder="{{ __('Identity Production Date') }} (*)" name="identity_date"
+                            format="dddd dd mmmm yyyy" value="{{ old('identity_date') }}"></neo-datepicker>
+                    </div>
                 </div>
                 <div data-view="4" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('License Number') }} (*)
                         </label>
-                        <neo-textbox require placeholder="{{ __('License Number') }} (*)" name="license_number"
-                            value="{{ old('license_number') }}"></neo-textbox>
+                        <neo-textbox require id="license" placeholder="{{ __('License Number') }} (*)"
+                            name="license_number" value="{{ old('license_number') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
@@ -116,6 +131,14 @@
                         </label>
                         <neo-textbox require placeholder="{{ __('License Location') }} (*)" name="license_location"
                             value="{{ old('license_location') }}"></neo-textbox>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('License Production Date') }} (*)
+                        </label>
+                        <neo-datepicker require {{ !Core::lang('ar') ? 'full-day=3' : '' }}
+                            placeholder="{{ __('License Production Date') }} (*)" name="license_date"
+                            format="dddd dd mmmm yyyy" value="{{ old('license_date') }}"></neo-datepicker>
                     </div>
                 </div>
                 <div data-view="5" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
@@ -128,16 +151,16 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Email') }}
+                            {{ __('Email') }} (*)
                         </label>
-                        <neo-textbox type="email" placeholder="{{ __('Email') }}" name="email"
+                        <neo-textbox require type="email" placeholder="{{ __('Email') }} (*)" name="email"
                             value="{{ old('email') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Address') }}
+                            {{ __('Address') }} (*)
                         </label>
-                        <neo-textarea auto="false" placeholder="{{ __('Address') }}" name="address"
+                        <neo-textarea require auto="false" placeholder="{{ __('Address') }} (*)" name="address"
                             value="{{ old('address') }}" rows="2"></neo-textarea>
                     </div>
                 </div>
@@ -159,8 +182,10 @@
 
 @section('scripts')
     <script>
-        document.querySelector("#identity").addEventListener("keyup", e => {
-            e.target.value = e.target.value.replace(/\s*/g, '');
+        [document.querySelector("#identity"), document.querySelector("#license")].forEach(el => {
+            el.addEventListener("keyup", e => {
+                e.target.value = e.target.value.replace(/\s*/g, '');
+            });
         });
         tabs();
     </script>

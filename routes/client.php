@@ -12,6 +12,7 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
 
     Route::post('/clients/store', [ClientController::class, 'store_action'])->name('actions.clients.store');
     Route::get('/clients/search', [ClientController::class, 'search_action'])->name('actions.clients.search');
+    Route::get('/clients/search/all', [ClientController::class, 'search_all_action'])->name('actions.clients.search.all');
     Route::patch('/clients/{id}/patch', [ClientController::class, 'patch_action'])->name('actions.clients.patch');
     Route::delete('/clients/{id}/clear', [ClientController::class, 'clear_action'])->name('actions.clients.clear');
     Route::get('/clients/{id}/reservations/search', [ClientController::class, 'search_reservations_action'])->name('actions.clients.reservations.search');

@@ -14,20 +14,25 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company')->nullable();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('identity')->unique();
             $table->string('identity_location');
+            $table->date('identity_date');
             $table->string('identity_type')->nullable();
             $table->string('nationality')->nullable();
             $table->string('license_number')->unique();
             $table->string('license_location');
+            $table->date('license_date');
             $table->enum('gender', Core::genderList())->nullable();
             $table->date('birth_date')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique();
             $table->string('address')->nullable();
             $table->timestamps();
+
+            $table->foreign('company')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

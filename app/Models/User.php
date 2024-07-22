@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Functions\Core;
 use App\Traits\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,6 +27,7 @@ class User extends Authenticatable
         'phone',
         'address',
         'password',
+        'company',
     ];
 
     protected $searchable = [
@@ -47,10 +49,17 @@ class User extends Authenticatable
         'password',
     ];
 
-    // protected static function booted()
-    // {
-    //     self::creating(function ($data) {
-    //         $data->gender = "female";
-    //     });
-    // }
+    protected static function booted()
+    {
+        self::saving(function ($Self) {
+            if (is_null($Self->company)) {
+                $Self->company = Core::company()->id;
+            }
+        });
+    }
+
+    public function Company()
+    {
+        return $this->hasOne(Company::class, 'id');
+    }
 }

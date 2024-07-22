@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
-
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = User::orderBy('id', 'DESC');
+        $data = User::where('company', Core::company()->id)->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -45,8 +45,18 @@ class UserController extends Controller
         $validator = Validator::make($Request->all(), [
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users'],
-            'phone' => ['required', 'string', 'unique:users'],
+            'email' => [
+                'required', 'email',
+                Rule::unique('users')->where(function ($query) {
+                    return $query->where('company', Core::company()->id);
+                }),
+            ],
+            'phone' => [
+                'required', 'string',
+                Rule::unique('users')->where(function ($query) {
+                    return $query->where('company', Core::company()->id);
+                }),
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -58,7 +68,7 @@ class UserController extends Controller
 
         $Request->merge(['password' =>  Hash::make(Str::random(20))]);
 
-        User::create(Core::fillable(User::class, $Request));
+        User::create($Request->all());
         Mailer::reset($Request->email);
 
         return Redirect::back()->with([
@@ -72,8 +82,19 @@ class UserController extends Controller
         $validator = Validator::make($Request->all(), [
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users,email,' . $id],
-            'phone' => ['required', 'string', 'unique:users,phone,' . $id],
+            'email' => [
+                'required', 'email',
+                Rule::unique('users')->where(function ($query) use ($id) {
+                    return $query->where('company', Core::company()->id)->where('id', '!=', $id);
+                }),
+
+            ],
+            'phone' => [
+                'required', 'string',
+                Rule::unique('users')->where(function ($query) use ($id) {
+                    return $query->where('company', Core::company()->id)->where('id', '!=', $id);
+                }),
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -83,7 +104,7 @@ class UserController extends Controller
             ]);
         }
 
-        User::findorfail($id)->update(Core::fillable(User::class, $Request));
+        User::findorfail($id)->update($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

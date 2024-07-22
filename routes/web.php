@@ -1,10 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return redirect()->route('views.login.index');
-});
+require __DIR__ . '/company.php';
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/core.php';

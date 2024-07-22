@@ -85,6 +85,16 @@ class ClientController extends Controller
 
     public function search_action(Request $Request)
     {
+        $data = Client::with('Blacklist')->where('company', Core::company()->id)->orderBy('id', 'DESC');
+        if ($Request->search) {
+            $data = $data->search(urldecode($Request->search));
+        }
+        $data = $data->cursorPaginate(50);
+        return response()->json($data);
+    }
+
+    public function search_all_action(Request $Request)
+    {
         $data = Client::with('Blacklist')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
@@ -133,6 +143,8 @@ class ClientController extends Controller
             'phone' => ['required', 'string', 'unique:clients'],
             'identity_location' => ['required', 'string'],
             'license_location' => ['required', 'string'],
+            'identity_date' => ['required', 'date'],
+            'license_date' => ['required', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -142,7 +154,7 @@ class ClientController extends Controller
             ]);
         }
 
-        Client::create(Core::fillable(Client::class, $Request));
+        Client::create($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -160,6 +172,8 @@ class ClientController extends Controller
             'phone' => ['required', 'string', 'unique:clients,phone,' . $id],
             'identity_location' => ['required', 'string'],
             'license_location' => ['required', 'string'],
+            'identity_date' => ['required', 'date'],
+            'license_date' => ['required', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -170,7 +184,7 @@ class ClientController extends Controller
         }
 
         $Client = Client::findorfail($id);
-        $Client->update(Core::fillable(Client::class, $Request));
+        $Client->update($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

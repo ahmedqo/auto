@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Functions\Core;
 use App\Models\Alert;
 use App\Models\Charge;
+use App\Models\Company;
 use App\Models\Reservation;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class CoreController extends Controller
     {
         [$startDate, $endDate, $columns] = Core::getDates();
 
-        $reservations = Reservation::where(function ($query) use ($startDate, $endDate) {
+        $reservations = Reservation::where('company', Core::company()->id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         })->get();
@@ -30,7 +31,7 @@ class CoreController extends Controller
         $rest = $reservations->reduce(function ($carry, $res) {
             return $carry + ($res->total - array_sum(json_decode($res->payment)));
         }, 0);
-        $charges = Charge::where(function ($query) use ($startDate, $endDate) {
+        $charges = Charge::where('company', Core::company()->id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('updated_at', '<=', $endDate)
                 ->where('updated_at', '>=', $startDate);
         })->get()->reduce(function ($carry, $charge) {
@@ -59,12 +60,12 @@ class CoreController extends Controller
     public function setting_action(Request $Request)
     {
         $validator = Validator::make($Request->all(), [
-            'contact_email' => ['required', 'email'],
-            'print_email' => ['required', 'email'],
-            'notify_email' => ['required', 'email'],
-            'contact_phone' => ['required', 'string'],
-            'print_phone' => ['required', 'string'],
+            'name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'phone' => ['required', 'string'],
             'period' => ['required', 'string'],
+            'milage' => ['required', 'numeric'],
+            'address' => ['required', 'string'],
         ]);
 
         if ($validator->fails()) {
@@ -74,26 +75,7 @@ class CoreController extends Controller
             ]);
         }
 
-        foreach ([
-            'usd_rate',
-            'eur_rate',
-            'contact_email',
-            'print_email',
-            'notify_email',
-            'contact_phone',
-            'print_phone',
-            'period',
-            'instagram',
-            'telegram',
-            'facebook',
-            'youtube',
-            'tiktok',
-            'x',
-        ] as $type) {
-            Setting::findBy($type)->update([
-                'content' => $Request->input($type)
-            ]);
-        }
+        Core::company()->update($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),
@@ -111,7 +93,7 @@ class CoreController extends Controller
             'creances' => array_slice($columns, 0),
         ];
 
-        Reservation::where(function ($query) use ($startDate, $endDate) {
+        Reservation::where('company', Core::company()->id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         })->get()->groupBy(function ($model) {
@@ -124,7 +106,7 @@ class CoreController extends Controller
             });
         });
 
-        Charge::where(function ($query) use ($startDate, $endDate) {
+        Charge::where('company', Core::company()->id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('updated_at', '<=', $endDate)
                 ->where('updated_at', '>=', $startDate);
         })->get()->groupBy(function ($model) {
@@ -154,7 +136,7 @@ class CoreController extends Controller
             'pendding' => '#EAB308',
         ];
 
-        $reservations =  Reservation::with('Client', 'Vehicle')->get()->map(function ($item) use (&$colors) {
+        $reservations =  Reservation::with('Client', 'Vehicle')->where('company', Core::company()->id)->get()->map(function ($item) use (&$colors) {
             return [
                 'start' => $item->from,
                 'end' => $item->to,
@@ -164,7 +146,7 @@ class CoreController extends Controller
             ];
         });
 
-        $alerts =  Alert::with('Vehicle')->get()->map(function ($item) {
+        $alerts =  Alert::with('Vehicle')->where('company', Core::company()->id)->get()->map(function ($item) {
             return [
                 'start' => $item->date,
                 'end' => $item->date,
@@ -183,7 +165,7 @@ class CoreController extends Controller
     {
         [$startDate, $endDate, $columns] = Core::getDates();
 
-        $data = Reservation::with('Vehicle')->where(function ($query) use ($startDate, $endDate) {
+        $data = Reservation::with('Vehicle')->where('company', Core::company()->id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         })->get()->groupBy('vehicle')->map(

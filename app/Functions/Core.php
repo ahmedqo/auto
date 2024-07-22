@@ -3,26 +3,15 @@
 namespace App\Functions;
 
 use App\Models\Alert;
-use App\Models\Setting;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class Core
 {
-    public static $CURRENCY = 'MAD';
     public static $UNIT = 'MAD';
 
-    public static function fillable($Class, $Request)
-    {
-        $data = [];
-
-        foreach ((new $Class())->getFillable() as $key => $prop) {
-            $data[$prop] = $Request->{$prop};
-        }
-
-        return $data;
-    }
     public static function formatNumber($num)
     {
         $formattedNumber = number_format($num);
@@ -47,16 +36,6 @@ class Core
         return Str::contains(request()->path(), $str);
     }
 
-    public static function subString($str, $max = 157)
-    {
-        if (strlen($str) > $max) {
-            $output = substr($str, 0, $max);
-            return $output . '...';
-        } else {
-            return $str;
-        }
-    }
-
     public static function lang($lang = null)
     {
         return $lang ? app()->getLocale() == $lang : app()->getLocale();
@@ -65,11 +44,6 @@ class Core
     public static function genderList()
     {
         return ['male', 'female'];
-    }
-
-    public static function statusList()
-    {
-        return ['available', 'not available'];
     }
 
     public static function periodList()
@@ -82,16 +56,6 @@ class Core
         return ['cin', 'visa', 'passport', 'residence permit'];
     }
 
-    public static function orderList()
-    {
-        return  ['canceled', 'pendding', 'confirmed', 'completed'];
-    }
-
-    public static function rateList()
-    {
-        return  ['pendding', 'approved'];
-    }
-
     public static function transmissionList()
     {
         return ['manual', 'automatic'];
@@ -102,42 +66,26 @@ class Core
         return ['gasoline', 'diesel'];
     }
 
-    public static function promoteList()
+    public static function company()
     {
-        return [[1, 'yes'], [0, 'no']];
-    }
-
-    public static function rate()
-    {
-        try {
-            Core::$CURRENCY = Core::lang('en') ? '$' : '€';
-            return (float)(Core::lang('en') ? Core::getSetting('usd_rate') : Core::getSetting('eur_rate'));
-        } catch (\Exception $e) {
-            Core::$CURRENCY = 'MAD';
-            return 1;
-        }
-    }
-
-    public static function getSetting($name, $type = 'type')
-    {
-        return Setting::filterBy($name, $type);
+        return Auth::user()->Company;
     }
 
     public static function getDates($period = 'week')
     {
-        switch (Core::getSetting('period')) {
+        switch (Core::company()->period) {
             case "week":
                 return [
-                    Carbon::now()->startOfWeek(Carbon::SUNDAY),
-                    Carbon::now()->endOfWeek(Carbon::SATURDAY),
+                    Carbon::now()->startOfWeek(Carbon::MONDAY),
+                    Carbon::now()->endOfWeek(Carbon::SUNDAY),
                     [
-                        __('Sunday') => 0,
                         __('Monday') => 0,
                         __('Tuesday') => 0,
                         __('Wednesday') => 0,
                         __('Thursday') => 0,
                         __('Friday') => 0,
-                        __('Saturday') => 0
+                        __('Saturday') => 0,
+                        __('Sunday') => 0,
                     ]
                 ];
             case "month":
@@ -181,7 +129,7 @@ class Core
 
     public static function groupKey($model, $period = 'week')
     {
-        switch (Core::getSetting('period')) {
+        switch (Core::company()->period) {
             case 'week':
                 return __($model->updated_at->format('l'));
             case 'month':
@@ -193,34 +141,45 @@ class Core
 
     public static function formatWeek($datestr)
     {
-        $date = new \DateTime($datestr);
+        $date = Carbon::parse($datestr);
+        $date->startOfWeek(Carbon::MONDAY);
+        $date->endOfWeek(Carbon::SUNDAY);
         $dayOfWeek = $date->format('N');
         $dayOfMonth = $date->format('j');
-        $startDayOfWeek = (new \DateTime($date->format('Y-m-01')))->format('N');
+        $startDayOfWeek = Carbon::parse($date->format('Y-m-01'));
+        $startDayOfWeek->startOfWeek(Carbon::MONDAY);
+        $startDayOfWeek->endOfWeek(Carbon::SUNDAY);
+        $startDayOfWeek = $startDayOfWeek->format('N');
         return (int) ceil(($dayOfMonth + $startDayOfWeek - $dayOfWeek) / 7);
     }
 
     public static function alerts($limit)
     {
         $now = Carbon::now();
-        $alerts = Alert::with('Vehicle')->where(function ($query) use ($now) {
-            $date = $now->copy()->dayOfWeekIso + 1;
-            $query->where('recurrence', 'week')
-                ->whereRaw("DAYOFWEEK(DATE_ADD(date, INTERVAL threshold HOUR)) >= ?", [$date])
-                ->WhereRaw("DAYOFWEEK(DATE_SUB(date, INTERVAL threshold HOUR)) <= ?", [$date]);
-        })
+        $alerts = Alert::with('Vehicle')
+            ->where(function ($query) use ($now) {
+                $date = $now->copy()->dayOfWeekIso + 1;
+                $query->where('recurrence', 'week')
+                    ->where('company', Core::company()->id)
+                    ->whereRaw("DAYOFWEEK(DATE_ADD(date, INTERVAL threshold HOUR)) >= ?", [$date])
+                    ->WhereRaw("DAYOFWEEK(DATE_SUB(date, INTERVAL threshold HOUR)) <= ?", [$date]);
+            })
             ->orWhere(function ($query) use ($now) {
                 $date = $now->copy()->format('d H:i:s');
                 $query->where('recurrence', 'month')
+                    ->where('company', Core::company()->id)
                     ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%d %H:%i:%s') >= ?", [$date])
                     ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%d %H:%i:%s') <= ?", [$date]);
             })
             ->orWhere(function ($query) use ($now) {
                 $date = $now->copy()->format('m-d H:i:s');
                 $query->where('recurrence', 'year')
+                    ->where('company', Core::company()->id)
                     ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') >= ?", [$date])
                     ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') <= ?", [$date]);
             });
+
+        Log::info('SQL Query: ' . $alerts->toSql());
 
         if ($limit) $alerts = $alerts->limit($limit);
 
@@ -230,9 +189,15 @@ class Core
     public static function stateList()
     {
         return [
-            'scrtach' => '#14B8A680',
-            'broke' => '#7C3AED80',
+            'scrtaches' => '#14B8A680',
+            'cracks' => '#7C3AED80',
+            'dents' => '#EAB30880',
         ];
+    }
+
+    public static function nationList()
+    {
+        return ["afghan", "albanian", "algerian", "american", "andorran", "angolan", "anguillan", "citizen of antigua and barbuda", "argentine", "armenian", "australian", "austrian", "azerbaijani", "bahamian", "bahraini", "bangladeshi", "barbadian", "belarusian", "belgian", "belizean", "beninese", "bermudian", "bhutanese", "bolivian", "citizen of bosnia and herzegovina", "botswanan", "brazilian", "british", "british virgin islander", "bruneian", "bulgarian", "burkinan", "burmese", "burundian", "cambodian", "cameroonian", "canadian", "cape verdean", "cayman islander", "central african", "chadian", "chilean", "chinese", "colombian", "comoran", "congolese (congo)", "congolese (drc)", "cook islander", "costa rican", "croatian", "cuban", "cymraes", "cymro", "cypriot", "czech", "danish", "djiboutian", "dominican", "citizen of the dominican republic", "dutch", "east timorese", "ecuadorean", "egyptian", "emirati", "english", "equatorial guinean", "eritrean", "estonian", "ethiopian", "faroese", "fijian", "filipino", "finnish", "french", "gabonese", "gambian", "georgian", "german", "ghanaian", "gibraltarian", "greek", "greenlandic", "grenadian", "guamanian", "guatemalan", "citizen of guinea-bissau", "guinean", "guyanese", "haitian", "honduran", "hong konger", "hungarian", "icelandic", "indian", "indonesian", "iranian", "iraqi", "irish", "israeli", "italian", "ivorian", "jamaican", "japanese", "jordanian", "kazakh", "kenyan", "kittitian", "citizen of kiribati", "kosovan", "kuwaiti", "kyrgyz", "lao", "latvian", "lebanese", "liberian", "libyan", "liechtenstein citizen", "lithuanian", "luxembourger", "macanese", "macedonian", "malagasy", "malawian", "malaysian", "maldivian", "malian", "maltese", "marshallese", "martiniquais", "mauritanian", "mauritian", "mexican", "micronesian", "moldovan", "monegasque", "mongolian", "montenegrin", "montserratian", "moroccan", "mosotho", "mozambican", "namibian", "nauruan", "nepalese", "new zealander", "nicaraguan", "nigerian", "nigerien", "niuean", "north korean", "northern irish", "norwegian", "omani", "pakistani", "palauan", "palestinian", "panamanian", "papua new guinean", "paraguayan", "peruvian", "pitcairn islander", "polish", "portuguese", "prydeinig", "puerto rican", "qatari", "romanian", "russian", "rwandan", "salvadorean", "sammarinese", "samoan", "sao tomean", "saudi arabian", "scottish", "senegalese", "serbian", "citizen of seychelles", "sierra leonean", "singaporean", "slovak", "slovenian", "solomon islander", "somali", "south african", "south korean", "south sudanese", "spanish", "sri lankan", "st helenian", "st lucian", "stateless", "sudanese", "surinamese", "swazi", "swedish", "swiss", "syrian", "taiwanese", "tajik", "tanzanian", "thai", "togolese", "tongan", "trinidadian", "tristanian", "tunisian", "turkish", "turkmen", "turks and caicos islander", "tuvaluan", "ugandan", "ukrainian", "uruguayan", "uzbek", "vatican citizen", "citizen of vanuatu", "venezuelan", "vietnamese", "vincentian", "wallisian", "welsh", "yemeni", "zambian", "zimbabwean"];
     }
 
     public static function pathList()

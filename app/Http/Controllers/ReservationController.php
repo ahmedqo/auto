@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Functions\Core;
-use App\Models\Vehicle;
 use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -36,7 +35,7 @@ class ReservationController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Reservation::with('Vehicle', 'Client')->where('status', '!=', 'completed')->orderBy('id', 'DESC');
+        $data = Reservation::with('Vehicle', 'Client')->where('company', Core::company()->id)->where('status', '!=', 'completed')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -46,7 +45,7 @@ class ReservationController extends Controller
 
     public function filter_action(Request $Request)
     {
-        $data = Reservation::with('Vehicle', 'Client')->orderBy('id', 'DESC');
+        $data = Reservation::with('Vehicle', 'Client')->where('company', Core::company()->id)->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -87,7 +86,7 @@ class ReservationController extends Controller
             'status' => array_sum(json_decode($Request->json)) >= $total ? 'completed' : 'pendding'
         ]);
 
-        Reservation::create(Core::fillable(Reservation::class, $Request));
+        Reservation::create($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -129,7 +128,7 @@ class ReservationController extends Controller
         ]);
 
         $Reservation = Reservation::findorfail($id);
-        $Reservation->update(Core::fillable(Reservation::class, $Request));
+        $Reservation->update($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

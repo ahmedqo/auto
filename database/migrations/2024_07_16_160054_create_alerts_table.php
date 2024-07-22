@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('alerts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company')->nullable();
             $table->unsignedBigInteger('vehicle')->nullable();
             $table->string('name');
             $table->dateTime('date');
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->text('details')->nullable();
             $table->timestamps();
 
+            $table->foreign('company')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('vehicle')->references('id')->on('vehicles')->onUpdate('cascade')->onDelete('set null');
         });
     }

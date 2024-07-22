@@ -7,7 +7,6 @@ use App\Models\Charge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Str;
 
 class ChargeController extends Controller
 {
@@ -29,7 +28,7 @@ class ChargeController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Charge::with('Vehicle')->orderBy('id', 'DESC');
+        $data = Charge::with('Vehicle')->where('company', Core::company()->id)->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -52,7 +51,7 @@ class ChargeController extends Controller
             ]);
         }
 
-        Charge::create(Core::fillable(Charge::class, $Request));
+        Charge::create($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -75,7 +74,7 @@ class ChargeController extends Controller
             ]);
         }
 
-        Charge::findorfail($id)->update(Core::fillable(Charge::class, $Request));
+        Charge::findorfail($id)->update($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),

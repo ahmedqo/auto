@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="currency" content="{{ Core::$UNIT }}" />
     @include('shared.base.styles', ['type' => 'admin'])
     @yield('styles')
     <title>@yield('title')</title>
@@ -44,19 +45,11 @@
                         </a>
                     </li>
                     <li class="w-full">
-                        <a href="{{ route('actions.language.index', 'it') }}"
-                            class="w-full flex flex-wrap gap-2 px-4 py-2 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('it') ? '!bg-x-black' : '' }}">
-                            <img src="{{ asset('lang/it.png') }}?v={{ env('APP_VERSION') }}" alt="arabic flag"
+                        <a href="{{ route('actions.language.index', 'ar') }}"
+                            class="w-full flex flex-wrap gap-2 px-4 py-2 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('ar') ? '!bg-x-black' : '' }}">
+                            <img src="{{ asset('lang/ar.png') }}?v={{ env('APP_VERSION') }}" alt="arabic flag"
                                 class="block w-6 h-4 object-contain" />
-                            <span class="block flex-1 text-base text-start">{{ __('Italian') }}</span>
-                        </a>
-                    </li>
-                    <li class="w-full">
-                        <a href="{{ route('actions.language.index', 'sp') }}"
-                            class="w-full flex flex-wrap gap-2 px-4 py-2 text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::lang('sp') ? '!bg-x-black' : '' }}">
-                            <img src="{{ asset('lang/sp.png') }}?v={{ env('APP_VERSION') }}" alt="arabic flag"
-                                class="block w-6 h-4 object-contain" />
-                            <span class="block flex-1 text-base text-start">{{ __('Spanish') }}</span>
+                            <span class="block flex-1 text-base text-start">{{ __('Arabic') }}</span>
                         </a>
                     </li>
                 </ul>
@@ -66,7 +59,7 @@
             @yield('content')
         </main>
     </neo-wrapper>
-    <neo-toaster horisontal="end" vertical="start"></neo-toaster>
+    <neo-toaster horisontal="end" vertical="end"></neo-toaster>
     @include('shared.base.scripts', ['type' => 'admin'])
     @yield('scripts')
 </body>

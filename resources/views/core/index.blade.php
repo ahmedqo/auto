@@ -98,7 +98,7 @@
                             <div class="flex flex-1 flex-col items-center lg:items-end">
                                 <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Milage') }}</h2>
                                 <p class="text-base text-x-black text-opacity-50">
-                                    {{ $work * 100 }} {{ __('Km') }}
+                                    {{ $work * Core::company()->milage }} {{ __('Km') }}
                                 </p>
                             </div>
                         </li>

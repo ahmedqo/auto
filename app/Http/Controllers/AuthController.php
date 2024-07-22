@@ -45,6 +45,7 @@ class AuthController extends Controller
 
         $credentials = $Request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            //session(['company' => Auth::user()->company]);
             return Redirect::to(RouteServiceProvider::AUTHS);
         }
 

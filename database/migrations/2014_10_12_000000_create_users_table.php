@@ -14,15 +14,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company')->nullable();
             $table->string('first_name');
             $table->string('last_name');
             $table->enum('gender', Core::genderList())->nullable();
             $table->date('birth_date')->nullable();
-            $table->string('email')->unique();
-            $table->string('phone')->unique()->nullable();
+            $table->string('email');
+            $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('password');
             $table->timestamps();
+
+            $table->unique(['company', 'email']);
+            $table->unique(['company', 'phone']);
+            $table->foreign('company')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

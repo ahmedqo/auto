@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class VehicleController extends Controller
 {
@@ -137,7 +138,7 @@ class VehicleController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Vehicle::with('Images')->orderBy('id', 'DESC');
+        $data = Vehicle::with('Images')->where('company', Core::company()->id)->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -193,7 +194,12 @@ class VehicleController extends Controller
     public function store_action(Request $Request)
     {
         $validator = Validator::make($Request->all(), [
-            'name' => ['required', 'string', 'unique:vehicles'],
+            'name' => [
+                'required', 'string',
+                Rule::unique('vehicles')->where(function ($query) {
+                    return $query->where('company', Core::company()->id);
+                }),
+            ],
             'transmission' => ['required', 'string'],
             'passengers' => ['required', 'integer'],
             'milage' => ['required', 'numeric'],
@@ -216,7 +222,7 @@ class VehicleController extends Controller
             'slug' =>  Str::slug($Request->name),
         ]);
 
-        Vehicle::create(Core::fillable(Vehicle::class, $Request));
+        Vehicle::create($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -227,7 +233,12 @@ class VehicleController extends Controller
     public function patch_action(Request $Request, $id)
     {
         $validator = Validator::make($Request->all(), [
-            'name' => ['required', 'string', 'unique:vehicles,name,' . $id],
+            'name' => [
+                'required', 'string',
+                Rule::unique('vehicles')->where(function ($query) use ($id) {
+                    return $query->where('company', Core::company()->id)->where('id', '!=', $id);
+                }),
+            ],
             'transmission' => ['required', 'string'],
             'passengers' => ['required', 'integer'],
             'milage' => ['required', 'numeric'],
@@ -257,7 +268,7 @@ class VehicleController extends Controller
             'slug' =>  Str::slug($Request->name),
         ]);
 
-        $Vehicle->update(Core::fillable(Vehicle::class, $Request));
+        $Vehicle->update($Request->all());
 
         if ($Request->hasFile('images')) {
             foreach ($Request->file('images') as $Image) {

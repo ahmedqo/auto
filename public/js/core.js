@@ -52,6 +52,150 @@
     }).define();
 })();
 
+Neo.Locales.ar = {
+    ...Neo.Locales.ar,
+
+    "Image": "صورة",
+    "Name": "الاسم",
+    "Total": "المجموع",
+    "Period": "الفترة",
+    "Days": "الأيام",
+    "First Name": "الاسم الأول",
+    "Last Name": "الاسم الأخير",
+    "Gender": "الجنس",
+    "Birth Date": "تاريخ الميلاد",
+    "Email": "البريد الإلكتروني",
+    "Phone": "الهاتف",
+    "Address": "العنوان",
+    "Actions": "الإجراءات",
+    "Full Name": "الاسم الكامل",
+    "Nationality": "الجنسية",
+    "Identity": "الهوية",
+    "Identity Type": "نوع الهوية",
+    "License Number": "رقم الرخصة",
+    "BlackList": "القائمة السوداء",
+    "Ref": "المرجع",
+    "Vehicle": "مركبة",
+    "From": "من",
+    "Pick-up Location": "مكان الاستلام",
+    "To": "إلى",
+    "Drop-off Location": "مكان التسليم",
+    "Price": "السعر",
+    "Payment": "الدفع",
+    "Creance": "الديون",
+    "Status": "الحالة",
+    "Client": "العميل",
+    "Details": "التفاصيل",
+    "Transmission": "ناقل الحركة",
+    "Fuel": "الوقود",
+    "Passengers": "الركاب",
+    "Milage": "عدد الأميال",
+    "Km": "كم",
+    "Doors": "الأبواب",
+    "Cargo": "الشحن",
+    "Cost": "التكلفة",
+    "date": "التاريخ",
+    "Recurrence": "التكرار",
+    "Threshold": "الحد الأدنى",
+    "Reservation": "الحجز",
+    "Prev": "السابق",
+    "Next": "التالي",
+    "Charges": "الرسوم",
+    "Payments": "المدفوعات",
+    "Creances": "الديون",
+
+    "male": "ذكر",
+    "female": "أنثى",
+    "week": "أسبوع",
+    "month": "شهر",
+    "year": "سنة",
+    "cin": "بطاقة الهوية",
+    "visa": "تأشيرة",
+    "passport": "جواز السفر",
+    "residence permit": "تصريح الإقامة",
+    "manual": "يدوي",
+    "automatic": "أوتوماتيكي",
+    "gasoline": "بنزين",
+    "diesel": "ديزل",
+    "scrtaches": "خدوش",
+    "cracks": "شقوق",
+    "dents": "انبعاجات",
+    "pendding": "معلق",
+    "completed": "مكتمل"
+}
+
+Neo.Locales.fr = {
+    ...Neo.Locales.fr,
+
+    "Image": "Image",
+    "Name": "Nom",
+    "Total": "Total",
+    "Period": "Période",
+    "Days": "Jours",
+    "First Name": "Prénom",
+    "Last Name": "Nom de famille",
+    "Gender": "Genre",
+    "Birth Date": "Date de naissance",
+    "Email": "E-mail",
+    "Phone": "Téléphone",
+    "Address": "Adresse",
+    "Actions": "Actions",
+    "Full Name": "Nom complet",
+    "Nationality": "Nationalité",
+    "Identity": "Identité",
+    "Identity Type": "Type d'identité",
+    "License Number": "Numéro de licence",
+    "BlackList": "Liste noire",
+    "Ref": "Réf",
+    "Vehicle": "Véhicule",
+    "From": "De",
+    "Pick-up Location": "Lieu de prise en charge",
+    "To": "À",
+    "Drop-off Location": "Lieu de retour",
+    "Price": "Prix",
+    "Payment": "Paiement",
+    "Creance": "Créance",
+    "Status": "Statut",
+    "Client": "Client",
+    "Details": "Détails",
+    "Transmission": "Transmission",
+    "Fuel": "Carburant",
+    "Passengers": "Passagers",
+    "Milage": "Kilométrage",
+    "Km": "Km",
+    "Doors": "Portes",
+    "Cargo": "Cargaison",
+    "Cost": "Coût",
+    "date": "Date",
+    "Recurrence": "Récurrence",
+    "Threshold": "Seuil",
+    "Reservation": "Réservation",
+    "Prev": "Préc",
+    "Next": "Suivant",
+    "Charges": "Charges",
+    "Payments": "Paiements",
+    "Creances": "Créances",
+
+    "male": "masculin",
+    "female": "féminin",
+    "week": "semaine",
+    "month": "mois",
+    "year": "année",
+    "cin": "carte d'identité",
+    "visa": "visa",
+    "passport": "passeport",
+    "residence permit": "permis de séjour",
+    "manual": "manuel",
+    "automatic": "automatique",
+    "gasoline": "essence",
+    "diesel": "diesel",
+    "scrtaches": "égratignures",
+    "cracks": "fissures",
+    "dents": "bosses",
+    "pendding": "en attente",
+    "completed": "terminé"
+}
+
 const Locale = document.documentElement.lang,
     BasePath = window.location.origin + "/storage/IMAGES/",
     Background = "rgb(" + getComputedStyle(document.documentElement)
@@ -397,6 +541,17 @@ const Locale = document.documentElement.lang,
             bodyCsvRender: () => empty(),
         }],
         client_reservation: () => [{
+            name: "ref",
+            text: Neo.Helper.trans("Ref"),
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+        }, {
             name: "vehicle",
             text: Neo.Helper.trans("Vehicle"),
             headPdfStyle: {
@@ -544,30 +699,6 @@ const Locale = document.documentElement.lang,
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
-        }, {
-            name: "insurance",
-            text: Neo.Helper.trans('Insurance'),
-            headStyle: {
-                maxWidth: 500,
-            },
-            visible: false,
-            bodyStyle: function() {
-                return this.headStyle;
-            },
-            headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
-            },
-            bodyRender: (row) => row.insurance ? Neo.Helper.Str.capitalize(row.insurance) : empty(),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
-                return this.bodyRender(row);
-            },
         }],
         blacklist: ({
             Csrf,
@@ -690,7 +821,7 @@ const Locale = document.documentElement.lang,
             bodyPdfStyle: function() {
                 return this.bodyStyle;
             },
-            bodyRender: (row) => Neo.Helper.trans(Neo.Helper.Str.capitalize(row.transmission)),
+            bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.transmission)),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -705,7 +836,7 @@ const Locale = document.documentElement.lang,
             bodyPdfStyle: function() {
                 return this.bodyStyle;
             },
-            bodyRender: (row) => Neo.Helper.trans(Neo.Helper.Str.capitalize(row.fuel)),
+            bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.fuel)),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -789,6 +920,17 @@ const Locale = document.documentElement.lang,
             bodyCsvRender: () => empty(),
         }],
         vehicle_reservation: () => [{
+            name: "ref",
+            text: Neo.Helper.trans("Ref"),
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+        }, {
             name: "client",
             text: Neo.Helper.trans("Client"),
             headPdfStyle: {
@@ -934,30 +1076,6 @@ const Locale = document.documentElement.lang,
             },
             bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.status)),
             bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "insurance",
-            text: Neo.Helper.trans('Insurance'),
-            headStyle: {
-                maxWidth: 500,
-            },
-            visible: false,
-            bodyStyle: function() {
-                return this.headStyle;
-            },
-            headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
-            },
-            bodyRender: (row) => row.insurance ? Neo.Helper.Str.capitalize(row.insurance) : empty(),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
                 return this.bodyRender(row);
             },
         }],
@@ -1083,7 +1201,7 @@ const Locale = document.documentElement.lang,
             bodyPdfStyle: function() {
                 return this.bodyStyle;
             },
-            bodyRender: (row) => Neo.Helper.trans(Neo.Helper.Str.capitalize(row.recurrence)),
+            bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.recurrence)),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -1148,6 +1266,17 @@ const Locale = document.documentElement.lang,
             Print,
             Clear
         }) => [{
+            name: "ref",
+            text: Neo.Helper.trans("Ref"),
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+        }, {
             name: "client",
             text: Neo.Helper.trans("Client"),
             headPdfStyle: {
@@ -1204,7 +1333,6 @@ const Locale = document.documentElement.lang,
                 background: Background,
                 color: Color
             },
-            visible: false,
         }, {
             name: "drop_off",
             text: Neo.Helper.trans("Drop-off Location"),
@@ -1308,30 +1436,6 @@ const Locale = document.documentElement.lang,
             },
             bodyRender: (row) => Neo.Helper.Str.capitalize(Neo.Helper.trans(row.status)),
             bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-        }, {
-            name: "insurance",
-            text: Neo.Helper.trans('Insurance'),
-            headStyle: {
-                maxWidth: 500,
-            },
-            visible: false,
-            bodyStyle: function() {
-                return this.headStyle;
-            },
-            headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
-            },
-            bodyRender: (row) => row.insurance ? Neo.Helper.Str.capitalize(row.insurance) : empty(),
-            bodyPdfRender: function(row) {
-                return this.bodyRender(row);
-            },
-            bodyCsvRender: function(row) {
                 return this.bodyRender(row);
             },
         }, {
@@ -1453,6 +1557,17 @@ const Locale = document.documentElement.lang,
             Patch,
             Print,
         }) => [{
+            name: "ref",
+            text: Neo.Helper.trans("Reservation"),
+            headStyle: { width: 120, textAlign: "center", },
+            bodyStyle: { width: 120, textAlign: "center", },
+            headPdfStyle: function() {
+                return {...this.headStyle, background: Background, color: Color };
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+        }, {
             name: "client",
             text: Neo.Helper.trans("Client"),
             headPdfStyle: {
@@ -1793,6 +1908,7 @@ function ReservationInitializer({ Client, Vehicle, Colors }) {
         sclient = document.querySelector("neo-autocomplete[name=secondary_client]"),
         vehicle = document.querySelector("neo-autocomplete[name=vehicle]"),
         price = document.querySelector("neo-textbox[name=price]"),
+        milage = document.querySelector("neo-textbox[name=milage]"),
         total = document.querySelector("neo-textbox[name=total]"),
         from_date = document.querySelector("neo-datepicker[name=from_date]"),
         from_time = document.querySelector("neo-timepicker[name=from_time]"),
@@ -1873,6 +1989,7 @@ function ReservationInitializer({ Client, Vehicle, Colors }) {
 
     vehicle.addEventListener("select", e => {
         price.value = Neo.Helper.Str.money(e.detail.data.price, 3);
+        milage.value = e.detail.data.milage;
         calc();
     });
 
@@ -2192,19 +2309,19 @@ async function SceneInitializer({ Line, Search, Data }) {
 }
 
 async function CalendarInitializer({ Calendar, Data }) {
-    const period = document.querySelector("[name=period]").content;
-
     const data = await getData(Data);
     var _calendar = new FullCalendar.Calendar(Calendar, {
         headerToolbar: {
             "left": "title",
             "right": "today,dayGridMonth,timeGridWeek,timeGridDay prev,next"
         },
-        initialView: period == "month" ? "dayGridMonth" : (period == "week" ? "timeGridWeek" : "timeGridDay"),
+        initialView: "dayGridMonth",
+        firstDay: 1,
         allDaySlot: false,
-        timeZone: 'UTC',
+        timeZone: 'Africa/Casablanc',
         locale: document.documentElement.lang,
         events: data,
+        locale: Locale
     });
     _calendar.render();
 
@@ -2232,7 +2349,7 @@ function StateInitializer(colors) {
     var active = [];
 
     function row(name, color) {
-        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="ps-8 p-4 text-lg text-x-black"><div class="flex items-center gap-2 flex-wrap"><span class="block w-10 h-6 rounded-x-thin" style="background:${color}"></span><span class="block">${Neo.Helper.trans(Neo.Helper.Str.capitalize(name))}</span></div></td><td class="w-[80px] pe-8 p-4 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
+        div.innerHTML = `<tr class="border-t border-t-x-shade"><td class="ps-8 p-4 text-lg text-x-black"><div class="flex items-center gap-2 flex-wrap"><span class="block w-10 h-6 rounded-x-thin" style="background:${color}"></span><span class="block">${Neo.Helper.Str.capitalize(Neo.Helper.trans(name))}</span></div></td><td class="w-[80px] pe-8 p-4 text-base text-x-black text-center"><button class="block mx-auto px-2 py-1 bg-red-500 rounded-x-thin text-x-white outline-none hover:bg-red-400 focus:bg-red-400"><svg class="w-[1.2rem] h-[1.2rem] pointer-events-none" fill="currentColor" viewBox="0 -960 960 960"><path d="M267-74q-55.73 0-95.86-39.44Q131-152.88 131-210v-501H68v-136h268v-66h287v66h269v136h-63v501q0 57.12-39.44 96.56Q750.13-74 693-74H267Zm67-205h113v-363H334v363Zm180 0h113v-363H514v363Z" /></svg></button></td></tr>`;
         const tr = div.querySelector("tr");
         tr.querySelector("button").addEventListener("click", e => {
             e.preventDefault();
@@ -2301,7 +2418,8 @@ function StateInitializer(colors) {
 }
 
 function StateScene({ Colors, Data }) {
-    const trigger = document.querySelector("#printer"),
+    const img = document.querySelector("#img")
+    trigger = document.querySelector("#printer"),
         printer = document.querySelector("neo-printer");
 
     trigger.addEventListener("click", () => printer.print());
@@ -2317,7 +2435,31 @@ function StateScene({ Colors, Data }) {
         });
     }
 
-    document.addEventListener("DOMContentLoaded", () => setTimeout(() => {
-        printer.print();
-    }, 1000));
+    function print() {
+        setTimeout(() => {
+            printer.print();
+        }, 250);
+    }
+
+    if (img.complete) print();
+    img.addEventListener("load", print);
 }
+
+const form = document.querySelector("form[require]");
+
+if (form) form.addEventListener("submit", e => {
+    e.preventDefault();
+    const fields = form.querySelectorAll("[require]"),
+        errors = [];
+    fields.forEach(f => {
+        if (String(f.value).trim()) f.classList.remove("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+        else f.classList.add("outline", "outline-2", "-outline-offset-2", "outline-red-400");
+        errors.push(String(f.value).trim() ? true : false);
+    });
+
+    if (!errors.includes(false)) {
+        const tab = document.querySelector("[data-tabs]");
+        tab && tab.classList.add("on");
+        form.submit();
+    }
+});

@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="NOINDEX">
     <meta name="currency" content="{{ Core::$UNIT }}" />
-    <meta name="period" content="{{ Core::getSetting('period') }}" />
     @include('shared.base.styles', ['type' => 'admin'])
     @yield('styles')
     <title>@yield('title')</title>
@@ -27,7 +26,7 @@
             </div>
         </main>
     </neo-wrapper>
-    <neo-toaster horisontal="end" vertical="start" class="full-size"></neo-toaster>
+    <neo-toaster horisontal="end" vertical="end" class="full-size"></neo-toaster>
     @include('shared.base.scripts', ['type' => 'admin'])
     @yield('scripts')
 </body>

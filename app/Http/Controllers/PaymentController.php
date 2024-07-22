@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Functions\Core;
-use App\Models\Vehicle;
 use App\Models\Reservation;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 
 class PaymentController extends Controller
@@ -31,7 +28,7 @@ class PaymentController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Reservation::with('Vehicle', 'Client')->where('status', '!=', 'completed')->orderBy('id', 'DESC');
+        $data = Reservation::with('Vehicle', 'Client')->where('company', Core::company()->id)->where('status', '!=', 'completed')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }

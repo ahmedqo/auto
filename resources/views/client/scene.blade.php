@@ -80,7 +80,7 @@
                     <div class="flex flex-1 flex-col items-center lg:items-end">
                         <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Milage') }}</h2>
                         <p class="text-base text-x-black text-opacity-50">
-                            {{ $work * 100 }} {{ __('Km') }}
+                            {{ $work * Core::company()->milage }} {{ __('Km') }}
                         </p>
                     </div>
                 </li>
@@ -92,12 +92,20 @@
             </h1>
             <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
                 <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Full Name') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ ucwords($data->first_name) }} {{ ucwords($data->last_name) }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Nationality') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ ucwords(__($data->nationality) ?? 'N/A') }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -118,6 +126,14 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
+                            {{ __('License Production Date') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ $data->license_date ?? 'N/A' }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
                             {{ __('Identity') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
@@ -129,7 +145,7 @@
                             {{ __('Identity Type') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->identity_type ?? 'N/A') }}
+                            {{ ucwords(__($data->identity_type) ?? 'N/A') }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -138,6 +154,14 @@
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ ucwords($data->identity_location ?? 'N/A') }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Identity Production Date') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ ucwords($data->identity_date ?? 'N/A') }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -158,14 +182,6 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Nationality') }}
-                        </label>
-                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->nationality ?? 'N/A') }}
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-sm text-x-black font-x-thin">
                             {{ __('Birth Date') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
@@ -177,7 +193,7 @@
                             {{ __('Gender') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->gender ?? 'N/A') }}
+                            {{ ucwords(__($data->gender) ?? 'N/A') }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">

@@ -1,11 +1,11 @@
 @extends('shared.core.base')
-@section('title', __('Preview Payment') . ' #' . $data->id)
+@section('title', __('Preview Payment') . ' ' . $data->ref)
 
 @section('content')
     <div class="flex flex-col gap-2">
         <div class="flex flex-col items-center lg:flex-row lg:justify-between gap-2">
             <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
-                {{ __('Preview Payment') . ' #' . $data->id }}
+                {{ __('Preview Payment') . ' ' . $data->ref }}
             </h1>
             <div class="w-max flex gap-2">
                 <button id="printer" title="{{ __('Print') }}"
@@ -29,6 +29,7 @@
                                 {{ __('Company') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                {{ Core::company()->name }}
                             </td>
                         </tr>
                         <tr>
@@ -36,6 +37,7 @@
                                 {{ __('Email') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                {{ Core::company()->email }}
                             </td>
                         </tr>
                         <tr>
@@ -43,6 +45,7 @@
                                 {{ __('Phone') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                {{ Core::company()->phone }}
                             </td>
                         </tr>
                         <tr>
@@ -50,6 +53,7 @@
                                 {{ __('Address') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                {{ Core::company()->address }}
                             </td>
                         </tr>
                     </table>
@@ -72,7 +76,7 @@
                                 {{ __('Identity') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->Client->identity_type ? '(' . ucwords($data->Client->identity_type) . ')' : '' }}
+                                {{ $data->Client->identity_type ? '(' . ucwords(__($data->Client->identity_type)) . ')' : '' }}
                                 {{ $data->Client->identity }}
                             </td>
                         </tr>
@@ -176,7 +180,7 @@
     </div>
     <neo-printer>
         <h1 class="text-center text-3xl text-x-black font-x-thin mb-6">
-            {{ __('Payment') . ' #' . $data->id }}
+            {{ __('Payment') . ' ' . $data->ref }}
         </h1>
         <div class="w-full grid grid-rows-1 grid-cols-12 gap-8 p-4">
             <div class="w-full border border-x-shade rounded-x-thin flex flex-col gap-4 p-4 col-span-6">
@@ -189,6 +193,7 @@
                             {{ __('Company') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                            {{ Core::company()->name }}
                         </td>
                     </tr>
                     <tr>
@@ -196,6 +201,7 @@
                             {{ __('Email') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                            {{ Core::company()->email }}
                         </td>
                     </tr>
                     <tr>
@@ -203,6 +209,7 @@
                             {{ __('Phone') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                            {{ Core::company()->phone }}
                         </td>
                     </tr>
                     <tr>
@@ -210,6 +217,7 @@
                             {{ __('Address') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                            {{ Core::company()->address }}
                         </td>
                     </tr>
                 </table>
@@ -232,7 +240,7 @@
                             {{ __('Identity') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->Client->identity_type ? '(' . ucwords($data->Client->identity_type) . ')' : '' }}
+                            {{ $data->Client->identity_type ? '(' . ucwords(__($data->Client->identity_type)) . ')' : '' }}
                             {{ $data->Client->identity }}
                         </td>
                     </tr>

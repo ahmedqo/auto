@@ -336,10 +336,12 @@ neo-datavisualizer::part(title) {
     display: none;
 }
 
+[data-tabs].active.on svg,
 [data-tabs].active~[data-tabs] svg {
     display: block;
 }
 
+[data-tabs].active.on span,
 [data-tabs].active~[data-tabs] span {
     display: none;
 }

@@ -102,7 +102,7 @@
                     <div class="flex flex-1 flex-col items-center lg:items-end">
                         <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Milage') }}</h2>
                         <p class="text-base text-x-black text-opacity-50">
-                            {{ $data->milage + $work * 100 }} {{ __('Km') }}
+                            {{ $work * Core::company()->milage }} {{ __('Km') }}
                         </p>
                     </div>
                 </li>
@@ -135,7 +135,7 @@
                             {{ __('Transmission') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->transmission) }}
+                            {{ ucwords(__($data->transmission)) }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1 lg:col-span-2">
@@ -143,7 +143,7 @@
                             {{ __('Fuel') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->fuel) }}
+                            {{ ucwords(__($data->fuel)) }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1 lg:col-span-2">

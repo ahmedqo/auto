@@ -6,8 +6,6 @@ use App\Functions\Core;
 use App\Traits\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Support\Facades\Storage;
 
 class Charge extends Model
 {
@@ -22,7 +20,8 @@ class Charge extends Model
         'vehicle',
         'name',
         'details',
-        'cost'
+        'cost',
+        'company',
     ];
 
     protected $searchable = [
@@ -31,6 +30,20 @@ class Charge extends Model
         'details',
         'cost'
     ];
+
+    protected static function booted()
+    {
+        self::saving(function ($Self) {
+            if (is_null($Self->company)) {
+                $Self->company = Core::company()->id;
+            }
+        });
+    }
+
+    public function Company()
+    {
+        return $this->hasOne(Company::class, 'id');
+    }
 
     public function Vehicle()
     {

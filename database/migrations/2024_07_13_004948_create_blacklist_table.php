@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('blacklist', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company')->nullable();
             $table->unsignedBigInteger('client')->nullable();
             $table->text('details')->nullable();
             $table->timestamps();
 
+            $table->foreign('company')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('client')->references('id')->on('clients')->onUpdate('cascade')->onDelete('set null');
         });
     }

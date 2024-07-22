@@ -7,7 +7,7 @@
             {{ __('Edit Charge') . ' #' . $data->id }}
         </h1>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <form action="{{ route('actions.charges.patch', $data->id) }}" method="POST" enctype="multipart/form-data"
+            <form require action="{{ route('actions.charges.patch', $data->id) }}" method="POST" enctype="multipart/form-data"
                 class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
@@ -15,22 +15,23 @@
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Vehicle') }} (*)
                     </label>
-                    <neo-autocomplete set-query="name" set-value="id" placeholder="{{ __('Vehicle') }} (*)" name="vehicle"
-                        value="{{ $data->vehicle }}" query="{{ $data->vehicle ? $data->Vehicle->name : null }}">
+                    <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Vehicle') }} (*)"
+                        name="vehicle" value="{{ $data->vehicle }}"
+                        query="{{ $data->vehicle ? $data->Vehicle->name : null }}">
                     </neo-autocomplete>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Name') }} (*)
                     </label>
-                    <neo-textbox placeholder="{{ __('Name') }} (*)" name="name"
+                    <neo-textbox require placeholder="{{ __('Name') }} (*)" name="name"
                         value="{{ $data->name }}"></neo-textbox>
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Cost') }} (*)
                     </label>
-                    <neo-textbox type="number" placeholder="{{ __('Cost') }} (*)" name="cost"
+                    <neo-textbox require type="number" placeholder="{{ __('Cost') }} (*)" name="cost"
                         value="{{ $data->cost }}"></neo-textbox>
                 </div>
                 <div class="flex flex-col gap-1 lg:col-span-2">

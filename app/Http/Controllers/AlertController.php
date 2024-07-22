@@ -29,7 +29,7 @@ class AlertController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Alert::with('Vehicle')->orderBy('id', 'DESC');
+        $data = Alert::with('Vehicle')->where('company', Core::company()->id)->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -59,7 +59,7 @@ class AlertController extends Controller
             'date' =>  Carbon::parse($Request->date . ' ' . $Request->time),
         ]);
 
-        Alert::create(Core::fillable(Alert::class, $Request));
+        Alert::create($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -90,7 +90,7 @@ class AlertController extends Controller
         ]);
 
         $Alert = Alert::findorfail($id);
-        $Alert->update(Core::fillable(Alert::class, $Request));
+        $Alert->update($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

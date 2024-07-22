@@ -7,8 +7,8 @@
             {{ __('Edit Vehicle') . ' #' . $data->id }}
         </h1>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <form action="{{ route('actions.vehicles.patch', $data->id) }}" method="POST" enctype="multipart/form-data"
-                class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
+            <form require action="{{ route('actions.vehicles.patch', $data->id) }}" method="POST"
+                enctype="multipart/form-data" class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
                 <div class="w-full flex flex-row-reverse flex-wrap items-center justify-between lg:justify-around">
@@ -84,7 +84,7 @@
                             @foreach (Core::transmissionList() as $transmission)
                                 <neo-select-item value="{{ $transmission }}"
                                     {{ $transmission == $data->transmission ? 'active' : '' }}>
-                                    {{ __(ucwords($transmission)) }}
+                                    {{ ucwords(__($transmission)) }}
                                 </neo-select-item>
                             @endforeach
                         </neo-select>
@@ -96,7 +96,7 @@
                         <neo-select require placeholder="{{ __('Fuel') }} (*)" name="fuel">
                             @foreach (Core::fuelList() as $fuel)
                                 <neo-select-item value="{{ $fuel }}" {{ $fuel == $data->fuel ? 'active' : '' }}>
-                                    {{ __(ucwords($fuel)) }}
+                                    {{ ucwords(__($fuel)) }}
                                 </neo-select-item>
                             @endforeach
                         </neo-select>

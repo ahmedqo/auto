@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Functions\Core;
 use App\Models\Blacklist;
-use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Str;
 
 class BlacklistController extends Controller
 {
@@ -30,7 +28,7 @@ class BlacklistController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Blacklist::with('Client')->orderBy('id', 'DESC');
+        $data = Blacklist::with('Client')->where('company', Core::company()->id)->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -51,7 +49,7 @@ class BlacklistController extends Controller
             ]);
         }
 
-        Blacklist::create(Core::fillable(Blacklist::class, $Request));
+        Blacklist::create($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -72,7 +70,7 @@ class BlacklistController extends Controller
             ]);
         }
 
-        Blacklist::findorfail($id)->update(Core::fillable(Blacklist::class, $Request));
+        Blacklist::findorfail($id)->update($Request->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('charges', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company')->nullable();
             $table->unsignedBigInteger('vehicle')->nullable();
             $table->string('name');
             $table->float('cost', 15, 5);
             $table->text('details')->nullable();
             $table->timestamps();
 
+            $table->foreign('company')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('vehicle')->references('id')->on('vehicles')->onUpdate('cascade')->onDelete('set null');
         });
     }

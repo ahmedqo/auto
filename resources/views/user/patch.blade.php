@@ -7,13 +7,13 @@
             {{ __('Edit User') . ' #' . $data->id }}
         </h1>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <form action="{{ route('actions.users.patch', $data->id) }}" method="POST"
+            <form require action="{{ route('actions.users.patch', $data->id) }}" method="POST"
                 class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
                 <div class="w-full flex flex-row-reverse flex-wrap items-center justify-between lg:justify-around">
                     @php
-                        $len = 3;
+                        $len = 4;
                     @endphp
                     @for ($i = $len; $i > 0; $i--)
                         <button type="button" data-tabs={{ $i }}
@@ -61,7 +61,7 @@
                             value="{{ $data->phone }}"></neo-textbox>
                     </div>
                 </div>
-                <div data-view="3" class="w-full hidden grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                <div data-view="3" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Gender') }}
@@ -82,12 +82,14 @@
                         <neo-datepicker {{ !Core::lang('ar') ? 'full-day=3' : '' }} placeholder="{{ __('Birth Date') }}"
                             name="birth_date" format="dddd dd mmmm yyyy" value="{{ $data->birth_date }}"></neo-datepicker>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-2">
+                </div>
+                <div data-view="4" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
+                    <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Address') }}
                         </label>
                         <neo-textarea auto="false" placeholder="{{ __('Address') }}" name="address"
-                            value="{{ $data->address }}" rows="2"></neo-textarea>
+                            value="{{ $data->address }}" rows="5"></neo-textarea>
                     </div>
                 </div>
                 <div class="w-full flex">

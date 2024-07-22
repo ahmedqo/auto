@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Functions\Core;
 use App\Traits\HasSearch;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +31,7 @@ class Reservation extends Model
         'payment',
         'state',
         'status',
+        'company',
     ];
 
     protected $searchable = [
@@ -62,6 +65,21 @@ class Reservation extends Model
         'total',
         'status',
     ];
+
+    protected static function booted()
+    {
+        self::saving(function ($Self) {
+            $Self->ref =  Carbon::parse($Self->created_at)->format('Y-m') . $Self->id;
+            if (is_null($Self->company)) {
+                $Self->company = Core::company()->id;
+            }
+        });
+    }
+
+    public function Company()
+    {
+        return $this->hasOne(Company::class, 'id');
+    }
 
     public function Client()
     {

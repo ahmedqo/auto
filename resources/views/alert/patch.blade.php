@@ -7,7 +7,7 @@
             {{ __('Edit Alert') . ' #' . $data->id }}
         </h1>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <form action="{{ route('actions.alerts.patch', $data->id) }}" method="POST" enctype="multipart/form-data"
+            <form require action="{{ route('actions.alerts.patch', $data->id) }}" method="POST" enctype="multipart/form-data"
                 class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                 @csrf
                 @method('patch')
@@ -59,8 +59,9 @@
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Date') }} (*)
                         </label>
-                        <neo-datepicker require full-day="3" placeholder="{{ __('Date') }} (*)" name="date"
-                            value="{{ $data->date ?? '#now' }}" format="dddd dd mmmm yyyy"></neo-datepicker>
+                        <neo-datepicker require {{ !Core::lang('ar') ? 'full-day=3' : '' }}
+                            placeholder="{{ __('Date') }} (*)" name="date" value="{{ $data->date ?? '#now' }}"
+                            format="dddd dd mmmm yyyy"></neo-datepicker>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
@@ -84,7 +85,7 @@
                             @foreach (Core::periodList() as $recurrence)
                                 <neo-select-item value="{{ $recurrence }}"
                                     {{ $recurrence == $data->recurrence ? 'active' : '' }}>
-                                    {{ __(ucwords($recurrence)) }}
+                                    {{ ucwords(__($recurrence)) }}
                                 </neo-select-item>
                             @endforeach
                         </neo-select>

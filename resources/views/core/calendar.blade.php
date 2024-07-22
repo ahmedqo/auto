@@ -23,7 +23,7 @@
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/locales-all.global.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/locales-all.global.min.js"></script>
     <script>
         CalendarInitializer({
             Data: "{{ route('actions.core.calendar') }}",

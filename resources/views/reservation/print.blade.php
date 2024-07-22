@@ -1,5 +1,5 @@
 @extends('shared.core.base')
-@section('title', __('Preview Reservation') . ' ' . Carbon::parse($data->created_at)->format('Y-m') . $data->id)
+@section('title', __('Preview Reservation') . ' ' . $data->ref)
 
 @php
     $state = collect(json_decode($data->state));
@@ -10,7 +10,7 @@
     <div class="flex flex-col gap-2">
         <div class="flex flex-col items-center lg:flex-row lg:justify-between gap-2">
             <h1 class="text-center lg:text-start text-xl lg:text-2xl text-x-black font-x-thin">
-                {{ __('Preview Reservation') . ' ' . Carbon::parse($data->created_at)->format('Y-m') . $data->id }}
+                {{ __('Preview Reservation') . ' ' . $data->ref }}
             </h1>
             <div class="w-max flex gap-2">
                 <button id="printer" title="{{ __('Print') }}"
@@ -34,6 +34,7 @@
                                 {{ __('Company') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                {{ Core::company()->name }}
                             </td>
                         </tr>
                         <tr>
@@ -41,6 +42,7 @@
                                 {{ __('Email') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                {{ Core::company()->email }}
                             </td>
                         </tr>
                         <tr>
@@ -48,6 +50,7 @@
                                 {{ __('Phone') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                {{ Core::company()->phone }}
                             </td>
                         </tr>
                         <tr>
@@ -55,6 +58,7 @@
                                 {{ __('Address') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                {{ Core::company()->address }}
                             </td>
                         </tr>
                     </table>
@@ -77,7 +81,7 @@
                                 {{ __('Identity') }}
                             </td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->Client->identity_type ? '(' . ucwords($data->Client->identity_type) . ')' : '' }}
+                                {{ $data->Client->identity_type ? '(' . ucwords(__($data->Client->identity_type)) . ')' : '' }}
                                 {{ $data->Client->identity }}
                             </td>
                         </tr>
@@ -126,7 +130,7 @@
                                     {{ __('Transmission') }}
                                 </label>
                                 <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                    {{ ucwords($data->Vehicle->transmission) }}
+                                    {{ ucwords(__($data->Vehicle->transmission)) }}
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
@@ -134,7 +138,7 @@
                                     {{ __('Fuel') }}
                                 </label>
                                 <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                    {{ ucwords($data->Vehicle->fuel) }}
+                                    {{ ucwords(__($data->Vehicle->fuel)) }}
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
@@ -147,10 +151,10 @@
                             </div>
                             <div class="flex flex-col gap-1">
                                 <label class="text-sm text-x-black font-x-thin">
-                                    {{ __('Milage') }}
+                                    {{ __('Milage Per Day') }}
                                 </label>
                                 <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                    {{ $data->Vehicle->milage }}
+                                    {{ Core::company()->milage }} {{ __('Km') }}
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
@@ -228,19 +232,23 @@
                                 </g>
                             </svg>
                         </div>
-                        @if ($state->count())
-                            <ul class="w-max flex flex-col gap-2 my-auto">
-                                @foreach ($state as $i)
-                                    <li class="flex items-center gap-2 flex-wrap">
-                                        <span class="block w-10 h-6 rounded-x-thin"
-                                            style="background:{{ $color[$i->type] }}"></span>
-                                        <span class="block">
-                                            {{ ucwords(__($i->type)) }}
-                                        </span>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        <ul class="w-max flex flex-col gap-2 my-auto">
+                            <li class="flex items-center gap-2 flex-wrap">
+                                <span class="block w-10 h-6 rounded-x-thin" style="background:#c8f6c8"></span>
+                                <span class="block">
+                                    {{ ucwords(__('good condition')) }}
+                                </span>
+                            </li>
+                            @foreach ($state as $i)
+                                <li class="flex items-center gap-2 flex-wrap">
+                                    <span class="block w-10 h-6 rounded-x-thin"
+                                        style="background:{{ $color[$i->type] }}"></span>
+                                    <span class="block">
+                                        {{ ucwords(__($i->type)) }}
+                                    </span>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
                 <div class="w-full flex flex-col gap-4 lg:col-span-5 mt-10">
@@ -277,7 +285,7 @@
     </div>
     <neo-printer>
         <h1 class="text-center text-3xl text-x-black font-x-thin mb-6">
-            {{ __('Reservation') . ' ' . Carbon::parse($data->created_at)->format('Y-m') . $data->id }}
+            {{ __('Reservation') . ' ' . $data->ref }}
         </h1>
         <div class="w-full grid grid-rows-1 grid-cols-12 gap-4 p-4">
             <div class="w-full border border-x-shade rounded-x-thin flex flex-col gap-2 p-4 col-span-6">
@@ -290,6 +298,7 @@
                             {{ __('Company') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                            {{ Core::company()->name }}
                         </td>
                     </tr>
                     <tr>
@@ -297,6 +306,7 @@
                             {{ __('Email') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                            {{ Core::company()->email }}
                         </td>
                     </tr>
                     <tr>
@@ -304,6 +314,7 @@
                             {{ __('Phone') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                            {{ Core::company()->phone }}
                         </td>
                     </tr>
                     <tr>
@@ -311,6 +322,7 @@
                             {{ __('Address') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                            {{ Core::company()->address }}
                         </td>
                     </tr>
                 </table>
@@ -333,7 +345,7 @@
                             {{ __('Identity') }}
                         </td>
                         <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->Client->identity_type ? '(' . ucwords($data->Client->identity_type) . ')' : '' }}
+                            {{ $data->Client->identity_type ? '(' . ucwords(__($data->Client->identity_type)) . ')' : '' }}
                             {{ $data->Client->identity }}
                         </td>
                     </tr>
@@ -382,7 +394,7 @@
                                 {{ __('Transmission') }}
                             </label>
                             <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                {{ ucwords($data->Vehicle->transmission) }}
+                                {{ ucwords(__($data->Vehicle->transmission)) }}
                             </div>
                         </div>
                         <div class="flex flex-col gap-1">
@@ -390,7 +402,7 @@
                                 {{ __('Fuel') }}
                             </label>
                             <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                {{ ucwords($data->Vehicle->fuel) }}
+                                {{ ucwords(__($data->Vehicle->fuel)) }}
                             </div>
                         </div>
                         <div class="flex flex-col gap-1">
@@ -403,10 +415,10 @@
                         </div>
                         <div class="flex flex-col gap-1">
                             <label class="text-sm text-x-black font-x-thin">
-                                {{ __('Milage') }}
+                                {{ __('Milage Per Day') }}
                             </label>
                             <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                                {{ $data->Vehicle->milage }}
+                                {{ Core::company()->milage }} {{ __('Km') }}
                             </div>
                         </div>
                         <div class="flex flex-col gap-1">
@@ -473,7 +485,7 @@
                 </h2>
                 <div class="w-full flex flex-wrap border border-x-shade rounded-x-thin p-6 gap-4">
                     <div class="flex-1 w-0 relative">
-                        <img src="{{ asset('img/state.png') }}" class="block w-full" />
+                        <img id="img" src="{{ asset('img/state.png') }}" class="block w-full" />
                         <svg viewBox="0 0 819.000000 476.000000" class="block w-full h-full absolute inset-0">
                             <g transform="translate(0.000000,476.000000) scale(0.100000,-0.100000)" fill="transparent"
                                 stroke="none">
@@ -484,19 +496,23 @@
                             </g>
                         </svg>
                     </div>
-                    @if ($state->count())
-                        <ul class="w-max flex flex-col gap-2 my-auto">
-                            @foreach ($state as $i)
-                                <li class="flex items-center gap-2 flex-wrap">
-                                    <span class="block w-10 h-6 rounded-x-thin"
-                                        style="background:{{ $color[$i->type] }}"></span>
-                                    <span class="block">
-                                        {{ ucwords(__($i->type)) }}
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
+                    <ul class="w-max flex flex-col gap-2 my-auto">
+                        <li class="flex items-center gap-2 flex-wrap">
+                            <span class="block w-10 h-6 rounded-x-thin" style="background:#c8f6c8"></span>
+                            <span class="block">
+                                {{ ucwords(__('good condition')) }}
+                            </span>
+                        </li>
+                        @foreach ($state as $i)
+                            <li class="flex items-center gap-2 flex-wrap">
+                                <span class="block w-10 h-6 rounded-x-thin"
+                                    style="background:{{ $color[$i->type] }}"></span>
+                                <span class="block">
+                                    {{ ucwords(__($i->type)) }}
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
             <div class="w-full flex flex-col gap-4 col-span-5 mt-8">
