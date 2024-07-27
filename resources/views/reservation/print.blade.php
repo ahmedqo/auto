@@ -57,7 +57,7 @@
                             </td>
                             <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->pick_up ? ucwords($data->pick_up) : ucwords(Core::company()->address) . ' ' . ucwords(Core::company()->city) . ' ' . Core::company()->zipcode }}
+                                {{ $data->pick_up ? ucwords($data->pick_up) : ucwords(Core::company()->address) . ' ' . ucwords(__(Core::company()->city)) . ' ' . Core::company()->zipcode }}
                             </td>
                         </tr>
                         <tr>
@@ -66,7 +66,7 @@
                             </td>
                             <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->drop_off ? ucwords($data->drop_off) : ucwords(Core::company()->address) . ' ' . ucwords(Core::company()->city) . ' ' . Core::company()->zipcode }}
+                                {{ $data->drop_off ? ucwords($data->drop_off) : ucwords(Core::company()->address) . ' ' . ucwords(__(Core::company()->city)) . ' ' . Core::company()->zipcode }}
                             </td>
                         </tr>
                         <tr>
@@ -449,7 +449,7 @@
                         </td>
                         <td class="w-4 text-sm text-x-black font-x-thin">:</td>
                         <td class="text-sm text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->pick_up ? ucwords($data->pick_up) : ucwords(Core::company()->address) . ' ' . ucwords(Core::company()->city) . ' ' . Core::company()->zipcode }}
+                            {{ $data->pick_up ? ucwords($data->pick_up) : ucwords(Core::company()->address) . ' ' . ucwords(__(Core::company()->city)) . ' ' . Core::company()->zipcode }}
                         </td>
                     </tr>
                     <tr>
@@ -458,7 +458,7 @@
                         </td>
                         <td class="w-4 text-sm text-x-black font-x-thin">:</td>
                         <td class="text-sm text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->drop_off ? ucwords($data->drop_off) : ucwords(Core::company()->address) . ' ' . ucwords(Core::company()->city) . ' ' . Core::company()->zipcode }}
+                            {{ $data->drop_off ? ucwords($data->drop_off) : ucwords(Core::company()->address) . ' ' . ucwords(__(Core::company()->city)) . ' ' . Core::company()->zipcode }}
                         </td>
                     </tr>
                     <tr>
@@ -835,7 +835,7 @@
                 <div class="w-max text-x-black font-x-thin text-xs">
                     <span>{{ __('Address') }}:</span>
                     <span class="text-x-black text-opacity-70">
-                        {{ ucwords(Core::company()->address) }} {{ ucwords(Core::company()->city) }}
+                        {{ ucwords(Core::company()->address) }} {{ ucwords(__(Core::company()->city)) }}
                         {{ Core::company()->zipcode }}
                     </span>
                 </div>

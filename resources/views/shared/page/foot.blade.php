@@ -24,7 +24,7 @@
         <h3>
             <span>{{ __('Address') }}:</span>
             <span>
-                {{ ucwords(Core::company()->address) }} {{ ucwords(Core::company()->city) }}
+                {{ ucwords(Core::company()->address) }} {{ ucwords(__(Core::company()->city)) }}
                 {{ Core::company()->zipcode }}
             </span>
         </h3>

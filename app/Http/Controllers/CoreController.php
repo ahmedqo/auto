@@ -130,7 +130,7 @@ class CoreController extends Controller
 
         Alert::with('Vehicle')->where('company', Core::company()->id)->get()->map(function ($item) use (&$alerts, &$dates) {
             $data = [
-                'title' => ucwords($item->Vehicle->brand) . ' ' . ucwords($item->Vehicle->model) . ' ' . $item->Vehicle->year . ' (' . strtoupper($item->Vehicle->registration) . ')',
+                'title' => ucwords(__($item->Vehicle->brand)) . ' ' . ucwords(__($item->Vehicle->model)) . ' ' . $item->Vehicle->year . ' (' . strtoupper($item->Vehicle->registration) . ')',
                 'color' => '#458cfe',
                 'groupId' => 'alert',
             ];
@@ -145,12 +145,12 @@ class CoreController extends Controller
             if ($item->unit !== 'mileage')
                 $alerts->push(
                     array_merge([
-                        'start' => Carbon::parse($item->viewed_at)->subDays($item->recurrence * $dates[$item->unit]),
-                        'end' => Carbon::parse($item->viewed_at)->subDays($item->recurrence * $dates[$item->unit])
+                        'start' => Carbon::parse($item->viewed_at)->subDays($item->recurrence * $dates[$item->unit])->format('Y-m-d'),
+                        'end' => Carbon::parse($item->viewed_at)->subDays($item->recurrence * $dates[$item->unit])->format('Y-m-d')
                     ], $data),
                     array_merge([
-                        'start' => Carbon::parse($item->viewed_at)->addDays($item->recurrence * $dates[$item->unit]),
-                        'end' => Carbon::parse($item->viewed_at)->addDays($item->recurrence * $dates[$item->unit])
+                        'start' => Carbon::parse($item->viewed_at)->addDays($item->recurrence * $dates[$item->unit])->format('Y-m-d'),
+                        'end' => Carbon::parse($item->viewed_at)->addDays($item->recurrence * $dates[$item->unit])->format('Y-m-d')
                     ], $data)
                 );
         });
@@ -176,7 +176,7 @@ class CoreController extends Controller
                 }, 0);
 
                 $vehicle =
-                    ucwords($Vehicle->brand) . ' ' . ucwords($Vehicle->model) . ' ' . $Vehicle->year . ' (' . strtoupper($Vehicle->registration) . ')';
+                    ucwords(__($Vehicle->brand)) . ' ' . ucwords(__($Vehicle->model)) . ' ' . $Vehicle->year . ' (' . strtoupper($Vehicle->registration) . ')';
                 $price = $Vehicle->price;
                 $mileage = $period * Core::company()->mileage;
 

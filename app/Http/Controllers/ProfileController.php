@@ -83,7 +83,7 @@ class ProfileController extends Controller
         User::findorfail($data->id)->update($Request->all());
 
         return Redirect::back()->with([
-            'message' => __('Updated Successfully'),
+            'message' => __('Updated successfully'),
             'type' => 'success'
         ]);
     }
