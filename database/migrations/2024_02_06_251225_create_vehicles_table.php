@@ -16,20 +16,25 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company')->nullable();
-            $table->string('slug');
-            $table->string('name');
+            $table->date('circulation');
+            $table->string('brand');
+            $table->string('model');
+            $table->string('horsepower');
+            $table->float('horsepower_tax', 15, 5);
+            $table->string('insurance');
+            $table->float('insurance_cost', 15, 5);
+            $table->string('registration');
+            $table->integer('year');
             $table->float('price', 15, 5);
             $table->integer('passengers');
-            $table->float('milage', 15, 5);
+            $table->float('mileage', 15, 5);
             $table->integer('doors');
             $table->integer('cargo');
             $table->string('transmission');
             $table->string('fuel');
-            $table->text('details')->nullable();
+            // $table->text('details')->nullable();
             $table->timestamps();
 
-            $table->unique(['company', 'slug']);
-            $table->unique(['company', 'name']);
             $table->foreign('company')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
         });
     }

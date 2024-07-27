@@ -25,7 +25,12 @@ class Charge extends Model
     ];
 
     protected $searchable = [
-        'vehicle.name',
+        'vehicle.registration',
+        'vehicle.circulation',
+        'vehicle.horsepower',
+        'vehicle.brand',
+        'vehicle.model',
+        'vehicle.year',
         'name',
         'details',
         'cost'

@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('email')->unique();
             $table->string('phone');
+            $table->string('ice');
+            $table->string('license');
             $table->string('address');
+            $table->string('city');
+            $table->string('zipcode');
             $table->string('period');
-            $table->float('milage', 15, 5);
+            $table->float('mileage', 15, 5);
             $table->timestamps();
         });
     }

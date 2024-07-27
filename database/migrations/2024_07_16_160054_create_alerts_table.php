@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company')->nullable();
             $table->unsignedBigInteger('vehicle')->nullable();
-            $table->string('name');
-            $table->dateTime('date');
-            $table->integer('threshold');
-            $table->string('recurrence');
-            $table->text('details')->nullable();
+            $table->string('consumable');
+            $table->float('recurrence', 15, 5);
+            $table->string('unit');
+            $table->date('date')->nullable();
+            $table->float('threshold', 15, 5);
+            $table->date('viewed_at')->nullable();
             $table->timestamps();
 
             $table->foreign('company')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');

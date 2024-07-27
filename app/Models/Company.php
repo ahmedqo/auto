@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -18,10 +20,32 @@ class Company extends Model
         'name',
         'email',
         'phone',
+        'ice',
+        'license',
         'address',
+        'city',
+        'zipcode',
         'period',
-        'milage',
+        'mileage',
     ];
+
+    protected static function booted()
+    {
+        self::created(function ($Self) {
+            Image::$FILE = request('company_logo');
+            $Self->Image()->create();
+        });
+
+        self::deleted(function ($Self) {
+            Storage::disk('public')->delete(implode('/', [Image::$STORAGE, $Self->Image->storage]));
+            $Self->Image->delete();
+        });
+    }
+
+    public function Image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'target');
+    }
 
     public function Alerts()
     {

@@ -1,6 +1,6 @@
 <div slot="header" id="header-content">
     <div id="content">
-        <img id="logo" src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" />
+        <img id="logo" src="{{ Core::company()->Image->Link }}" />
     </div>
     <div id="separater">
         <div></div>

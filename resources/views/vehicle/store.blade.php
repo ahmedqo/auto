@@ -28,36 +28,70 @@
                         @endif
                     @endfor
                 </div>
-                <div data-view="1" class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
+                <div data-view="1" class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Name') }} (*)
+                            {{ __('Registration') }} (*)
                         </label>
-                        <neo-textbox require placeholder="{{ __('Name') }} (*)" name="name"
-                            value="{{ old('name') }}"></neo-textbox>
+                        <neo-textbox require placeholder="{{ __('Registration') }} (*)" name="registration"
+                            value="{{ old('registration') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Price') }} (*)
+                            {{ __('Year') }} (*)
                         </label>
-                        <neo-textbox require type="number" placeholder="{{ __('Price') }} (*)" name="price"
-                            value="{{ old('price') }}"></neo-textbox>
+                        <neo-textbox require type="number" placeholder="{{ __('Year') }} (*)" name="year"
+                            value="{{ old('year') }}"></neo-textbox>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Brand') }} (*)
+                        </label>
+                        <neo-select require search placeholder="{{ __('Brand') }} (*)" name="brand">
+                            @foreach (array_keys(Core::brandList()) as $brand)
+                                <neo-select-item value="{{ $brand }}" {{ $brand == old('brand') ? 'active' : '' }}>
+                                    {{ ucwords(__($brand)) }}
+                                </neo-select-item>
+                            @endforeach
+                        </neo-select>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Model') }} (*)
+                        </label>
+                        <neo-select {{ old('model') && old('brand') ? '' : 'disable' }} require search
+                            placeholder="{{ __('Model') }} (*)" name="model">
+                            @if (old('model') && old('brand'))
+                                @foreach (Core::brandList()[ld('brand')] as $model)
+                                    <neo-select-item value="{{ $model }}"
+                                        {{ $model == old('model') ? 'active' : '' }}>
+                                        {{ ucwords(__($model)) }}
+                                    </neo-select-item>
+                                @endforeach
+                            @endif
+                        </neo-select>
                     </div>
                 </div>
                 <div data-view="2" class="w-full hidden grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Transmission') }} (*)
+                        </label>
+                        <neo-select require placeholder="{{ __('Transmission') }} (*)" name="transmission">
+                            @foreach (Core::transmissionList() as $transmission)
+                                <neo-select-item value="{{ $transmission }}"
+                                    {{ $transmission == old('transmission') ? 'active' : '' }}>
+                                    {{ ucwords(__($transmission)) }}
+                                </neo-select-item>
+                            @endforeach
+                        </neo-select>
+                    </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Passengers') }} (*)
                         </label>
                         <neo-textbox require type="number" placeholder="{{ __('Passengers') }} (*)" name="passengers"
                             value="{{ old('passengers') }}"></neo-textbox>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Milage') }} (*)
-                        </label>
-                        <neo-textbox require type="number" placeholder="{{ __('Milage') }} (*)" name="milage"
-                            value="{{ old('milage') }}"></neo-textbox>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
@@ -74,20 +108,31 @@
                             value="{{ old('cargo') }}"></neo-textbox>
                     </div>
                 </div>
-                <div data-view="3" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
+                <div data-view="3" class="w-full hidden grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Circulation Date') }} (*)
+                        </label>
+                        <neo-datepicker require {{ !Core::lang('ar') ? 'full-day=3' : '' }}
+                            placeholder="{{ __('Circulation Date') }} (*)" name="circulation"
+                            value="{{ old('circulation') ?? '#now' }}" format="dddd dd mmmm yyyy"></neo-datepicker>
+                    </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Transmission') }} (*)
+                            {{ __('Mileage') }} (*)
                         </label>
-                        <neo-select require placeholder="{{ __('Transmission') }} (*)" name="transmission">
-                            @foreach (Core::transmissionList() as $transmission)
-                                <neo-select-item value="{{ $transmission }}"
-                                    {{ $transmission == old('transmission') ? 'active' : '' }}>
-                                    {{ ucwords(__($transmission)) }}
-                                </neo-select-item>
-                            @endforeach
-                        </neo-select>
+                        <neo-textbox require type="number" placeholder="{{ __('Mileage') }} (*)" name="mileage"
+                            value="{{ old('mileage') }}"></neo-textbox>
                     </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Price') }} (*)
+                        </label>
+                        <neo-textbox require type="number" placeholder="{{ __('Price') }} (*)" name="price"
+                            value="{{ old('price') }}"></neo-textbox>
+                    </div>
+                </div>
+                <div data-view="4" class="w-full hidden grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Fuel') }} (*)
@@ -100,22 +145,47 @@
                             @endforeach
                         </neo-select>
                     </div>
-                </div>
-                <div data-view="4" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Details') }}
+                            {{ __('Horse Power') }} (*)
                         </label>
-                        <neo-textarea auto="false" placeholder="{{ __('Details') }}" name="details"
-                            value="{{ old('details') }}" rows="8"></neo-textarea>
+                        <neo-select require placeholder="{{ __('Horse Power') }} (*)" name="horsepower">
+                            @foreach (Core::powerList() as $power)
+                                <neo-select-item value="{{ $power }}"
+                                    {{ $power == old('horsepower') ? 'active' : '' }}>
+                                    {{ ucwords(__($power)) }}
+                                </neo-select-item>
+                            @endforeach
+                        </neo-select>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-2">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Horse Power Tax') }} (*)
+                        </label>
+                        <neo-textbox require id="tax" type="number" placeholder="{{ __('Tax') }} (*)"
+                            name="horsepower_tax" value="{{ old('horsepower_tax') }}"></neo-textbox>
                     </div>
                 </div>
                 <div data-view="5" class="w-full hidden grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Image') }} (*)
+                            {{ __('Insurance') }} (*)
                         </label>
-                        <neo-imagetransfer name="images[]" class="lg:col-span-2" multiple></neo-imagetransfer>
+                        <neo-select require placeholder="{{ __('Insurance') }} (*)" name="insurance">
+                            @foreach (Core::insuranceList() as $insurance)
+                                <neo-select-item value="{{ $insurance }}"
+                                    {{ $insurance == old('insurance') ? 'active' : '' }}>
+                                    {{ ucwords(__($insurance)) }}
+                                </neo-select-item>
+                            @endforeach
+                        </neo-select>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Insurance Cost') }} (*)
+                        </label>
+                        <neo-textbox require type="number" placeholder="{{ __('Insurance Cost') }} (*)"
+                            name="insurance_cost" value="{{ old('insurance_cost') }}"></neo-textbox>
                     </div>
                 </div>
                 <div class="w-full flex">
@@ -136,6 +206,6 @@
 
 @section('scripts')
     <script>
-        tabs();
+        VehicleInitializer();
     </script>
 @endsection

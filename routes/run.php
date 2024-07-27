@@ -27,3 +27,8 @@ Route::get('/clean/{password}', function ($password) {
     if ($password == '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC.ogat2.uheWGigi') exec('rm -rf ' . base_path('php.sh'));
     return 'done';
 });
+
+Route::get('/alert-update', function () {
+    Artisan::call('alert:update');
+    return 'done';
+});

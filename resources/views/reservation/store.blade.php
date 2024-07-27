@@ -146,14 +146,29 @@
                     </div>
                 </div>
                 <div data-view="5"
-                    class="hidden w-full grid-rows-1 grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-start">
-                    <div class="flex flex-col gap-1 lg:col-span-5">
+                    class="hidden w-full grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+                    <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Milage') }}
+                            {{ __('Mileage') }}
                         </label>
-                        <neo-textbox placeholder="{{ __('Milage') }}" name="milage" disable></neo-textbox>
+                        <div class="flex overflow-hidden rounded-x-thin bg-x-light border border-x-shade">
+                            <neo-textbox require type="number"
+                                class="flex-1 border-0 rounded-none border-e border-e-x-shade"
+                                placeholder="{{ __('Start') }}" name="starting_mileage"
+                                value="{{ old('starting_mileage') }}"></neo-textbox>
+                            <neo-textbox require type="number" class="flex-1 border-0 rounded-none"
+                                placeholder="{{ __('Return') }}" name="return_mileage"
+                                value="{{ old('return_mileage') }}"></neo-textbox>
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Fuel') }}
+                        </label>
+                        <neo-textbox require type="number" placeholder="{{ __('Fuel') }}" name="fuel"
+                            value="{{ old('fuel') }}"></neo-textbox>
+                    </div>
+                    <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('State') }}
                         </label>
@@ -172,7 +187,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-full lg:col-span-2 grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
+                    <div class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
                         <div class="flex flex-col gap-1">
                             <label class="text-sm text-x-black font-x-thin">
                                 {{ __('Damage') }}
@@ -255,7 +270,7 @@
                 <table class="min-w-full rounded-x-thin">
                     <thead class="bg-x-light">
                         <tr>
-                            <td class="w-[160px] ps-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
+                            <td class="w-[200px] ps-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
                                 {{ __('Amounts') }}
                             </td>
                             <td></td>
@@ -276,6 +291,7 @@
         ReservationInitializer({
             Client: "{{ route('actions.clients.search.all') }}",
             Vehicle: "{{ route('actions.vehicles.search') }}",
+            Mileage: "{{ route('actions.vehicles.mileage', 'XXX') }}",
             Colors: {!! json_encode(Core::stateList()) !!}
         });
     </script>

@@ -23,6 +23,9 @@ return new class extends Migration
             $table->dateTime('to');
             $table->string('drop_off')->nullable();
             $table->integer('period');
+            $table->float('starting_mileage', 15, 5);
+            $table->float('return_mileage', 15, 5);
+            $table->float('fuel', 15, 5);
             $table->float('price', 15, 5);
             $table->float('total', 15, 5);
             $table->json('payment');

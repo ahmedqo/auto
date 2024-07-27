@@ -30,10 +30,16 @@ class Image extends Model
     protected static function booted()
     {
         self::creating(function ($Self) {
-            $bassename =  basename(Storage::disk('public')->put(self::$STORAGE, self::$FILE));
-            $Self->storage = $bassename;
-            $Self->origin = self::$FILE->getClientOriginalName();
-            $Self->size = self::$FILE->getSize();
+            if (self::$FILE) {
+                $bassename =  basename(Storage::disk('public')->put(self::$STORAGE, self::$FILE));
+                $Self->storage = $bassename;
+                $Self->origin = self::$FILE->getClientOriginalName();
+                $Self->size = self::$FILE->getSize();
+            } else {
+                $Self->storage = 'default_logo.png';
+                $Self->origin = 'default_logo.png';
+                $Self->size = 100;
+            }
         });
 
         self::deleted(function ($Self) {

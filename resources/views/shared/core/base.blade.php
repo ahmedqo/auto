@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="NOINDEX">
     <meta name="currency" content="{{ Core::$UNIT }}" />
+    <meta name="mileage" content="{{ Core::company()->mileage }}" />
     @include('shared.base.styles', ['type' => 'admin'])
     @yield('styles')
     <title>@yield('title')</title>
@@ -14,8 +15,7 @@
 
 <body close>
     <section id="neo-page-cover">
-        <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('COMPANY_NAME') }} logo image"
-            class="block w-48" width="500" height="349" />
+        <img src="{{ Core::company()->Image->Link }}" class="block w-48" width="500" height="349" />
     </section>
     <neo-wrapper class="bg-[#e9edef] flex flex-wrap">
         @include('shared.core.sidebar')

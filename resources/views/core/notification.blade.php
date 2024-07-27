@@ -11,8 +11,9 @@
                 @forelse($data as $alert)
                     <li
                         class="w-full block text-x-black text-base p-4 {{ $loop->index === 0 ? '' : 'border-t border-x-shade' }}">
-                        "{{ ucwords($alert->name) }}" {{ __('On') }} {{ ucwords($alert->Vehicle->name) }}
-                        {{ __('At') }} {{ $alert->date }}
+                        "{{ ucwords($alert->consumable) }}" {{ __('On') }}
+                        {{ ucwords($alert->Vehicle->brand) . ' ' . ucwords($alert->Vehicle->model) . ' ' . $alert->Vehicle->year . ' (' . strtoupper($alert->Vehicle->registration) . ')' }}
+                        {{ __('At') }} {{ $alert->viewed_at }}
                     </li>
                 @empty
                     <li class="w-full block text-x-black font-x-huge text-base text-center px-4 py-8">

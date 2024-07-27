@@ -21,27 +21,40 @@ class Vehicle extends Model
     protected $fillable = [
         'price',
         'passengers',
-        'milage',
+        'mileage',
         'doors',
         'cargo',
         'transmission',
         'fuel',
-        'slug',
-        'name',
-        'details',
+        'circulation',
         'company',
+        'brand',
+        'model',
+        'horsepower',
+        'horsepower_tax',
+        'insurance',
+        'insurance_cost',
+        'registration',
+        'year',
     ];
 
     protected $searchable = [
         'price',
         'passengers',
-        'milage',
+        'mileage',
         'doors',
         'cargo',
         'transmission',
         'fuel',
-        'name',
-        'details',
+        'circulation',
+        'brand',
+        'model',
+        'horsepower',
+        'horsepower_tax',
+        'insurance',
+        'insurance_cost',
+        'registration',
+        'year',
     ];
 
     protected static function booted()
@@ -50,20 +63,6 @@ class Vehicle extends Model
             if (is_null($Self->company)) {
                 $Self->company = Core::company()->id;
             }
-        });
-
-        self::created(function ($Self) {
-            foreach (request('images') as $Image) {
-                Image::$FILE = $Image;
-                $Self->Images()->create();
-            }
-        });
-
-        self::deleted(function ($Self) {
-            $Self->Images->each(function ($Image) {
-                Storage::disk('public')->delete(implode('/', [Image::$STORAGE, $Image->storage]));
-                $Image->delete();
-            });
         });
     }
 
@@ -86,10 +85,5 @@ class Vehicle extends Model
     public function Alerts()
     {
         return $this->hasMany(Alert::class, 'vehicle');
-    }
-
-    public function Images(): MorphMany
-    {
-        return $this->morphMany(Image::class, 'target');
     }
 }

@@ -116,9 +116,6 @@
                 this.removeEventListener("click", this.rules.toggle);
                 this.removeEventListener("keydown", this.rules.toggle);
             },
-            removed() {
-                this.state.observer.disconnect();
-            },
             updated(name, prev, next, type) {
                 Neo.Helper.option({
                     attrs: {

@@ -32,6 +32,9 @@ class Reservation extends Model
         'state',
         'status',
         'company',
+        'starting_mileage',
+        'return_mileage',
+        'fuel',
     ];
 
     protected $searchable = [
@@ -55,7 +58,13 @@ class Reservation extends Model
         'sclient.phone',
         'sclient.address',
 
-        'vehicle.name',
+        'vehicle.registration',
+        'vehicle.circulation',
+        'vehicle.horsepower',
+        'vehicle.brand',
+        'vehicle.model',
+        'vehicle.year',
+
         'from',
         'pick_up',
         'drop_off',
@@ -64,6 +73,9 @@ class Reservation extends Model
         'price',
         'total',
         'status',
+        'starting_mileage',
+        'return_mileage',
+        'fuel',
     ];
 
     protected static function booted()

@@ -6,6 +6,7 @@ use App\Functions\Core;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasSearch;
+use Carbon\Carbon;
 
 class Alert extends Model
 {
@@ -18,21 +19,27 @@ class Alert extends Model
      */
     protected $fillable = [
         'vehicle',
-        'name',
+        'consumable',
+        'recurrence',
+        'unit',
         'date',
         'threshold',
-        'recurrence',
-        'details',
+        'viewed_at',
         'company',
     ];
 
     protected $searchable = [
-        'vehicle.name',
-        'name',
-        'date',
-        'threshold',
+        'vehicle.registration',
+        'vehicle.circulation',
+        'vehicle.horsepower',
+        'vehicle.brand',
+        'vehicle.model',
+        'vehicle.year',
+        'consumable',
         'recurrence',
-        'details',
+        'unit',
+        'threshold',
+        'viewed_at',
     ];
 
     protected static function booted()

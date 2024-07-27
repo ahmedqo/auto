@@ -1,7 +1,7 @@
 <neo-sidebar id="sidebar">
     <neo-topbar transparent>
-        <img src="{{ asset('img/logo.webp') }}?v={{ env('APP_VERSION') }}" alt="{{ env('COMPANY_NAME') }} logo image"
-            class="block w-full mx-auto pointer-events-auto" width="500" height="349" loading="lazy" />
+        <img src="{{ Core::company()->Image->Link }}" class="block w-full mx-auto pointer-events-auto" width="500"
+            height="349" loading="lazy" />
     </neo-topbar>
     <ul class="nav-colors w-full flex flex-col flex-1 gap-8 mt-6">
         <li class="w-full">

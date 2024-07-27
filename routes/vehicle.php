@@ -16,5 +16,6 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth']], function () {
     Route::get('/vehicles/{id}/charges', [VehicleController::class, 'charges_action'])->name('actions.vehicles.charges');
     Route::get('/vehicles/{id}/reservations/search', [VehicleController::class, 'search_reservations_action'])->name('actions.vehicles.reservations.search');
     Route::get('/vehicles/{id}/reservations/filter', [VehicleController::class, 'filter_reservations_action'])->name('actions.vehicles.reservations.filter');
+    Route::get('/vehicles/{id}/mileage', [VehicleController::class, 'mileage_action'])->name('actions.vehicles.mileage');
     Route::get('/vehicles/{id}/chart', [VehicleController::class, 'chart_action'])->name('actions.vehicles.chart');
 });

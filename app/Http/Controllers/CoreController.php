@@ -8,6 +8,7 @@ use App\Models\Charge;
 use App\Models\Company;
 use App\Models\Reservation;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -55,32 +56,6 @@ class CoreController extends Controller
     {
         $data = Core::alerts(null);
         return view('core.notification', compact('data'));
-    }
-
-    public function setting_action(Request $Request)
-    {
-        $validator = Validator::make($Request->all(), [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email'],
-            'phone' => ['required', 'string'],
-            'period' => ['required', 'string'],
-            'milage' => ['required', 'numeric'],
-            'address' => ['required', 'string'],
-        ]);
-
-        if ($validator->fails()) {
-            return Redirect::back()->withInput()->with([
-                'message' => $validator->errors()->all(),
-                'type' => 'error'
-            ]);
-        }
-
-        Core::company()->update($Request->all());
-
-        return Redirect::back()->with([
-            'message' => __('Updated successfully'),
-            'type' => 'success'
-        ]);
     }
 
     public function chart_action()
@@ -140,24 +115,48 @@ class CoreController extends Controller
             return [
                 'start' => $item->from,
                 'end' => $item->to,
-                'title' => ucwords($item->Client->first_name . ' ' . $item->Client->last_name) . ' (' . ucwords($item->Vehicle->name) . ')',
+                'title' => ucwords($item->Client->first_name . ' ' . $item->Client->last_name) . ' (' . ucwords($item->Vehicle->registration) . ')',
                 'color' => $colors[$item->status],
                 'groupId' => 'reservation',
             ];
         });
 
-        $alerts =  Alert::with('Vehicle')->where('company', Core::company()->id)->get()->map(function ($item) {
-            return [
-                'start' => $item->date,
-                'end' => $item->date,
-                'title' => ucwords($item->name) . ' (' . ucwords($item->Vehicle->name) . ')',
+        $dates = [
+            'week' => 7,
+            'month' => 30,
+            'year' => 365,
+        ];
+        $alerts = collect([]);
+
+        Alert::with('Vehicle')->where('company', Core::company()->id)->get()->map(function ($item) use (&$alerts, &$dates) {
+            $data = [
+                'title' => ucwords($item->Vehicle->brand) . ' ' . ucwords($item->Vehicle->model) . ' ' . $item->Vehicle->year . ' (' . strtoupper($item->Vehicle->registration) . ')',
                 'color' => '#458cfe',
                 'groupId' => 'alert',
             ];
+
+            $alerts->push(
+                array_merge([
+                    'start' => $item->viewed_at,
+                    'end' => $item->viewed_at
+                ], $data),
+            );
+
+            if ($item->unit !== 'mileage')
+                $alerts->push(
+                    array_merge([
+                        'start' => Carbon::parse($item->viewed_at)->subDays($item->recurrence * $dates[$item->unit]),
+                        'end' => Carbon::parse($item->viewed_at)->subDays($item->recurrence * $dates[$item->unit])
+                    ], $data),
+                    array_merge([
+                        'start' => Carbon::parse($item->viewed_at)->addDays($item->recurrence * $dates[$item->unit]),
+                        'end' => Carbon::parse($item->viewed_at)->addDays($item->recurrence * $dates[$item->unit])
+                    ], $data)
+                );
         });
 
         return response()->json([
-            'data' => $reservations->merge($alerts)
+            'data' => $alerts->merge($reservations)
         ]);
     }
 
@@ -176,12 +175,12 @@ class CoreController extends Controller
                     return $carry + $item->period;
                 }, 0);
 
-                $id = $Vehicle->id;
-                $storage = $Vehicle->Images[0]->storage;
+                $vehicle =
+                    ucwords($Vehicle->brand) . ' ' . ucwords($Vehicle->model) . ' ' . $Vehicle->year . ' (' . strtoupper($Vehicle->registration) . ')';
                 $price = $Vehicle->price;
-                $name = $Vehicle->name;
+                $mileage = $period * Core::company()->mileage;
 
-                return compact('id', 'total', 'period', 'storage', 'name');
+                return compact('total', 'period', 'mileage', 'vehicle');
             }
         )->sortByDesc('total')->take(10)->toArray();
 

@@ -96,9 +96,9 @@
                                     d="m33-569 187-189q24-24 57-33.5t67-3.5l60 12q-60 72-99 136.5T223-488L33-569Zm270 106q45-99 94-173t105-130q85-85 206-128t237-30q13 115-29.5 236.5T788-482q-54 55-129.5 105T484-282L303-463Zm323-142q20 20 49 20t49-20q20-20 20-48.5T724-702q-20-20-49-20t-49 20q-20 20-20 48.5t20 48.5ZM590-12l-82-190q94-44 158.5-83T803-384l12 61q6 34-3.5 66.5T778-200L590-12ZM109-304q46-46 110.5-46T330-304q46 45 46 110T330-83q-35 34-114.5 58T17 8q10-119 34-198.5T109-304Z" />
                             </svg>
                             <div class="flex flex-1 flex-col items-center lg:items-end">
-                                <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Milage') }}</h2>
+                                <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Mileage') }}</h2>
                                 <p class="text-base text-x-black text-opacity-50">
-                                    {{ $work * Core::company()->milage }} {{ __('Km') }}
+                                    {{ $work * Core::company()->mileage }} {{ __('Km') }}
                                 </p>
                             </div>
                         </li>
@@ -144,7 +144,7 @@
                 <img id="chart-viewer">
             </neo-printer>
         </div>
-        <neo-datavisualizer print filter download title="{{ __('Popular Cars') }}">
+        <neo-datavisualizer print filter download title="{{ __('Popular Vehicles') }}">
             @include('shared.page.print')
         </neo-datavisualizer>
     </div>

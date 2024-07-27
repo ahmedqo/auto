@@ -63,6 +63,9 @@ class ReservationController extends Controller
             'vehicle' => ['required', 'integer'],
             'client' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
+            'starting_mileage' => ['required', 'numeric'],
+            'return_mileage' => ['required', 'numeric'],
+            'fuel' => ['required', 'numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -104,6 +107,9 @@ class ReservationController extends Controller
             'vehicle' => ['required', 'integer'],
             'client' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
+            'starting_mileage' => ['required', 'numeric'],
+            'return_mileage' => ['required', 'numeric'],
+            'fuel' => ['required', 'numeric'],
         ]);
 
         if ($validator->fails()) {

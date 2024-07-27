@@ -11,7 +11,7 @@
                 <div class="flex flex-col bg-x-white rounded-x-thin shadow-x-core border border-x-shade">
                     @foreach ($alerts as $alert)
                         <div class="text-x-black text-base p-4 {{ $loop->index === 0 ? '' : 'border-t border-x-shade' }}">
-                            "{{ ucwords($alert->name) }}" {{ __('At') }} {{ $alert->date }}
+                            "{{ ucwords($alert->consumable) }}" {{ __('At') }} {{ $alert->viewed_at }}
                         </div>
                     @endforeach
                 </div>
@@ -100,9 +100,9 @@
                             d="m33-569 187-189q24-24 57-33.5t67-3.5l60 12q-60 72-99 136.5T223-488L33-569Zm270 106q45-99 94-173t105-130q85-85 206-128t237-30q13 115-29.5 236.5T788-482q-54 55-129.5 105T484-282L303-463Zm323-142q20 20 49 20t49-20q20-20 20-48.5T724-702q-20-20-49-20t-49 20q-20 20-20 48.5t20 48.5ZM590-12l-82-190q94-44 158.5-83T803-384l12 61q6 34-3.5 66.5T778-200L590-12ZM109-304q46-46 110.5-46T330-304q46 45 46 110T330-83q-35 34-114.5 58T17 8q10-119 34-198.5T109-304Z" />
                     </svg>
                     <div class="flex flex-1 flex-col items-center lg:items-end">
-                        <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Milage') }}</h2>
+                        <h2 class="text-sm lg:text-base text-x-black font-x-thin">{{ __('Mileage') }}</h2>
                         <p class="text-base text-x-black text-opacity-50">
-                            {{ $work * Core::company()->milage }} {{ __('Km') }}
+                            {{ $work * Core::company()->mileage }} {{ __('Km') }}
                         </p>
                     </div>
                 </li>
@@ -113,16 +113,24 @@
                 {{ __('General Info') }}
             </h1>
             <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-6 gap-6 lg:gap-8">
-                    <div class="flex flex-col gap-1 lg:col-span-3">
+                <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+                    <div class="flex flex-col gap-1 lg:col-span-4">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Name') }}
+                            {{ __('Circulation Date') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->name) }}
+                            {{ ucwords($data->circulation) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-3">
+                    <div class="flex flex-col gap-1 lg:col-span-4">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Registration') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ strtoupper($data->registration) }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-4">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Price') }}
                         </label>
@@ -130,23 +138,31 @@
                             {{ Core::formatNumber($data->price) }} {{ Core::$UNIT }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-2">
+                    <div class="flex flex-col gap-1 lg:col-span-4">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Transmission') }}
+                            {{ __('Brand') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords(__($data->transmission)) }}
+                            {{ ucwords(__($data->brand)) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-2">
+                    <div class="flex flex-col gap-1 lg:col-span-4">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Fuel') }}
+                            {{ __('Model') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords(__($data->fuel)) }}
+                            {{ ucwords(__($data->model)) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-2">
+                    <div class="flex flex-col gap-1 lg:col-span-4">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Year') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ $data->year }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Passengers') }}
                         </label>
@@ -154,15 +170,15 @@
                             {{ $data->passengers }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-2">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Milage') }}
+                            {{ __('Mileage') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ $data->milage }}
+                            {{ $data->mileage }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-2">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Doors') }}
                         </label>
@@ -170,12 +186,44 @@
                             {{ $data->doors }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-2">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Cargo') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
                             {{ $data->cargo }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Transmission') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ ucwords(__($data->transmission)) }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Fuel') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ ucwords(__($data->fuel)) }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Horse Power') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ ucwords(__($data->horsepower)) }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Cost') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ Core::formatNumber($data->horsepower_cost) }} {{ Core::$UNIT }}
                         </div>
                     </div>
                 </div>

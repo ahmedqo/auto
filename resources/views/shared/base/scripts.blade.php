@@ -2,6 +2,7 @@
 
 @if ($type == 'admin')
     <script src="{{ asset('js/neo/plugins/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>
+    <script src="{{ asset('js/index.min.js') }}?v={{ env('APP_VERSION') }}"></script>
     <script src="{{ asset('js/core.min.js') }}?v={{ env('APP_VERSION') }}"></script>
     <script>
         Neo.load(function() {

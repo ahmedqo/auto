@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Functions\Core;
 use App\Models\Alert;
+use App\Models\Reservation;
+use App\Models\Vehicle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,12 +42,12 @@ class AlertController extends Controller
     public function store_action(Request $Request)
     {
         $validator = Validator::make($Request->all(), [
-            'name' => ['required', 'string'],
+            'consumable' => ['required', 'string'],
             'vehicle' => ['required', 'integer'],
-            'date' => ['required', 'date'],
-            'time' => ['required', 'string'],
-            'threshold' => ['required', 'integer'],
-            'recurrence' => ['required', 'string'],
+            'threshold' => ['required', 'numeric'],
+            'recurrence' => ['required', 'numeric'],
+            'unit' => ['required', 'string'],
+            'date' => ['required_unless:unit,mileage', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -55,9 +57,26 @@ class AlertController extends Controller
             ]);
         }
 
-        $Request->merge([
-            'date' =>  Carbon::parse($Request->date . ' ' . $Request->time),
-        ]);
+        if ($Request->unit === 'mileage') {
+            $Reservation = Reservation::where('vehicle', $Request->vehicle)->orderBy('id', 'DESC')->first();
+            $mileage = null;
+            if ($Reservation) {
+                $mileage = $Reservation->return_mileage ?? $Reservation->start_mileage;
+            } else {
+                $mileage = Vehicle::findorfail($Request->vehicle)->mileage;
+            }
+
+            $Request->merge([
+                'viewed_at' => Carbon::parse(Carbon::today())->addDays(ceil(($Request->recurrence - $mileage) / Core::company()->mileage)),
+                'threshold' => $Request->threshold / Core::company()->mileage
+            ]);
+        } else {
+            $Request->merge([
+                'viewed_at' =>  Carbon::parse($Request->date)->addDays(
+                    ['week' => 7, 'month' => 30, 'year' => 365,][$Request->unit] * $Request->recurrence
+                ),
+            ]);
+        }
 
         Alert::create($Request->all());
 
@@ -70,12 +89,12 @@ class AlertController extends Controller
     public function patch_action(Request $Request, $id)
     {
         $validator = Validator::make($Request->all(), [
-            'name' => ['required', 'string'],
+            'consumable' => ['required', 'string'],
             'vehicle' => ['required', 'integer'],
-            'date' => ['required', 'date'],
-            'time' => ['required', 'string'],
-            'threshold' => ['required', 'integer'],
-            'recurrence' => ['required', 'string'],
+            'threshold' => ['required', 'numeric'],
+            'recurrence' => ['required', 'numeric'],
+            'unit' => ['required', 'string'],
+            'date' => ['required_unless:unit,mileage', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -85,9 +104,26 @@ class AlertController extends Controller
             ]);
         }
 
-        $Request->merge([
-            'date' =>  Carbon::parse($Request->date . ' ' . $Request->time),
-        ]);
+        if ($Request->unit === 'mileage') {
+            $Reservation = Reservation::where('vehicle', $Request->vehicle)->orderBy('id', 'DESC')->first();
+            $mileage = null;
+            if ($Reservation) {
+                $mileage = $Reservation->return_mileage ?? $Reservation->start_mileage;
+            } else {
+                $mileage = Vehicle::findorfail($Request->vehicle)->mileage;
+            }
+
+            $Request->merge([
+                'viewed_at' => Carbon::parse(Carbon::today())->addDays(ceil(($Request->recurrence - $mileage) / Core::company()->mileage)),
+                'threshold' => $Request->threshold / Core::company()->mileage
+            ]);
+        } else {
+            $Request->merge([
+                'viewed_at' =>  Carbon::parse($Request->date)->addDays(
+                    ['week' => 7, 'month' => 30, 'year' => 365,][$Request->unit] * $Request->recurrence
+                ),
+            ]);
+        }
 
         $Alert = Alert::findorfail($id);
         $Alert->update($Request->all());

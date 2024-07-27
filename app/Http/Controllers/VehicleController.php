@@ -6,13 +6,11 @@ use App\Functions\Core;
 use App\Models\Alert;
 use App\Models\Charge;
 use App\Models\Vehicle;
-use App\Models\Image;
 use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class VehicleController extends Controller
@@ -29,13 +27,13 @@ class VehicleController extends Controller
 
     public function patch_view($id)
     {
-        $data = Vehicle::with('Images')->findorfail($id);
+        $data = Vehicle::findorfail($id);
         return view('vehicle.patch', compact('data'));
     }
 
     public function scene_view($id)
     {
-        $data = Vehicle::with('Images')->findorfail($id);
+        $data = Vehicle::findorfail($id);
 
         [$startDate, $endDate, $columns] = Core::getDates();
 
@@ -59,27 +57,9 @@ class VehicleController extends Controller
             return $carry + $charge->cost;
         }, 0);
 
-        $now = Carbon::now();
-        $alerts = Alert::where(function ($query) use ($now) {
-            $date = $now->copy()->dayOfWeekIso + 1;
-            $query->where('recurrence', 'week')
-                ->whereRaw("DAYOFWEEK(DATE_ADD(date, INTERVAL threshold HOUR)) >= ?", [$date])
-                ->WhereRaw("DAYOFWEEK(DATE_SUB(date, INTERVAL threshold HOUR)) <= ?", [$date]);
-        })
-            ->orWhere(function ($query) use ($now) {
-                $date = $now->copy()->format('d H:i:s');
-                $query->where('recurrence', 'month')
-                    ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%d %H:%i:%s') >= ?", [$date])
-                    ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%d %H:%i:%s') <= ?", [$date]);
-            })
-            ->orWhere(function ($query) use ($now) {
-                $date = $now->copy()->format('m-d H:i:s');
-                $query->where('recurrence', 'year')
-                    ->whereRaw("DATE_FORMAT(DATE_ADD(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') >= ?", [$date])
-                    ->WhereRaw("DATE_FORMAT(DATE_SUB(date, INTERVAL threshold HOUR), '%m-%d %H:%i:%s') <= ?", [$date]);
-            })
-            ->where('vehicle', $id)
-            ->orderBy('Date', 'ASC')
+        $today = Carbon::today();
+        $alerts = Alert::where('vehicle', $id)
+            ->whereRaw("? BETWEEN DATE_SUB(viewed_at, INTERVAL threshold HOUR) AND viewed_at", [$today])
             ->get();
 
         return view('vehicle.scene', compact('alerts', 'data', 'count', 'work', 'money', 'rest', 'charges', 'startDate', 'endDate'));
@@ -138,7 +118,7 @@ class VehicleController extends Controller
 
     public function search_action(Request $Request)
     {
-        $data = Vehicle::with('Images')->where('company', Core::company()->id)->orderBy('id', 'DESC');
+        $data = Vehicle::where('company', Core::company()->id)->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -191,24 +171,31 @@ class VehicleController extends Controller
         return response()->json($data);
     }
 
+    public function mileage_action($id)
+    {
+        $Reservation = Reservation::where('vehicle', $id)->orderBy('id', 'DESC')->first();
+        return response()->json(['data' => ['mileage' => $Reservation ? $Reservation->return_mileage : null]]);
+    }
+
     public function store_action(Request $Request)
     {
         $validator = Validator::make($Request->all(), [
-            'name' => [
-                'required', 'string',
-                Rule::unique('vehicles')->where(function ($query) {
-                    return $query->where('company', Core::company()->id);
-                }),
-            ],
+            'circulation' => ['required', 'date'],
             'transmission' => ['required', 'string'],
             'passengers' => ['required', 'integer'],
-            'milage' => ['required', 'numeric'],
+            'mileage' => ['required', 'numeric'],
             'doors' => ['required', 'integer'],
             'cargo' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
             'fuel' => ['required', 'string'],
-            'images' => ['required', 'array'],
-            'images.*' => ['required', 'image'],
+            'brand' => ['required', 'string'],
+            'model' => ['required', 'string'],
+            'horsepower' => ['required', 'string'],
+            'horsepower_tax' => ['required', 'numeric'],
+            'insurance' => ['required', 'string'],
+            'insurance_tax' => ['required', 'numeric'],
+            'registration' => ['required', 'string'],
+            'year' => ['required', 'numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -217,10 +204,6 @@ class VehicleController extends Controller
                 'type' => 'error'
             ]);
         }
-
-        $Request->merge([
-            'slug' =>  Str::slug($Request->name),
-        ]);
 
         Vehicle::create($Request->all());
 
@@ -233,19 +216,22 @@ class VehicleController extends Controller
     public function patch_action(Request $Request, $id)
     {
         $validator = Validator::make($Request->all(), [
-            'name' => [
-                'required', 'string',
-                Rule::unique('vehicles')->where(function ($query) use ($id) {
-                    return $query->where('company', Core::company()->id)->where('id', '!=', $id);
-                }),
-            ],
+            'circulation' => ['required', 'date'],
             'transmission' => ['required', 'string'],
             'passengers' => ['required', 'integer'],
-            'milage' => ['required', 'numeric'],
+            'mileage' => ['required', 'numeric'],
             'doors' => ['required', 'integer'],
             'cargo' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
             'fuel' => ['required', 'string'],
+            'brand' => ['required', 'string'],
+            'model' => ['required', 'string'],
+            'horsepower' => ['required', 'string'],
+            'horsepower_tax' => ['required', 'numeric'],
+            'insurance' => ['required', 'string'],
+            'insurance_tax' => ['required', 'numeric'],
+            'registration' => ['required', 'string'],
+            'year' => ['required', 'numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -257,31 +243,7 @@ class VehicleController extends Controller
 
         $Vehicle = Vehicle::findorfail($id);
 
-        if ($Request->deleted && !$Request->hasFile('images') && $Vehicle->Images->count() == count($Request->deleted)) {
-            return Redirect::back()->withInput()->with([
-                'message' => __('The images field is required'),
-                'type' => 'error'
-            ]);
-        }
-
-        $Request->merge([
-            'slug' =>  Str::slug($Request->name),
-        ]);
-
         $Vehicle->update($Request->all());
-
-        if ($Request->hasFile('images')) {
-            foreach ($Request->file('images') as $Image) {
-                Image::$FILE = $Image;
-                $Vehicle->Images()->create();
-            }
-        }
-
-        if ($Request->deleted) {
-            foreach ($Request->deleted as $id) {
-                Image::findorfail($id)->delete();
-            }
-        }
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

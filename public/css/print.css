@@ -179,8 +179,9 @@ html[lang="ar"] *::before {
 }
 
 #footer-content #content {
-    gap: 16px;
+    gap: 8px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
 }

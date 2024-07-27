@@ -40,7 +40,7 @@ const extractText = (content) => {
 
 // Function to extract text between __('')
 const extractText2 = (content) => {
-    const regex = /Neo\.Helper\.trans\(['"]([^'"]+)['"]\)/g;
+    const regex = /\$trans\(['"]([^'"]+)['"]\)/g;
     const matches = [];
     let match;
 
@@ -68,11 +68,15 @@ const extractTextFromFiles = (dir, js) => {
 };
 
 if (process.argv.includes('--js')) {
+    const directoryPath = ['public/js/core.js', 'public/js/index.js'];
     var data = {};
-    const extractedText = extractTextFromFiles('public/js/core.js', true);
-    Object.values(extractedText).reduce((a, e) => [...a, ...e], []).forEach(dd => {
-        data[dd] = '';
+    directoryPath.forEach(path => {
+        const extractedText = extractTextFromFiles(path, true);
+        Object.values(extractedText).reduce((a, e) => [...a, ...e], []).forEach(dd => {
+            data[dd] = dd;
+        });
     });
+
     fs.writeFileSync("./js.json", JSON.stringify(data, null, 2), 'utf8');
 } else {
     const directoryPath = ['app/Http/Controllers', 'resources/views'];
@@ -80,7 +84,7 @@ if (process.argv.includes('--js')) {
     directoryPath.forEach(path => {
         const extractedText = extractTextFromFiles(path);
         Object.values(extractedText).reduce((a, e) => [...a, ...e], []).forEach(dd => {
-            data[dd] = '';
+            data[dd] = dd;
         });
     });
 

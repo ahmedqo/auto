@@ -44,7 +44,7 @@
         </neo-dropdown>
         <neo-dropdown label="{{ __('Notifications') }}" position="{{ Core::lang('ar') ? 'start' : 'end' }}">
             @php
-                $alerts = Core::alerts(8);
+                $alerts = Core::alerts(10);
             @endphp
             <button slot="trigger" aria-label="notifications_trigger"
                 class="flex items-center justify-center w-6 h-6 text-x-white outline-none relative isolate before:content-[''] before:rounded-x-thin before:absolute before:block before:w-[130%] before:h-[130%] before:-inset-[15%] before:-z-[1] before:!bg-opacity-40 hover:before:bg-x-shade focus:before:bg-x-shade focus-within:before:bg-x-shade">
@@ -61,8 +61,9 @@
                 @forelse($alerts as $alert)
                     <li
                         class="w-full block text-x-black text-base p-4 {{ $loop->index === 0 ? '' : 'border-t border-x-shade' }}">
-                        "{{ ucwords($alert->name) }}" {{ __('On') }} {{ ucwords($alert->Vehicle->name) }}
-                        {{ __('At') }} {{ $alert->date }}
+                        "{{ ucwords(__($alert->consumable)) }}" {{ __('On') }}
+                        {{ ucwords($alert->Vehicle->brand) . ' ' . ucwords($alert->Vehicle->model) . ' ' . $alert->Vehicle->year . ' (' . strtoupper($alert->Vehicle->registration) . ')' }}
+                        {{ __('At') }} {{ $alert->viewed_at }}
                     </li>
                 @empty
                     <li class="w-full text-center block text-x-black font-x-huge text-base px-4 py-8">

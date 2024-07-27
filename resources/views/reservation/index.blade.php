@@ -25,8 +25,6 @@
             Filter: "{{ route('actions.reservations.filter') }}",
             Patch: "{{ route('views.reservations.patch', 'XXX') }}",
             Print: "{{ route('views.reservations.print', 'XXX') }}",
-            Clear: "{{ route('actions.reservations.clear', 'XXX') }}",
-            Csrf: "{{ csrf_token() }}",
         });
     </script>
 @endsection
