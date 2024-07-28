@@ -62,7 +62,7 @@
                         <neo-select {{ old('model') && old('brand') ? '' : 'disable' }} require search
                             placeholder="{{ __('Model') }} (*)" name="model">
                             @if (old('model') && old('brand'))
-                                @foreach (Core::brandList()[ld('brand')] as $model)
+                                @foreach (Core::brandList()[old('brand')] as $model)
                                     <neo-select-item value="{{ $model }}"
                                         {{ $model == old('model') ? 'active' : '' }}>
                                         {{ ucwords(__($model)) }}

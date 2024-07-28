@@ -193,7 +193,7 @@ class VehicleController extends Controller
             'horsepower' => ['required', 'string'],
             'horsepower_tax' => ['required', 'numeric'],
             'insurance' => ['required', 'string'],
-            'insurance_tax' => ['required', 'numeric'],
+            'insurance_cost' => ['required', 'numeric'],
             'registration' => ['required', 'string'],
             'year' => ['required', 'numeric'],
         ]);
@@ -229,7 +229,7 @@ class VehicleController extends Controller
             'horsepower' => ['required', 'string'],
             'horsepower_tax' => ['required', 'numeric'],
             'insurance' => ['required', 'string'],
-            'insurance_tax' => ['required', 'numeric'],
+            'insurance_cost' => ['required', 'numeric'],
             'registration' => ['required', 'string'],
             'year' => ['required', 'numeric'],
         ]);
