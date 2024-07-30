@@ -19,6 +19,7 @@ class Reservation extends Model
      */
     protected $fillable = [
         'client',
+        'agency',
         'vehicle',
         'secondary_client',
         'from',
@@ -38,6 +39,12 @@ class Reservation extends Model
     ];
 
     protected $searchable = [
+        'agency.name',
+        'agency.phone',
+        'agency.secondary_phone',
+        'agency.email',
+        'agency.address',
+
         'client.first_name',
         'client.last_name',
         'client.identity',
@@ -101,6 +108,11 @@ class Reservation extends Model
     public function SClient()
     {
         return $this->belongsTo(Client::class, 'secondary_client');
+    }
+
+    public function Agency()
+    {
+        return $this->belongsTo(Agency::class, 'agency');
     }
 
     public function Vehicle()

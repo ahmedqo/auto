@@ -34,7 +34,7 @@ Route::get(
             Core::transmissionList(),
             Core::fuelList(),
             Core::powerList(),
-            ['mileage'],
+            ['mileage', 'pending', 'completed'],
             Core::cityList(),
             array_keys(Core::stateList()),
             Core::nationList(),

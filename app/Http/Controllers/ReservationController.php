@@ -23,19 +23,19 @@ class ReservationController extends Controller
 
     public function patch_view($id)
     {
-        $data = Reservation::with('Client', 'Vehicle')->findorfail($id);
+        $data = Reservation::with('Client', 'Vehicle', 'Agency')->findorfail($id);
         return view('reservation.patch', compact('data'));
     }
 
     public function print_view($id)
     {
-        $data = Reservation::findorfail($id);
+        $data = Reservation::with('Client', 'Vehicle', 'Agency')->findorfail($id);
         return view('reservation.print', compact('data'));
     }
 
     public function search_action(Request $Request)
     {
-        $data = Reservation::with('Vehicle', 'Client')->where('company', Core::company()->id)->where('status', '!=', 'completed')->orderBy('id', 'DESC');
+        $data = Reservation::with('Vehicle', 'Client', 'Agency')->where('company', Core::company()->id)->where('status', '!=', 'completed')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -45,7 +45,7 @@ class ReservationController extends Controller
 
     public function filter_action(Request $Request)
     {
-        $data = Reservation::with('Vehicle', 'Client')->where('company', Core::company()->id)->orderBy('id', 'DESC');
+        $data = Reservation::with('Vehicle', 'Client', 'Agency')->where('company', Core::company()->id)->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -56,12 +56,14 @@ class ReservationController extends Controller
     public function store_action(Request $Request)
     {
         $validator = Validator::make($Request->all(), [
+            'renter' => ['required', 'string'],
             'from_date' => ['required', 'date', 'after_or_equal:today'],
             'to_date' => ['required', 'date', 'after:from_date'],
             'from_time' => ['required', 'string'],
             'to_time' => ['required', 'string'],
             'vehicle' => ['required', 'integer'],
-            'client' => ['required', 'integer'],
+            'client' => ['required_if:renter,client', 'integer'],
+            'agency' => ['required_if:renter,agency', 'integer'],
             'price' => ['required', 'numeric'],
             'starting_mileage' => ['required', 'numeric'],
             'return_mileage' => ['required', 'numeric'],
@@ -80,13 +82,16 @@ class ReservationController extends Controller
         $period = (int) ceil($from->diffInHours($to) / 24);
         $total = $period * $Request->price;
 
+        $key = $Request->renter == 'client' ? 'agency' : 'client';
+
         $Request->merge([
+            $key => null,
             'from' => $from,
             'to' => $to,
             'period' => $period,
             'total' => $total,
             'payment' => $Request->json,
-            'status' => array_sum(json_decode($Request->json)) >= $total ? 'completed' : 'pendding'
+            'status' => array_sum(json_decode($Request->json)) >= $total ? 'completed' : 'pending'
         ]);
 
         Reservation::create($Request->all());
@@ -100,12 +105,14 @@ class ReservationController extends Controller
     public function patch_action(Request $Request, $id)
     {
         $validator = Validator::make($Request->all(), [
+            'renter' => ['required', 'string'],
             'from_date' => ['required', 'date'],
             'to_date' => ['required', 'date', 'after:from_date'],
             'from_time' => ['required', 'string'],
             'to_time' => ['required', 'string'],
             'vehicle' => ['required', 'integer'],
-            'client' => ['required', 'integer'],
+            'client' => ['required_if:renter,client', 'integer'],
+            'agency' => ['required_if:renter,agency', 'integer'],
             'price' => ['required', 'numeric'],
             'starting_mileage' => ['required', 'numeric'],
             'return_mileage' => ['required', 'numeric'],
@@ -124,13 +131,16 @@ class ReservationController extends Controller
         $period = (int) ceil($from->diffInHours($to) / 24);
         $total = $period * $Request->price;
 
+        $key = $Request->renter == 'client' ? 'agency' : 'client';
+
         $Request->merge([
+            $key => null,
             'from' => $from,
             'to' => $to,
             'period' => $period,
             'total' => $total,
             'payment' => $Request->json,
-            'status' => array_sum(json_decode($Request->json)) >= $total ? 'completed' : 'pendding'
+            'status' => array_sum(json_decode($Request->json)) >= $total ? 'completed' : 'pending'
         ]);
 
         $Reservation = Reservation::findorfail($id);

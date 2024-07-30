@@ -87,6 +87,16 @@
                     </a>
                 </li>
                 <li class="w-full">
+                    <a href="{{ route('views.agencies.index') }}"
+                        class="w-full flex flex-wrap gap-2 p-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::matchRoute('agencies') ? '!bg-x-black' : '' }}">
+                        <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">
+                            <path
+                                d="M150-99q-37.17 0-64.09-26.91Q59-152.82 59-190v-193h336v58h173v-58h334v193q0 37.18-27.21 64.09Q847.59-99 810-99H150Zm302-283v-59h59v59h-59ZM59-440v-200q0-37.59 26.91-64.79Q112.83-732 150-732h150v-100q0-36.13 26.91-63.56Q353.83-923 391-923h178q37.17 0 64.09 27.44Q660-868.13 660-832v100h150q37.59 0 64.79 27.21Q902-677.59 902-640v200H568v-58H395v58H59Zm332-292h178v-100H391v100Z" />
+                        </svg>
+                        <span class="block flex-1 text-base">{{ __('Agencies') }}</span>
+                    </a>
+                </li>
+                <li class="w-full">
                     <a href="{{ route('views.clients.index') }}"
                         class="w-full flex flex-wrap gap-2 p-2 text-start text-x-black items-center outline-none !bg-opacity-10 hover:bg-x-black focus:bg-x-black focus-within:bg-x-black {{ Core::matchRoute('clients') ? '!bg-x-black' : '' }}">
                         <svg class="block w-6 h-6 pointer-events-none" fill="currentcolor" viewBox="0 -960 960 960">

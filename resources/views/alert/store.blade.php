@@ -55,12 +55,14 @@
                         @endforeach
                     </neo-select>
                 </div>
-                <div class="hidden flex-col gap-1 lg:col-span-2 date">
+                <div
+                    class="{{ !old('unit') || old('unit') == 'mileage' ? 'hidden' : 'flex' }} flex-col gap-1 lg:col-span-2 date">
                     <label class="text-sm text-x-black font-x-thin">
                         {{ __('Date') }} (*)
                     </label>
-                    <neo-datepicker {{ !Core::lang('ar') ? 'full-day=3' : '' }} placeholder="{{ __('Date') }} (*)"
-                        name="date" value="{{ old('date') ?? '#now' }}" format="dddd dd mmmm yyyy"></neo-datepicker>
+                    <neo-datepicker {{ !old('unit') || old('unit') == 'mileage' ? '' : 'require' }}
+                        {{ !Core::lang('ar') ? 'full-day=3' : '' }} placeholder="{{ __('Date') }} (*)" name="date"
+                        value="{{ old('date') ?? '#now' }}" format="dddd dd mmmm yyyy"></neo-datepicker>
                 </div>
                 <div class="flex flex-col gap-1 lg:col-span-2">
                     <label class="text-sm text-x-black font-x-thin">

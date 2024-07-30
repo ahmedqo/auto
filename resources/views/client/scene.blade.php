@@ -257,7 +257,7 @@
     <script>
         SceneInitializer({
             Search: [
-                ["#reservations", "client_reservation",
+                ["#reservations", "order_reservation",
                     "{{ route('actions.clients.reservations.search', $data->id) }}",
                     "{{ route('actions.clients.reservations.filter', $data->id) }}"
                 ]

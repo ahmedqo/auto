@@ -1,6 +1,10 @@
 @extends('shared.core.base')
 @section('title', __('Preview Payment') . ' ' . $data->ref)
 
+@php
+    $payment = array_sum(json_decode($data->payment));
+@endphp
+
 @section('content')
     <div class="flex flex-col gap-2">
         <div class="flex flex-col items-center lg:flex-row lg:justify-between gap-2">
@@ -18,325 +22,703 @@
             </div>
         </div>
         <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
-            <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-                <div class="w-full border border-x-shade rounded-x-thin flex flex-col gap-4 p-4 lg:col-span-6">
-                    <h2 class="text-lg text-x-black font-x-huge">
-                        {{ __('Billing From') }}
-                    </h2>
-                    <table>
+            <div class="w-full grid grid-rows-1 grid-cols-1 gap-6 lg:gap-8">
+                <div class="w-full p-4 border border-x-x-black border-y-x-black relative">
+                    <div class="w-max absolute left-1/2 -translate-x-1/2 -top-3">
+                        <span
+                            class="block w-max text-base font-x-thin bg-x-white border border-x-x-black border-y-x-black px-2">
+                            {{ __('Vehicle Information') }}
+                        </span>
+                    </div>
+                    <table class="w-full mt-2">
                         <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('Company') }}
+                            <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                {{ __('Brand') }}
                             </td>
+                            <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ Core::company()->name }}
+                                {{ $data->Vehicle ? ucwords($data->Vehicle->brand) : 'N/A' }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('Email') }}
+                            <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                {{ __('Registration') }}
                             </td>
+                            <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ Core::company()->email }}
+                                {{ $data->Vehicle ? strtoupper($data->Vehicle->registration) : 'N/A' }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('Phone') }}
+                            <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                {{ __('Pick-up Location') }}
                             </td>
+                            <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ Core::company()->phone }}
+                                {{ $data->pick_up ? ucwords($data->pick_up) : ucwords(Core::company()->address) . ' ' . ucwords(__(Core::company()->city)) . ' ' . Core::company()->zipcode }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('Address') }}
+                            <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                {{ __('Drop-off Location') }}
                             </td>
+                            <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ Core::company()->address }}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="w-full border border-x-shade bg-x-light rounded-x-thin flex flex-col gap-4 p-4 lg:col-span-6">
-                    <h2 class="text-xl text-x-black font-x-thin">
-                        {{ __('Billing To') }}
-                    </h2>
-                    <table>
-                        <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('Full Name') }}
-                            </td>
-                            <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ ucwords($data->Client->first_name) }} {{ ucwords($data->Client->last_name) }}
+                                {{ $data->drop_off ? ucwords($data->drop_off) : ucwords(Core::company()->address) . ' ' . ucwords(__(Core::company()->city)) . ' ' . Core::company()->zipcode }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('Identity') }}
+                            <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                {{ __('Date Hour') }}
                             </td>
+                            <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->Client->identity_type ? '(' . ucwords(__($data->Client->identity_type)) . ')' : '' }}
-                                {{ $data->Client->identity }}
+                                {{ $data->from }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('License Number') }}
+                            <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                {{ __('Date Hour') }}
                             </td>
+                            <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->Client->license_number }}
+                                {{ $data->to }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('Phone') }}
+                            <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                {{ __('Rental Duration') }}
                             </td>
+                            <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->Client->phone }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-base text-x-black font-x-thin">
-                                {{ __('Address') }}
-                            </td>
-                            <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->Client->address ?? 'N/A' }}
+                                {{ $data->period }} {{ __('Days') }}
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="w-full flex flex-col gap-4 lg:col-span-8">
-                    <h2 class="text-xl text-x-black font-x-thin">
-                        {{ __('Payments') }}
-                    </h2>
-                    <div class="border border-x-shade rounded-x-thin overflow-auto">
-                        <table class="min-w-full rounded-x-thin">
-                            <thead class="bg-x-light">
+                <div class="w-full flex flex-col lg:flex-row border border-x-x-black border-y-x-black">
+                    <div
+                        class="w-full p-4 border-b border-b-x-black lg:border-b-0 lg:border-e lg:border-e-x-black relative">
+                        <div class="w-max absolute left-1/2 -translate-x-1/2 -top-3">
+                            <span
+                                class="block w-max text-base font-x-thin bg-x-white border border-x-x-black border-y-x-black px-2">
+                                {{ __('Renter Driver') }}
+                            </span>
+                        </div>
+                        <table class="w-full mb-2 lg:mb-0 mt-2">
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('First Name') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? ucwords($data->Client->first_name) : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Last Name') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? strtoupper($data->Client->last_name) : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Brith Date') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? $data->Client->birth_date : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('License Number') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? $data->Client->license_number : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Delivered On') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? $data->Client->license_date : 'N/A' }}
+                                    <span class="inline-block w-max px-1 text-base text-x-black font-x-thin">
+                                        {{ __('In') }}
+                                    </span>
+                                    {{ $data->Client ? $data->Client->license_location : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ $data->Client ? ucwords(__($data->Client->identity_type)) : 'N/A' }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? $data->Client->identity : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Delivered On') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? $data->Client->identity_date : 'N/A' }}
+                                    <span class="inline-block w-max px-1 text-base text-x-black font-x-thin">
+                                        {{ __('In') }}
+                                    </span>
+                                    {{ $data->Client ? $data->Client->identity_location : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Phone') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? $data->Client->phone : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Address') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->Client ? ucwords($data->Client->address) : 'N/A' }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="w-full p-4 relative">
+                        <div class="w-max absolute left-1/2 -translate-x-1/2 -top-3 z-20">
+                            <span
+                                class="block w-max text-base font-x-thin bg-x-white border border-x-x-black border-y-x-black px-2">
+                                {{ __('Second Driver') }}
+                            </span>
+                        </div>
+                        @if (!$data->SClient)
+                            <img src="{{ asset('img/mark.png') }}?v={{ env('APP_VERSION') }}"
+                                class="w-full h-full absolute inset-0 z-10 object-center" />
+                        @endif
+                        <table class="w-full mt-2">
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('First Name') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? ucwords($data->SClient->first_name) : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Last Name') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? strtoupper($data->SClient->last_name) : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Brith Date') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? $data->SClient->birth_date : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('License Number') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? $data->SClient->license_number : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Delivered On') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? $data->SClient->license_date : 'N/A' }}
+                                    <span class="inline-block w-max px-1 text-base text-x-black font-x-thin">
+                                        {{ __('In') }}
+                                    </span>
+                                    {{ $data->SClient ? $data->SClient->license_location : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ $data->SClient ? ucwords(__($data->SClient->identity_type)) : 'N/A' }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? $data->SClient->identity : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Delivered On') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? $data->SClient->identity_date : 'N/A' }}
+                                    <span class="inline-block w-max px-1 text-base text-x-black font-x-thin">
+                                        {{ __('In') }}
+                                    </span>
+                                    {{ $data->SClient ? $data->SClient->identity_location : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Phone') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? $data->SClient->phone : 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-[180px] pe-1 text-base text-x-black font-x-thin">
+                                    {{ __('Address') }}
+                                </td>
+                                <td class="w-4 text-base text-x-black font-x-thin">:</td>
+                                <td class="text-base text-x-black text-opacity-70 font-x-thin">
+                                    {{ $data->SClient ? ucwords($data->SClient->address) : 'N/A' }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="w-full border border-x-x-black border-y-x-black relative">
+                    <div class="w-max absolute left-1/2 -translate-x-1/2 -top-3">
+                        <span
+                            class="block w-max text-base font-x-thin bg-x-white border border-x-x-black border-y-x-black px-2">
+                            {{ __('Payments') }}
+                        </span>
+                    </div>
+                    <div class="w-full flex items-end flex-col lg:flex-row pt-4">
+                        <table class="w-full">
+                            <thead>
                                 <tr>
-                                    <td class="w-[20px] ps-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
-                                        {{ __('Id') }}
+                                    <td class="text-base text-x-black font-x-thin pb-2 px-4 ps-8">
+                                        #{{ __('Id') }}
                                     </td>
-                                    <td></td>
-                                    <td class="w-[160px] pe-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
-                                        {{ __('Amount') }}
+                                    <td class="w-[200px] text-base text-x-black font-x-thin pb-2 px-4 pe-8 text-center">
+                                        {{ __('Amound') }}
                                     </td>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse(json_decode($data->payment) as $row)
-                                    <tr class="border-t border-t-x-shade">
-                                        <td class="w-[20px] ps-8 p-4 text-base font-x-huge text-x-black text-center">
+                                @forelse (json_decode($data->payment) as $value)
+                                    <tr class="border-t border-t-x-black">
+                                        <td class="text-base text-x-black py-2 px-4 ps-8">
                                             #{{ $loop->index + 1 }}
                                         </td>
-                                        <td></td>
-                                        <td class="w-[160px] pe-8 px-4 py-2 text-lg text-x-black text-center">
-                                            {{ Core::formatNumber($row) }} {{ Core::$UNIT }}
+                                        <td class="w-[200px] text-base text-x-black py-2 px-4 pe-8 text-center">
+                                            {{ Core::formatNumber($value) }} {{ Core::$UNIT }}
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr class="border-t border-t-x-shade">
-                                        <td colspan="3" class="px-8 py-4 text-lg text-x-black font-x-huge text-center">
-                                            {{ __('No Data Found') }}
+                                    <tr class="border-t border-t-x-black">
+                                        <td colspan="2" class="text-base text-x-black py-2 px-4 ps-8 pe-8 text-center">
+                                            {{ __('No Payment Yet') }}
                                         </td>
                                     </tr>
                                 @endforelse
+                                <tr class="border-t border-t-x-black">
+                                    <td class="text-base text-x-black py-2 px-4 ps-8 text-x-thin text-center">
+                                        {{ __('Paid') }}
+                                    </td>
+                                    <td class="w-[200px] text-base text-x-black py-2 px-4 pe-8 text-center">
+                                        {{ Core::formatNumber($payment) }} {{ Core::$UNIT }}
+                                    </td>
+                                </tr>
+                                <tr class="border-t border-t-x-black">
+                                    <td class="text-base text-x-black py-2 px-4 ps-8 text-x-thin text-center">
+                                        {{ __('Total') }}
+                                    </td>
+                                    <td class="w-[200px] text-base text-x-black py-2 px-4 pe-8 text-center">
+                                        {{ Core::formatNumber($data->total) }} {{ Core::$UNIT }}
+                                    </td>
+                                </tr>
+                                <tr class="border-t border-t-x-black">
+                                    <td class="text-base text-x-black py-2 px-4 ps-8 text-x-thin text-center">
+                                        {{ __('Creance') }}
+                                    </td>
+                                    <td class="w-[200px] text-base text-x-black py-2 px-4 pe-8 text-center">
+                                        {{ Core::formatNumber($data->total - $payment) }} {{ Core::$UNIT }}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-                <div class="w-full flex flex-col gap-4 lg:col-span-4 mt-10">
-                    <div class="w-full flex flex-col gap-4">
-                        <div class="flex items-center justify-between gap-4">
-                            <span class="text-base text-x-black font-x-thin">
-                                {{ __('Total') }}
-                            </span>
-                            <span class="text-xl text-x-black font-x-thin">
-                                {{ Core::formatNumber($data->total) }} {{ Core::$UNIT }}
-                            </span>
-                        </div>
-                        <div class="flex items-center justify-between gap-4">
-                            <span class="text-base text-x-black font-x-thin">
-                                {{ __('Payment') }}
-                            </span>
-                            <span class="text-xl text-x-black font-x-thin">
-                                {{ Core::formatNumber(array_sum(json_decode($data->payment))) }} {{ Core::$UNIT }}
-                            </span>
-                        </div>
-                        <div class="h-px bg-x-shade"></div>
-                        <div class="flex items-center justify-between gap-4">
-                            <span class="text-base text-x-black font-x-thin">
-                                {{ __('Creance') }}
-                            </span>
-                            <span class="text-xl text-x-black font-x-thin">
-                                {{ Core::formatNumber($data->total - array_sum(json_decode($data->payment))) }}
-                                {{ Core::$UNIT }}
-                            </span>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <neo-printer>
-        <h1 class="text-center text-3xl text-x-black font-x-thin mb-6">
-            {{ __('Payment') . ' ' . $data->ref }}
-        </h1>
-        <div class="w-full grid grid-rows-1 grid-cols-12 gap-8 p-4">
-            <div class="w-full border border-x-shade rounded-x-thin flex flex-col gap-4 p-4 col-span-6">
-                <h2 class="text-lg text-x-black font-x-huge">
-                    {{ __('Billing From') }}
-                </h2>
-                <table>
+        <div class="w-full grid grid-rows-1 grid-cols-1 gap-6">
+            <div>
+                <div class="w-1/3 ms-auto flex gap-2 -mb-4 -mt-2">
+                    <span class="text-x-black text-base font-x-thin">
+                        {{ __('Contract N') }}:
+                    </span>
+                    <span class="text-base text-x-black text-opacity-70 font-x-thin">
+                        {{ $data->ref }}
+                    </span>
+                </div>
+            </div>
+            <div class="w-full p-2 border border-x-x-black border-y-x-black relative">
+                <div class="w-max absolute left-1/2 -translate-x-1/2 -top-3">
+                    <span
+                        class="block w-max text-base font-x-thin bg-x-white border border-x-x-black border-y-x-black px-2">
+                        {{ __('Vehicle Information') }}
+                    </span>
+                </div>
+                <table class="w-full mt-2">
                     <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('Company') }}
+                        <td class="w-[180px] pe-1 text-sm text-x-black font-x-thin">
+                            {{ __('Brand') }}
                         </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ Core::company()->name }}
+                        <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                        <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                            {{ $data->Vehicle ? ucwords($data->Vehicle->brand) : 'N/A' }}
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('Email') }}
+                        <td class="w-[180px] pe-1 text-sm text-x-black font-x-thin">
+                            {{ __('Registration') }}
                         </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ Core::company()->email }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('Phone') }}
-                        </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ Core::company()->phone }}
+                        <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                        <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                            {{ $data->Vehicle ? strtoupper($data->Vehicle->registration) : 'N/A' }}
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('Address') }}
+                        <td class="w-[180px] pe-1 text-sm text-x-black font-x-thin">
+                            {{ __('Pick-up Location') }}
                         </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ Core::company()->address }}
+                        <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                        <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                            {{ $data->pick_up ? ucwords($data->pick_up) : ucwords(Core::company()->address) . ' ' . ucwords(__(Core::company()->city)) . ' ' . Core::company()->zipcode }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w-[180px] pe-1 text-sm text-x-black font-x-thin">
+                            {{ __('Drop-off Location') }}
+                        </td>
+                        <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                        <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                            {{ $data->drop_off ? ucwords($data->drop_off) : ucwords(Core::company()->address) . ' ' . ucwords(__(Core::company()->city)) . ' ' . Core::company()->zipcode }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w-[180px] pe-1 text-sm text-x-black font-x-thin">
+                            {{ __('Date Hour') }}
+                        </td>
+                        <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                        <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                            {{ $data->from }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w-[180px] pe-1 text-sm text-x-black font-x-thin">
+                            {{ __('Date Hour') }}
+                        </td>
+                        <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                        <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                            {{ $data->to }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w-[180px] pe-1 text-sm text-x-black font-x-thin">
+                            {{ __('Rental Duration') }}
+                        </td>
+                        <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                        <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                            {{ $data->period }} {{ __('Days') }}
                         </td>
                     </tr>
                 </table>
             </div>
-            <div class="w-full border border-x-shade bg-x-light rounded-x-thin flex flex-col gap-4 p-4 col-span-6">
-                <h2 class="text-xl text-x-black font-x-thin">
-                    {{ __('Billing To') }}
-                </h2>
-                <table>
-                    <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('Full Name') }}
-                        </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ ucwords($data->Client->first_name) }} {{ ucwords($data->Client->last_name) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('Identity') }}
-                        </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->Client->identity_type ? '(' . ucwords(__($data->Client->identity_type)) . ')' : '' }}
-                            {{ $data->Client->identity }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('License Number') }}
-                        </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->Client->license_number }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('Phone') }}
-                        </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->Client->phone }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-base text-x-black font-x-thin">
-                            {{ __('Address') }}
-                        </td>
-                        <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->Client->address ?? 'N/A' }}
-                        </td>
-                    </tr>
-                </table>
+            <div class="w-full flex border border-x-x-black border-y-x-black">
+                <div class="w-full p-2 border-e border-e-black relative">
+                    <div class="w-max absolute left-1/2 -translate-x-1/2 -top-3">
+                        <span
+                            class="block w-max text-base font-x-thin bg-x-white border border-x-x-black border-y-x-black px-2">
+                            {{ __('Renter Driver') }}
+                        </span>
+                    </div>
+                    <table class="w-full mt-2">
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('First Name') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? ucwords($data->Client->first_name) : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Last Name') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? strtoupper($data->Client->last_name) : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Brith Date') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? $data->Client->birth_date : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('License Number') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? $data->Client->license_number : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Delivered On') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? $data->Client->license_date : 'N/A' }}
+                                <span class="inline-block w-max px-1 text-sm text-x-black font-x-thin">
+                                    {{ __('In') }}
+                                </span>
+                                {{ $data->Client ? $data->Client->license_location : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ $data->Client ? ucwords(__($data->Client->identity_type)) : 'N/A' }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? $data->Client->identity : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Delivered On') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? $data->Client->identity_date : 'N/A' }}
+                                <span class="inline-block w-max px-1 text-sm text-x-black font-x-thin">
+                                    {{ __('In') }}
+                                </span>
+                                {{ $data->Client ? $data->Client->identity_location : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Phone') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? $data->Client->phone : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Address') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->Client ? ucwords($data->Client->address) : 'N/A' }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="w-full p-2 relative">
+                    <div class="w-max absolute left-1/2 -translate-x-1/2 -top-3 z-20">
+                        <span
+                            class="block w-max text-base font-x-thin bg-x-white border border-x-x-black border-y-x-black px-2">
+                            {{ __('Second Driver') }}
+                        </span>
+                    </div>
+                    @if (!$data->SClient)
+                        <img src="{{ asset('img/mark.png') }}?v={{ env('APP_VERSION') }}"
+                            class="w-full h-full absolute inset-0 z-10 object-center" />
+                    @endif
+                    <table class="w-full mt-2">
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('First Name') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? ucwords($data->SClient->first_name) : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Last Name') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? strtoupper($data->SClient->last_name) : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Brith Date') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? $data->SClient->birth_date : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('License Number') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? $data->SClient->license_number : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Delivered On') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? $data->SClient->license_date : 'N/A' }}
+                                <span class="inline-block w-max px-1 text-sm text-x-black font-x-thin">
+                                    {{ __('In') }}
+                                </span>
+                                {{ $data->SClient ? $data->SClient->license_location : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ $data->SClient ? ucwords(__($data->SClient->identity_type)) : 'N/A' }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? $data->SClient->identity : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Delivered On') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? $data->SClient->identity_date : 'N/A' }}
+                                <span class="inline-block w-max px-1 text-sm text-x-black font-x-thin">
+                                    {{ __('In') }}
+                                </span>
+                                {{ $data->SClient ? $data->SClient->identity_location : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Phone') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? $data->SClient->phone : 'N/A' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-[150px] pe-1 text-sm text-x-black font-x-thin">
+                                {{ __('Address') }}
+                            </td>
+                            <td class="w-4 text-sm text-x-black font-x-thin">:</td>
+                            <td class="text-sm text-x-black text-opacity-70 font-x-thin">
+                                {{ $data->SClient ? ucwords($data->SClient->address) : 'N/A' }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div class="w-full flex flex-col gap-4 col-span-8">
-                <h2 class="text-xl text-x-black font-x-thin">
-                    {{ __('Payments') }}
-                </h2>
-                <div class="border border-x-shade rounded-x-thin overflow-auto">
-                    <table class="min-w-full rounded-x-thin">
-                        <thead class="bg-x-light">
+            <div class="w-full border border-x-x-black border-y-x-black relative">
+                <div class="w-max absolute left-1/2 -translate-x-1/2 -top-3">
+                    <span
+                        class="block w-max text-base font-x-thin bg-x-white border border-x-x-black border-y-x-black px-2">
+                        {{ __('Payments') }}
+                    </span>
+                </div>
+                <div class="w-full flex items-end flex-col lg:flex-row pt-4">
+                    <table class="w-full">
+                        <thead>
                             <tr>
-                                <td class="w-[20px] ps-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
-                                    {{ __('Id') }}
+                                <td class="text-base text-x-black font-x-thin pb-2 px-4 ps-8">
+                                    #{{ __('Id') }}
                                 </td>
-                                <td></td>
-                                <td class="w-[160px] pe-8 px-4 py-2 text-base font-x-huge text-x-black text-center">
-                                    {{ __('Amount') }}
+                                <td class="w-[200px] text-base text-x-black font-x-thin pb-2 px-4 pe-8 text-center">
+                                    {{ __('Amound') }}
                                 </td>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse(json_decode($data->payment) as $row)
-                                <tr class="border-t border-t-x-shade">
-                                    <td class="w-[20px] ps-8 p-4 text-base font-x-huge text-x-black text-center">
+                            @forelse (json_decode($data->payment) as $value)
+                                <tr class="border-t border-t-x-black">
+                                    <td class="text-base text-x-black py-2 px-4 ps-8">
                                         #{{ $loop->index + 1 }}
                                     </td>
-                                    <td></td>
-                                    <td class="w-[160px] pe-8 px-4 py-2 text-lg text-x-black text-center">
-                                        {{ Core::formatNumber($row) }} {{ Core::$UNIT }}
+                                    <td class="w-[200px] text-base text-x-black py-2 px-4 pe-8 text-center">
+                                        {{ Core::formatNumber($value) }} {{ Core::$UNIT }}
                                     </td>
                                 </tr>
                             @empty
-                                <tr class="border-t border-t-x-shade">
-                                    <td colspan="3" class="px-8 py-4 text-lg text-x-black font-x-huge text-center">
-                                        {{ __('No Data Found') }}
+                                <tr class="border-t border-t-x-black">
+                                    <td colspan="2" class="text-base text-x-black py-2 px-4 ps-8 pe-8 text-center">
+                                        {{ __('No Payment Yet') }}
                                     </td>
                                 </tr>
                             @endforelse
+                            <tr class="border-t border-t-x-black">
+                                <td class="text-base text-x-black py-2 px-4 ps-8 text-x-thin text-center">
+                                    {{ __('Paid') }}
+                                </td>
+                                <td class="w-[200px] text-base text-x-black py-2 px-4 pe-8 text-center">
+                                    {{ Core::formatNumber($payment) }} {{ Core::$UNIT }}
+                                </td>
+                            </tr>
+                            <tr class="border-t border-t-x-black">
+                                <td class="text-base text-x-black py-2 px-4 ps-8 text-x-thin text-center">
+                                    {{ __('Total') }}
+                                </td>
+                                <td class="w-[200px] text-base text-x-black py-2 px-4 pe-8 text-center">
+                                    {{ Core::formatNumber($data->total) }} {{ Core::$UNIT }}
+                                </td>
+                            </tr>
+                            <tr class="border-t border-t-x-black">
+                                <td class="text-base text-x-black py-2 px-4 ps-8 text-x-thin text-center">
+                                    {{ __('Creance') }}
+                                </td>
+                                <td class="w-[200px] text-base text-x-black py-2 px-4 pe-8 text-center">
+                                    {{ Core::formatNumber($data->total - $payment) }} {{ Core::$UNIT }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="w-full flex flex-col gap-4 col-span-4 mt-10">
-                <div class="w-full flex flex-col gap-4">
-                    <div class="flex items-center justify-between gap-4">
-                        <span class="text-base text-x-black font-x-thin">
-                            {{ __('Total') }}
-                        </span>
-                        <span class="text-xl text-x-black font-x-thin">
-                            {{ Core::formatNumber($data->total) }} {{ Core::$UNIT }}
-                        </span>
-                    </div>
-                    <div class="flex items-center justify-between gap-4">
-                        <span class="text-base text-x-black font-x-thin">
-                            {{ __('Payment') }}
-                        </span>
-                        <span class="text-xl text-x-black font-x-thin">
-                            {{ Core::formatNumber(array_sum(json_decode($data->payment))) }} {{ Core::$UNIT }}
-                        </span>
-                    </div>
-                    <div class="h-px bg-x-shade"></div>
-                    <div class="flex items-center justify-between gap-4">
-                        <span class="text-base text-x-black font-x-thin">
-                            {{ __('Creance') }}
-                        </span>
-                        <span class="text-xl text-x-black font-x-thin">
-                            {{ Core::formatNumber($data->total - array_sum(json_decode($data->payment))) }}
-                            {{ Core::$UNIT }}
-                        </span>
-                    </div>
                 </div>
             </div>
         </div>

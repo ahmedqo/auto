@@ -276,9 +276,11 @@ function AlertInitializer({ Vehicle }) {
     fill(vehicle, Vehicle);
 }
 
-function ReservationInitializer({ Client, Vehicle, Mileage: $URL, Colors }) {
+function ReservationInitializer({ Client, Vehicle, Agency, Mileage: $URL, Colors }) {
     const
+        renter = $query("neo-select[name=renter]"),
         client = $query("neo-autocomplete[name=client]"),
+        agency = $query("neo-autocomplete[name=agency]"),
         sclient = $query("neo-autocomplete[name=secondary_client]"),
         vehicle = $query("neo-autocomplete[name=vehicle]"),
         price = $query("neo-textbox[name=price]"),
@@ -322,6 +324,12 @@ function ReservationInitializer({ Client, Vehicle, Mileage: $URL, Colors }) {
             if (merge === "vehicle") {
                 d = d.map(e => {
                     return {...e, name: $cap(e.brand) + ' ' + $cap(e.model) + ' ' + e.year + ' (' + $cap(e.registration) + ")" }
+                })
+            }
+
+            if (merge === "agency") {
+                d = d.map(e => {
+                    return {...e, name: $cap(e.name) }
                 })
             }
 
@@ -382,6 +390,34 @@ function ReservationInitializer({ Client, Vehicle, Mileage: $URL, Colors }) {
         }
     });
 
+    const adiv = agency.parentElement,
+        cdiv = client.parentElement,
+        scdiv = sclient.parentElement;
+
+    renter.addEventListener("change", e => {
+        if (e.detail.data === "agency") {
+            agency.setAttribute('require', '');
+            adiv.classList.add("flex");
+            adiv.classList.remove("hidden");
+
+            client.removeAttribute('require');
+            cdiv.classList.remove("flex");
+            cdiv.classList.add("hidden");
+            scdiv.classList.add("hidden");
+            scdiv.classList.remove("flex");
+        } else {
+            agency.removeAttribute('require');
+            adiv.classList.remove("flex");
+            adiv.classList.add("hidden");
+
+            client.setAttribute('require', "");
+            cdiv.classList.add("flex");
+            cdiv.classList.remove("hidden");
+            scdiv.classList.remove("hidden");
+            scdiv.classList.add("flex");
+        }
+    });
+
     vehicle.addEventListener("select", async e => {
         price.value = e.detail.data.price;
         calc();
@@ -405,9 +441,10 @@ function ReservationInitializer({ Client, Vehicle, Mileage: $URL, Colors }) {
     }
 
     StateInitializer(Colors);
-    fill(sclient, Client, "client");
     fill(vehicle, Vehicle, "vehicle");
+    fill(sclient, Client, "client");
     fill(client, Client, "client");
+    fill(agency, Agency, 'agency');
     calc();
     tabs();
 }

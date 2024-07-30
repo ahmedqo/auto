@@ -12,6 +12,7 @@ require __DIR__ . '/charge.php';
 
 require __DIR__ . '/blacklist.php';
 require __DIR__ . '/client.php';
+require __DIR__ . '/agency.php';
 require __DIR__ . '/user.php';
 
 require __DIR__ . '/vehicle.php';

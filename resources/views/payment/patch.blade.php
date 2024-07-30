@@ -10,10 +10,10 @@
             <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 <div class="flex flex-col gap-1">
                     <label class="text-sm text-x-black font-x-thin">
-                        {{ __('Client') }}
+                        {{ __('Renter') }}
                     </label>
-                    <neo-textbox placeholder="{{ __('Client') }}" name="client"
-                        value="{{ $data->client ? ucwords($data->Client->first_name . ' ' . $data->Client->last_name) . ($data->Client->Blacklist ? ' (blacklisted)' : '') : null }}"
+                    <neo-textbox placeholder="{{ __('Renter') }}" name="renter"
+                        value="{{ $data->client ? ucwords($data->Client->first_name . ' ' . $data->Client->last_name) . ($data->Client->Blacklist ? ' (blacklisted)' : '') : ($data->agency ? ucwords($data->Agency->name) : null) }}"
                         disable>
                     </neo-textbox>
                 </div>

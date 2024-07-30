@@ -71,10 +71,11 @@ class AlertController extends Controller
                 'threshold' => $Request->threshold / Core::company()->mileage
             ]);
         } else {
+            $time = ['week' => 7, 'month' => 30, 'year' => 365,][$Request->unit] * $Request->recurrence;
+            $date = Carbon::parse($Request->date);
+            while ($date < Carbon::today()) $date->addDays($time);
             $Request->merge([
-                'viewed_at' =>  Carbon::parse($Request->date)->addDays(
-                    ['week' => 7, 'month' => 30, 'year' => 365,][$Request->unit] * $Request->recurrence
-                ),
+                'viewed_at' =>  $date,
             ]);
         }
 
@@ -118,10 +119,11 @@ class AlertController extends Controller
                 'threshold' => $Request->threshold / Core::company()->mileage
             ]);
         } else {
+            $time = ['week' => 7, 'month' => 30, 'year' => 365,][$Request->unit] * $Request->recurrence;
+            $date = Carbon::parse($Request->date);
+            while ($date < Carbon::today()) $date->addDays($time);
             $Request->merge([
-                'viewed_at' =>  Carbon::parse($Request->date)->addDays(
-                    ['week' => 7, 'month' => 30, 'year' => 365,][$Request->unit] * $Request->recurrence
-                ),
+                'viewed_at' =>  $date,
             ]);
         }
 

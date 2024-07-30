@@ -108,14 +108,14 @@ class CoreController extends Controller
     {
         $colors = [
             'completed' => '#22C55E',
-            'pendding' => '#EAB308',
+            'pending' => '#EAB308',
         ];
 
-        $reservations =  Reservation::with('Client', 'Vehicle')->where('company', Core::company()->id)->get()->map(function ($item) use (&$colors) {
+        $reservations =  Reservation::with('Client', 'Vehicle', 'Agency')->where('company', Core::company()->id)->get()->map(function ($item) use (&$colors) {
             return [
                 'start' => $item->from,
                 'end' => $item->to,
-                'title' => ucwords($item->Client->first_name . ' ' . $item->Client->last_name) . ' (' . ucwords($item->Vehicle->registration) . ')',
+                'title' => ($item->client ? ucwords($item->Client->first_name . ' ' . $item->Client->last_name) : ucwords($item->Agency->name)) . ' - ' . ucwords(__($item->Vehicle->brand)) . ' ' . ucwords(__($item->Vehicle->model)) . ' ' . $item->Vehicle->year . ' (' . strtoupper($item->Vehicle->registration) . ')',
                 'color' => $colors[$item->status],
                 'groupId' => 'reservation',
             ];

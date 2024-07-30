@@ -16,19 +16,19 @@ class PaymentController extends Controller
 
     public function patch_view($id)
     {
-        $data = Reservation::with('Client', 'Vehicle')->findorfail($id);
+        $data = Reservation::with('Client', 'Vehicle', 'Agency')->findorfail($id);
         return view('payment.patch', compact('data'));
     }
 
     public function print_view($id)
     {
-        $data = Reservation::findorfail($id);
+        $data = Reservation::with('Client', 'Vehicle', 'Agency')->findorfail($id);
         return view('payment.print', compact('data'));
     }
 
     public function search_action(Request $Request)
     {
-        $data = Reservation::with('Vehicle', 'Client')->where('company', Core::company()->id)->where('status', '!=', 'completed')->orderBy('id', 'DESC');
+        $data = Reservation::with('Vehicle', 'Client', 'Agency')->where('company', Core::company()->id)->where('status', '!=', 'completed')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -38,7 +38,7 @@ class PaymentController extends Controller
 
     public function filter_action(Request $Request)
     {
-        $data = Reservation::with('Vehicle', 'Client')->orderBy('id', 'DESC');
+        $data = Reservation::with('Vehicle', 'Client', 'Agency')->orderBy('id', 'DESC');
         if ($Request->search) {
             $data = $data->search(urldecode($Request->search));
         }
@@ -52,7 +52,7 @@ class PaymentController extends Controller
 
         $Request->merge([
             'payment' => $Request->json,
-            'status' => array_sum(json_decode($Request->json)) >= $Reservation->total ? 'completed' : 'pendding'
+            'status' => array_sum(json_decode($Request->json)) >= $Reservation->total ? 'completed' : 'pending'
         ]);
 
         $Reservation->update($Request->all());

@@ -31,16 +31,40 @@
                 <input type="hidden" id="json" name="json" value="{{ old('json') ?? '[]' }}" />
                 <input type="hidden" id="state" name="state" value="{{ old('state') ?? '[]' }}" />
                 <div data-view="1" class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 lg:col-span-2">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Renter') }} (*)
+                        </label>
+                        <neo-select require placeholder="{{ __('Renter') }} (*)" name="renter">
+                            <neo-select-item value="agency" {{ 'agency' == old('renter') ? 'active' : '' }}>
+                                {{ __('Agency') }}
+                            </neo-select-item>
+                            <neo-select-item value="client" {{ 'client' == old('renter') ? 'active' : '' }}>
+                                {{ __('Client') }}
+                            </neo-select-item>
+                        </neo-select>
+                    </div>
+                    <div class="{{ 'agency' == old('renter') ? 'flex' : 'hidden' }} flex-col gap-1 lg:col-span-2">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Agency') }} (*)
+                        </label>
+                        <neo-autocomplete {{ 'agency' == old('renter') ? 'require' : '' }} set-query="name" set-value="id"
+                            placeholder="{{ __('Agency') }} (*)" name="agency" value="{{ old('agency') }}"
+                            query="{{ old('agency_name') }}">
+                            <input type="hidden" name="agency_name" value="{{ old('agency_name') }}" />
+                        </neo-autocomplete>
+                    </div>
+                    <div class="{{ 'client' == old('renter') ? 'flex' : 'hidden' }} flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Client') }} (*)
                         </label>
-                        <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)"
-                            name="client" value="{{ old('client') }}" query="{{ old('client_name') }}">
+                        <neo-autocomplete {{ 'client' == old('renter') ? 'require' : '' }} set-query="name" set-value="id"
+                            placeholder="{{ __('Client') }} (*)" name="client" value="{{ old('client') }}"
+                            query="{{ old('client_name') }}">
                             <input type="hidden" name="client_name" value="{{ old('client_name') }}" />
                         </neo-autocomplete>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="{{ 'client' == old('renter') ? 'flex' : 'hidden' }} flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Secondary Client') }}
                         </label>
@@ -290,6 +314,7 @@
     <script>
         ReservationInitializer({
             Client: "{{ route('actions.clients.search.all') }}",
+            Agency: "{{ route('actions.agencies.search.all') }}",
             Vehicle: "{{ route('actions.vehicles.search') }}",
             Mileage: "{{ route('actions.vehicles.mileage', 'XXX') }}",
             Colors: {!! json_encode(Core::stateList()) !!}

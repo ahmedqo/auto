@@ -61,7 +61,7 @@ const $trans = Neo.Helper.trans,
 Neo.Locales.ar = {
     ...Neo.Locales.ar,
 
-    "pendding": "معلق",
+    "pending": "معلق",
     "completed": "منجز",
     "Prev": "السابق",
     "Next": "التالي",
@@ -1226,7 +1226,7 @@ Neo.Locales.ar = {
 Neo.Locales.fr = {
     ...Neo.Locales.fr,
 
-    "pendding": "en attente",
+    "pending": "en attente",
     "completed": "terminé",
     "Prev": "Précédent",
     "Next": "Suivant",
@@ -2441,17 +2441,19 @@ const Locale = document.documentElement.lang,
         most: () => [{
             name: "vehicle",
             text: $trans('Vehicle'),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "total",
             text: $trans("Total") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2463,10 +2465,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "mileage",
             text: $trans("Mileage") + " (" + $trans('Km') + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2481,10 +2489,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "period",
             text: $trans("Period"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2501,10 +2515,6 @@ const Locale = document.documentElement.lang,
         }) => [{
             name: "first_name",
             text: $trans("First Name"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => $cap(row.first_name),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2515,10 +2525,6 @@ const Locale = document.documentElement.lang,
         }, {
             name: "last_name",
             text: $trans("Last Name"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => $cap(row.last_name),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2530,10 +2536,14 @@ const Locale = document.documentElement.lang,
             name: "gender",
             text: $trans("Gender"),
             visible: false,
-            headStyle: { textAlign: "center" },
-            bodyStyle: { textAlign: "center" },
+            headStyle: {
+                textAlign: "center"
+            },
+            bodyStyle: {
+                textAlign: "center"
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyRender: (row) => row.gender ? $cap($trans(row.gender)) : empty(),
             bodyPdfRender: function(row) {
@@ -2546,10 +2556,6 @@ const Locale = document.documentElement.lang,
             name: "birth_date",
             text: $trans("Birth Date"),
             visible: false,
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.birth_date ? row.birth_date : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2560,25 +2566,13 @@ const Locale = document.documentElement.lang,
         }, {
             name: "email",
             text: $trans("Email"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "phone",
             text: $trans("Phone"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "address",
             text: $trans("Address"),
             visible: false,
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.address ? $cap(row.address) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2589,13 +2583,19 @@ const Locale = document.documentElement.lang,
         }, {
             name: "action",
             text: $trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             bodyRender: (row) => {
                 return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
             },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2610,10 +2610,6 @@ const Locale = document.documentElement.lang,
             Clear
         }) => [{
             text: $trans("Full Name"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => $cap(row.first_name) + ' ' + $cap(row.last_name),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2624,17 +2620,9 @@ const Locale = document.documentElement.lang,
         }, {
             name: "phone",
             text: $trans("Phone"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "nationality",
             text: $trans("Nationality"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.nationality ? $cap($trans(row.nationality)) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2645,18 +2633,26 @@ const Locale = document.documentElement.lang,
         }, {
             name: "identity",
             text: $trans("Identity"),
-            headStyle: { textAlign: "center" },
-            bodyStyle: { textAlign: "center" },
+            headStyle: {
+                textAlign: "center"
+            },
+            bodyStyle: {
+                textAlign: "center"
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
         }, {
             name: "identity_type",
             text: $trans("Identity Type"),
-            headStyle: { textAlign: "center" },
-            bodyStyle: { textAlign: "center" },
+            headStyle: {
+                textAlign: "center"
+            },
+            bodyStyle: {
+                textAlign: "center"
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyRender: (row) => row.identity_type ? $cap($trans(row.identity_type)) : empty(),
             bodyPdfRender: function(row) {
@@ -2668,18 +2664,28 @@ const Locale = document.documentElement.lang,
         }, {
             name: "license_number",
             text: $trans("License Number"),
-            headStyle: { textAlign: "center" },
-            bodyStyle: { textAlign: "center" },
+            headStyle: {
+                textAlign: "center"
+            },
+            bodyStyle: {
+                textAlign: "center"
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
         }, {
             name: "blacklist",
             text: $trans("BlackList"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2693,10 +2699,14 @@ const Locale = document.documentElement.lang,
             name: "gender",
             text: $trans("Gender"),
             visible: false,
-            headStyle: { textAlign: "center" },
-            bodyStyle: { textAlign: "center" },
+            headStyle: {
+                textAlign: "center"
+            },
+            bodyStyle: {
+                textAlign: "center"
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyRender: (row) => row.gender ? $cap($trans(row.gender)) : empty(),
             bodyPdfRender: function(row) {
@@ -2709,10 +2719,6 @@ const Locale = document.documentElement.lang,
             name: "birth_date",
             text: $trans("Birth Date"),
             visible: false,
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.birth_date ? row.birth_date : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2724,10 +2730,6 @@ const Locale = document.documentElement.lang,
             name: "email",
             text: $trans("Email"),
             visible: false,
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.email ? $cap(row.email) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2739,10 +2741,6 @@ const Locale = document.documentElement.lang,
             name: "address",
             text: $trans("Address"),
             visible: false,
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.address ? $cap(row.address) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2753,13 +2751,19 @@ const Locale = document.documentElement.lang,
         }, {
             name: "action",
             text: $trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             bodyRender: (row) => {
                 return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"scene="${Scene}"clear="${Clear}"></action-tools>`;
             },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2767,13 +2771,90 @@ const Locale = document.documentElement.lang,
             bodyPdfRender: () => empty(),
             bodyCsvRender: () => empty(),
         }],
-        client_reservation: () => [{
+        agencies: ({
+            Csrf,
+            Patch,
+            Scene,
+            Clear
+        }) => [{
+            text: $trans("Name"),
+            bodyRender: (row) => $cap(row.name),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "phone",
+            text: $trans("Phone"),
+        }, {
+            name: "secondary_phone",
+            text: $trans("Secondary Phone"),
+            bodyRender: (row) => row.secondary_phone ? row.secondary_phone : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "email",
+            text: $trans("Email"),
+            bodyRender: (row) => row.email ? $cap(row.email) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "address",
+            text: $trans("Address"),
+            visible: false,
+            bodyRender: (row) => row.address ? $cap(row.address) : empty(),
+            bodyPdfRender: function(row) {
+                return this.bodyRender(row);
+            },
+            bodyCsvRender: function(row) {
+                return this.bodyRender(row);
+            },
+        }, {
+            name: "action",
+            text: $trans("Actions"),
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyRender: (row) => {
+                return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"scene="${Scene}"clear="${Clear}"></action-tools>`;
+            },
+            headPdfStyle: function() {
+                return this.headStyle;
+            },
+            bodyPdfStyle: function() {
+                return this.bodyStyle;
+            },
+            bodyPdfRender: () => empty(),
+            bodyCsvRender: () => empty(),
+        }],
+        order_reservation: () => [{
             name: "ref",
             text: $trans("Ref"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2781,10 +2862,6 @@ const Locale = document.documentElement.lang,
         }, {
             name: "vehicle",
             text: $trans("Vehicle"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.vehicle ? $cap($trans(row.vehicle.brand)) + ' ' + $cap($trans(row.vehicle.model)) + ' ' + row.vehicle.year + ' (' + $cap(row.vehicle.registration) + ")" : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -2795,17 +2872,9 @@ const Locale = document.documentElement.lang,
         }, {
             name: "from",
             text: $trans("From"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "pick_up",
             text: $trans("Pick-up Location"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             visible: false,
             bodyRender: (row) => row.pick_up ? $cap(row.pick_up) : empty(),
             bodyPdfRender: function(row) {
@@ -2817,17 +2886,9 @@ const Locale = document.documentElement.lang,
         }, {
             name: "to",
             text: $trans("To"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "drop_off",
             text: $trans("Drop-off Location"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             visible: false,
             bodyRender: (row) => row.drop_off ? $cap(row.drop_off) : empty(),
             bodyPdfRender: function(row) {
@@ -2839,10 +2900,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "period",
             text: $trans("Period"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2854,10 +2921,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "price",
             text: $trans("Price") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2869,10 +2942,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "total",
             text: $trans("Total") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2884,10 +2963,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "payment",
             text: $trans("Payment") + " (" + Currency + ")",
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2899,10 +2984,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "creance",
             text: $trans("Creance") + " (" + Currency + ")",
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2914,10 +3005,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "starting_mileage",
             text: $trans("Starting Mileage") + " (" + $trans('Km') + ")",
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2932,10 +3029,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "return_mileage",
             text: $trans("Return Mileage") + " (" + $trans('Km') + ")",
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2950,10 +3053,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "fuel",
             text: $trans("Fuel"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2961,10 +3070,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "status",
             text: $trans("Status"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -2979,12 +3094,8 @@ const Locale = document.documentElement.lang,
             Patch,
             Clear
         }) => [{
-            name: "client",
-            text: $trans("Client"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
+            name: "renter",
+            text: $trans("Renter"),
             bodyRender: (row) => row.client ? $cap(row.client.first_name) + ' ' + $cap(row.client.last_name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -3002,11 +3113,7 @@ const Locale = document.documentElement.lang,
                 return this.headStyle;
             },
             headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
+                return this.headStyle;
             },
             bodyRender: (row) => row.details ? $cap(row.details) : empty(),
             bodyPdfRender: function(row) {
@@ -3018,13 +3125,19 @@ const Locale = document.documentElement.lang,
         }, {
             name: "action",
             text: $trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             bodyRender: (row) => {
                 return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
             },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3040,9 +3153,7 @@ const Locale = document.documentElement.lang,
         }) => [{
             name: "vehicle",
             text: $trans('Vehicle'),
-            headPdfStyle: function() {
-                return { background: Background, color: Color };
-            },
+
             bodyRender: (row) => $cap($trans(row.brand)) + " " + $cap($trans(row.model)) + " " + row.year + " (" + row.registration.toUpperCase() + ")",
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -3053,10 +3164,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "price",
             text: $trans("Price") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3068,10 +3185,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "circulation",
             text: $trans("Circulation Date"),
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3079,10 +3202,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "mileage",
             text: $trans("Mileage") + " (" + $trans('Km') + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3097,10 +3226,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "fuel",
             text: $trans("Fuel"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3112,9 +3247,7 @@ const Locale = document.documentElement.lang,
         }, {
             name: "horsepower",
             text: $trans("Horse Power"),
-            headPdfStyle: function() {
-                return { background: Background, color: Color };
-            },
+
             bodyRender: (row) => $trans(row.horsepower),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -3123,10 +3256,16 @@ const Locale = document.documentElement.lang,
             name: "horsepower_tax",
             text: $trans("Horse Power Tax") + " (" + Currency + ")",
             visible: false,
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3138,9 +3277,7 @@ const Locale = document.documentElement.lang,
         }, {
             name: "insurance",
             text: $trans("Insurance"),
-            headPdfStyle: function() {
-                return { background: Background, color: Color };
-            },
+
             bodyRender: (row) => $trans(row.insurance),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -3149,10 +3286,16 @@ const Locale = document.documentElement.lang,
             name: "insurance_cost",
             text: $trans("Insurance Cost") + " (" + Currency + ")",
             visible: false,
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3165,10 +3308,16 @@ const Locale = document.documentElement.lang,
             name: "transmission",
             text: $trans("Transmission"),
             visible: false,
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3181,10 +3330,16 @@ const Locale = document.documentElement.lang,
             name: "passengers",
             text: $trans("Passengers"),
             visible: false,
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3193,10 +3348,16 @@ const Locale = document.documentElement.lang,
             name: "doors",
             text: $trans("Doors"),
             visible: false,
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3205,10 +3366,16 @@ const Locale = document.documentElement.lang,
             name: "cargo",
             text: $trans("Cargo"),
             visible: false,
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3216,13 +3383,19 @@ const Locale = document.documentElement.lang,
         }, {
             name: "action",
             text: $trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             bodyRender: (row) => {
                 return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"scene="${Scene}"clear="${Clear}"></action-tools>`;
             },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3233,22 +3406,29 @@ const Locale = document.documentElement.lang,
         vehicle_reservation: () => [{
             name: "ref",
             text: $trans("Ref"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
             },
         }, {
-            name: "client",
-            text: $trans("Client"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
+            name: "renter",
+            text: $trans("Renter"),
+            bodyRender: (row) => {
+                var name = empty();
+                if (row.client) name = $cap(row.client.first_name) + ' ' + $cap(row.client.last_name);
+                if (row.agency) name = $cap(row.agency.name);
+                return name;
             },
-            bodyRender: (row) => row.client ? $cap(row.client.first_name) + ' ' + $cap(row.client.last_name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -3258,17 +3438,9 @@ const Locale = document.documentElement.lang,
         }, {
             name: "from",
             text: $trans("From"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "pick_up",
             text: $trans("Pick-up Location"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             visible: false,
             bodyRender: (row) => row.pick_up ? $cap(row.pick_up) : empty(),
             bodyPdfRender: function(row) {
@@ -3280,17 +3452,9 @@ const Locale = document.documentElement.lang,
         }, {
             name: "to",
             text: $trans("To"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "drop_off",
             text: $trans("Drop-off Location"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             visible: false,
             bodyRender: (row) => row.drop_off ? $cap(row.drop_off) : empty(),
             bodyPdfRender: function(row) {
@@ -3302,10 +3466,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "period",
             text: $trans("Period"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3317,10 +3487,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "price",
             text: $trans("Price") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3332,10 +3508,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "total",
             text: $trans("Total") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3347,10 +3529,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "payment",
             text: $trans("Payment") + " (" + Currency + ")",
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3362,10 +3550,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "creance",
             text: $trans("Creance") + " (" + Currency + ")",
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3377,10 +3571,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "starting_mileage",
             text: $trans("Starting Mileage") + " (" + $trans('Km') + ")",
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3395,10 +3595,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "return_mileage",
             text: $trans("Return Mileage") + " (" + $trans('Km') + ")",
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3413,10 +3619,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "fuel",
             text: $trans("Fuel"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3424,10 +3636,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "status",
             text: $trans("Status"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3447,11 +3665,7 @@ const Locale = document.documentElement.lang,
                 return this.headStyle;
             },
             headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
+                return this.headStyle;
             },
             bodyRender: (row) => $cap(row.name),
             bodyPdfRender: function(row) {
@@ -3463,10 +3677,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "cost",
             text: $trans("Cost") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3486,11 +3706,7 @@ const Locale = document.documentElement.lang,
                 return this.headStyle;
             },
             headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
+                return this.headStyle;
             },
             bodyRender: (row) => row.details ? $cap(row.details) : empty(),
             bodyPdfRender: function(row) {
@@ -3507,10 +3723,6 @@ const Locale = document.documentElement.lang,
         }) => [{
             name: "vehicle",
             text: $trans("Vehicle"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.vehicle ? $cap($trans(row.vehicle.brand)) + ' ' + $cap($trans(row.vehicle.model)) + ' ' + row.vehicle.year + ' (' + $cap(row.vehicle.registration) + ")" : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -3528,11 +3740,7 @@ const Locale = document.documentElement.lang,
                 return this.headStyle;
             },
             headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
+                return this.headStyle;
             },
             bodyRender: (row) => $cap($trans(row.consumable)),
             bodyPdfRender: function(row) {
@@ -3544,10 +3752,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "recurrence",
             text: $trans("Recurrence"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3562,10 +3776,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "threshold",
             text: $trans("Threshold"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3583,10 +3803,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "viewed_at",
             text: $trans("Next Recurrence"),
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3598,7 +3824,7 @@ const Locale = document.documentElement.lang,
                         month: 30,
                         year: 365,
                     };
-                if (d.toDateString() <= (new Date()).toDateString()) {
+                if (d.toDateString() === (new Date()).toDateString()) {
                     const v = d.getTime() + (row.recurrence * t[row.unit] * 24 * 60 * 60 * 1000);
                     return Neo.Helper.Str.moment(new Date(v).toDateString());
                 } else return row.viewed_at;
@@ -3612,13 +3838,19 @@ const Locale = document.documentElement.lang,
         }, {
             name: "action",
             text: $trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             bodyRender: (row) => {
                 return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
             },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3632,22 +3864,29 @@ const Locale = document.documentElement.lang,
         }) => [{
             name: "ref",
             text: $trans("Ref"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
             },
         }, {
-            name: "client",
-            text: $trans("Client"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
+            name: "renter",
+            text: $trans("Renter"),
+            bodyRender: (row) => {
+                var name = empty();
+                if (row.client) name = $cap(row.client.first_name) + ' ' + $cap(row.client.last_name);
+                if (row.agency) name = $cap(row.agency.name);
+                return name;
             },
-            bodyRender: (row) => row.client ? $cap(row.client.first_name) + ' ' + $cap(row.client.last_name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -3657,10 +3896,6 @@ const Locale = document.documentElement.lang,
         }, {
             name: "vehicle",
             text: $trans("Vehicle"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.vehicle ? $cap($trans(row.vehicle.brand)) + ' ' + $cap($trans(row.vehicle.model)) + ' ' + row.vehicle.year + ' (' + $cap(row.vehicle.registration) + ")" : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -3671,17 +3906,9 @@ const Locale = document.documentElement.lang,
         }, {
             name: "from",
             text: $trans("From"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "pick_up",
             text: $trans("Pick-up Location"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             visible: false,
             bodyRender: (row) => row.pick_up ? $cap(row.pick_up) : empty(),
             bodyPdfRender: function(row) {
@@ -3693,17 +3920,9 @@ const Locale = document.documentElement.lang,
         }, {
             name: "to",
             text: $trans("To"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
         }, {
             name: "drop_off",
             text: $trans("Drop-off Location"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             visible: false,
             bodyRender: (row) => row.drop_off ? $cap(row.drop_off) : empty(),
             bodyPdfRender: function(row) {
@@ -3715,10 +3934,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "period",
             text: $trans("Period"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3730,10 +3955,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "price",
             text: $trans("Price") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3745,10 +3976,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "total",
             text: $trans("Total") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3760,10 +3997,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "payment",
             text: $trans("Payment") + " (" + Currency + ")",
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3775,10 +4018,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "creance",
             text: $trans("Creance") + " (" + Currency + ")",
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3790,10 +4039,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "starting_mileage",
             text: $trans("Starting Mileage") + " (" + $trans('Km') + ")",
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3808,10 +4063,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "return_mileage",
             text: $trans("Return Mileage") + " (" + $trans('Km') + ")",
-            headStyle: { width: 200, textAlign: "center", },
-            bodyStyle: { width: 200, textAlign: "center", },
+            headStyle: {
+                width: 200,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 200,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3826,10 +4087,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "fuel",
             text: $trans("Fuel"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3837,10 +4104,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "status",
             text: $trans("Status"),
-            headStyle: { width: 100, textAlign: "center", },
-            bodyStyle: { width: 100, textAlign: "center", },
+            headStyle: {
+                width: 100,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 100,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3852,13 +4125,19 @@ const Locale = document.documentElement.lang,
         }, {
             name: "action",
             text: $trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             bodyRender: (row) => {
                 return `<action-tools target="${row.id}"patch="${Patch}"print="${Print}"></action-tools>`;
             },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3880,11 +4159,7 @@ const Locale = document.documentElement.lang,
                 return this.headStyle;
             },
             headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
+                return this.headStyle;
             },
             bodyRender: (row) => $cap(row.name),
             bodyPdfRender: function(row) {
@@ -3896,10 +4171,6 @@ const Locale = document.documentElement.lang,
         }, {
             name: "vehicle",
             text: $trans("Vehicle"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.vehicle ? $cap($trans(row.vehicle.brand)) + ' ' + $cap($trans(row.vehicle.model)) + ' ' + row.vehicle.year + ' (' + $cap(row.vehicle.registration) + ")" : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -3910,10 +4181,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "cost",
             text: $trans("Cost") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3933,11 +4210,7 @@ const Locale = document.documentElement.lang,
                 return this.headStyle;
             },
             headPdfStyle: function() {
-                return {
-                    ...this.headStyle,
-                    background: Background,
-                    color: Color
-                }
+                return this.headStyle;
             },
             bodyRender: (row) => row.details ? $cap(row.details) : empty(),
             bodyPdfRender: function(row) {
@@ -3949,13 +4222,19 @@ const Locale = document.documentElement.lang,
         }, {
             name: "action",
             text: $trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             bodyRender: (row) => {
                 return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"clear="${Clear}"></action-tools>`;
             },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -3970,22 +4249,29 @@ const Locale = document.documentElement.lang,
         }) => [{
             name: "ref",
             text: $trans("Reservation"),
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
             },
         }, {
-            name: "client",
-            text: $trans("Client"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
+            name: "renter",
+            text: $trans("Renter"),
+            bodyRender: (row) => {
+                var name = empty();
+                if (row.client) name = $cap(row.client.first_name) + ' ' + $cap(row.client.last_name);
+                if (row.agency) name = $cap(row.agency.name);
+                return name;
             },
-            bodyRender: (row) => row.client ? $cap(row.client.first_name) + ' ' + $cap(row.client.last_name) : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
             },
@@ -3995,10 +4281,6 @@ const Locale = document.documentElement.lang,
         }, {
             name: "vehicle",
             text: $trans("Vehicle"),
-            headPdfStyle: {
-                background: Background,
-                color: Color
-            },
             bodyRender: (row) => row.vehicle ? $cap($trans(row.vehicle.brand)) + ' ' + $cap($trans(row.vehicle.model)) + ' ' + row.vehicle.year + ' (' + $cap(row.vehicle.registration) + ")" : empty(),
             bodyPdfRender: function(row) {
                 return this.bodyRender(row);
@@ -4009,10 +4291,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "price",
             text: $trans("Price") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -4024,10 +4312,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "total",
             text: $trans("Total") + " (" + Currency + ")",
-            headStyle: { width: 120, textAlign: "center", },
-            bodyStyle: { width: 120, textAlign: "center", },
+            headStyle: {
+                width: 120,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 120,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -4039,10 +4333,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "payment",
             text: $trans("Payment") + " (" + Currency + ")",
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -4054,10 +4354,16 @@ const Locale = document.documentElement.lang,
         }, {
             name: "creance",
             text: $trans("Creance") + " (" + Currency + ")",
-            headStyle: { width: 160, textAlign: "center", },
-            bodyStyle: { width: 160, textAlign: "center", },
+            headStyle: {
+                width: 160,
+                textAlign: "center",
+            },
+            bodyStyle: {
+                width: 160,
+                textAlign: "center",
+            },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -4069,13 +4375,19 @@ const Locale = document.documentElement.lang,
         }, {
             name: "action",
             text: $trans("Actions"),
-            headStyle: { width: 20, textAlign: "center" },
-            bodyStyle: { width: 20, textAlign: "center" },
+            headStyle: {
+                width: 20,
+                textAlign: "center"
+            },
+            bodyStyle: {
+                width: 20,
+                textAlign: "center"
+            },
             bodyRender: (row) => {
                 return `<action-tools target="${row.id}"csrf="${Csrf}"patch="${Patch}"print="${Print}"></action-tools>`;
             },
             headPdfStyle: function() {
-                return {...this.headStyle, background: Background, color: Color };
+                return this.headStyle;
             },
             bodyPdfStyle: function() {
                 return this.bodyStyle;
@@ -4093,4 +4405,4 @@ Neo.load(function() {
     $qall(".sys-colors svg").forEach((svg, i) => {
         svg.style.color = "var(--color-sys-" + i + ")";
     });
-});
+})

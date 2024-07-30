@@ -12,7 +12,7 @@
                 @csrf
                 <div class="w-full flex flex-row-reverse flex-wrap items-center justify-between lg:justify-around">
                     <button type="button" data-tabs="3"
-                        class="flex items-center justify-center text-x-black font-x-huge text-lg px-4 py-2 bg-x-white rounded-x-thin outline outline-4 outline-x-light">
+                        class="flex items-center justify-center text-x-black font-x-huge text-xs lg:text-lg p-2 lg:px-4 bg-x-white rounded-x-thin outline outline-4 outline-x-light">
                         <span>{{ __('Responsable') }}</span>
                         <svg class="block w-4 h-4 lg:w-8 lg:h-8 pointer-events-none" fill="currentcolor"
                             viewBox="0 -960 960 960">
@@ -21,7 +21,7 @@
                     </button>
                     <div class="flex-1 h-1 bg-x-light"></div>
                     <button type="button" data-tabs="2"
-                        class="flex items-center justify-center text-x-black font-x-huge text-lg px-4 py-2 bg-x-white rounded-x-thin outline outline-4 outline-x-light">
+                        class="flex items-center justify-center text-x-black font-x-huge text-xs lg:text-lg p-2 lg:px-4 bg-x-white rounded-x-thin outline outline-4 outline-x-light">
                         <span>{{ __('Contact') }}</span>
                         <svg class="block w-4 h-4 lg:w-8 lg:h-8 pointer-events-none" fill="currentcolor"
                             viewBox="0 -960 960 960">
@@ -30,7 +30,7 @@
                     </button>
                     <div class="flex-1 h-1 bg-x-light"></div>
                     <button type="button" data-tabs="1"
-                        class="flex items-center justify-center text-x-black font-x-huge text-lg px-4 py-2 bg-x-white rounded-x-thin outline outline-4 outline-x-light active">
+                        class="flex items-center justify-center text-x-black font-x-huge text-xs lg:text-lg p-2 lg:px-4 bg-x-white rounded-x-thin outline outline-4 outline-x-light active">
                         <span>{{ __('Company') }}</span>
                         <svg class="block w-4 h-4 lg:w-8 lg:h-8 pointer-events-none" fill="currentcolor"
                             viewBox="0 -960 960 960">

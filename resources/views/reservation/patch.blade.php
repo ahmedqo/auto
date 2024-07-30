@@ -32,16 +32,43 @@
                 <input type="hidden" id="json" name="json" value="{!! $data->payment !!}" />
                 <input type="hidden" id="state" name="state" value='{!! $data->state !!}' />
                 <div data-view="1" class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                    <div class="flex flex-col gap-1">
+                    @php
+                        $renter = $data->client ? 'client' : 'agency';
+                    @endphp
+                    <div class="flex flex-col gap-1 lg:col-span-2">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Renter') }} (*)
+                        </label>
+                        <neo-select require placeholder="{{ __('Renter') }} (*)" name="renter">
+                            <neo-select-item value="agency" {{ 'agency' == $renter ? 'active' : '' }}>
+                                {{ __('Agency') }}
+                            </neo-select-item>
+                            <neo-select-item value="client" {{ 'client' == $renter ? 'active' : '' }}>
+                                {{ __('Client') }}
+                            </neo-select-item>
+                        </neo-select>
+                    </div>
+                    <div class="{{ 'agency' == $renter ? 'flex' : 'hidden' }} flex-col gap-1 lg:col-span-2">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Agency') }} (*)
+                        </label>
+                        <neo-autocomplete {{ 'agency' == $renter ? 'require' : '' }} set-query="name" set-value="id"
+                            placeholder="{{ __('Agency') }} (*)" name="agency" value="{{ $data->agency }}"
+                            query="{{ $data->agency ? ucwords($data->Agency->name) : null }}">
+                            <input type="hidden" name="agency_name"
+                                value="{{ $data->agency ? ucwords($data->Agency->name) : null }}" />
+                        </neo-autocomplete>
+                    </div>
+                    <div class="{{ 'client' == $renter ? 'flex' : 'hidden' }} flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Client') }} (*)
                         </label>
-                        <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Client') }} (*)"
-                            name="client" value="{{ $data->client }}"
+                        <neo-autocomplete {{ 'client' == $renter ? 'require' : '' }} set-query="name" set-value="id"
+                            placeholder="{{ __('Client') }} (*)" name="client" value="{{ $data->client }}"
                             query="{{ $data->client ? ucwords($data->Client->first_name . ' ' . $data->Client->last_name) . ($data->Client->Blacklist ? ' (blacklisted)' : '') : null }}">
                         </neo-autocomplete>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="{{ 'client' == $renter ? 'flex' : 'hidden' }} flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Secondary Client') }}
                         </label>

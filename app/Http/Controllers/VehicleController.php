@@ -130,7 +130,7 @@ class VehicleController extends Controller
     {
         [$startDate, $endDate, $columns] = Core::getDates();
 
-        $data = Reservation::with('Client')->where('vehicle', $id)->where('status', '!=', 'completed')->where(function ($query) use ($startDate, $endDate) {
+        $data = Reservation::with('Client', 'Agency')->where('vehicle', $id)->where('status', '!=', 'completed')->where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         });
@@ -145,7 +145,7 @@ class VehicleController extends Controller
     {
         [$startDate, $endDate, $columns] = Core::getDates();
 
-        $data = Reservation::with('Client')->where('vehicle', $id)->where(function ($query) use ($startDate, $endDate) {
+        $data = Reservation::with('Client', 'Agency')->where('vehicle', $id)->where(function ($query) use ($startDate, $endDate) {
             $query->where('from', '<=', $endDate)
                 ->where('to', '>=', $startDate);
         });

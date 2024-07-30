@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company')->nullable();
             $table->unsignedBigInteger('client')->nullable();
+            $table->unsignedBigInteger('agency')->nullable();
             $table->unsignedBigInteger('vehicle')->nullable();
             $table->unsignedBigInteger('secondary_client')->nullable();
             $table->string('ref');
@@ -35,6 +36,7 @@ return new class extends Migration
 
             $table->foreign('company')->references('id')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('client')->references('id')->on('clients')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('agency')->references('id')->on('agencies')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('vehicle')->references('id')->on('vehicles')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('secondary_client')->references('id')->on('clients')->onUpdate('cascade')->onDelete('set null');
         });

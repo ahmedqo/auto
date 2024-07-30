@@ -398,14 +398,6 @@
         </div>
     </div>
     <neo-printer>
-        <div slot="header" id="contract-header">
-            <div class="w-full p-4 border border-x-x-black border-y-x-black flex items-center justify-between">
-                <h1 class="font-x-huge text-x-black text-2xl">
-                    {{ ucwords(Core::company()->name) }}
-                </h1>
-                <img class="w-20" src="{{ Core::company()->Image->Link }}" />
-            </div>
-        </div>
         <div class="w-full grid grid-rows-1 grid-cols-1 gap-6">
             <div>
                 <div class="w-1/3 ms-auto flex gap-2 -mb-4 -mt-2">
@@ -814,45 +806,12 @@
                 </div>
             </div>
         </div>
-        <div slot="footer" id="contract-footer">
-            <div class="w-full flex justify-center flex-wrap gap-2 p-2 border border-x-x-black border-y-x-black">
-                <div class="w-max text-x-black font-x-thin text-xs">
-                    <span>{{ __('Ice') }}:</span>
-                    <span class="text-x-black text-opacity-70">{{ strtoupper(Core::company()->ice) }}</span>
-                </div>
-                <div class="w-max text-x-black font-x-thin text-xs">
-                    <span>{{ __('License Number') }}:</span>
-                    <span class="text-x-black text-opacity-70">{{ strtoupper(Core::company()->license) }}</span>
-                </div>
-                <div class="w-max text-x-black font-x-thin text-xs">
-                    <span>{{ __('Phone') }}:</span>
-                    <span class="text-x-black text-opacity-70">{{ Core::company()->phone }}</span>
-                </div>
-                <div class="w-max text-x-black font-x-thin text-xs">
-                    <span>{{ __('Email') }}:</span>
-                    <span class="text-x-black text-opacity-70">{{ Core::company()->email }}</span>
-                </div>
-                <div class="w-max text-x-black font-x-thin text-xs">
-                    <span>{{ __('Address') }}:</span>
-                    <span class="text-x-black text-opacity-70">
-                        {{ ucwords(Core::company()->address) }} {{ ucwords(__(Core::company()->city)) }}
-                        {{ Core::company()->zipcode }}
-                    </span>
-                </div>
-            </div>
-        </div>
+        @include('shared.page.print')
     </neo-printer>
 @endsection
 
 @section('scripts')
     <script>
-        Neo.load(function() {
-            Neo.getComponent("neo-printer").globals = [
-                "{{ asset('css/contract.min.css') }}?v={{ env('APP_VERSION') }}",
-                "{{ asset('css/index.min.css') }}?v={{ env('APP_VERSION') }}",
-                "{{ asset('css/app.min.css') }}?v={{ env('APP_VERSION') }}",
-            ];
-        });
         StateScene({
             Colors: {!! json_encode($color) !!},
             Data: {!! json_encode($state) !!}
