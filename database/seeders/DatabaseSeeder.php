@@ -72,7 +72,8 @@ class DatabaseSeeder extends Seeder
                 'horsepower_tax' => 700,
                 'insurance' => 'insurance 1',
                 'insurance_cost' => 1500,
-                'registration' => 'XXXXXXXXXX',
+                'registration_type' => 'WW',
+                'registration_number' => 'WW-12345',
                 'year' => 2010,
             ]);
         }

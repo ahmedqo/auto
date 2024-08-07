@@ -34,7 +34,8 @@ class Vehicle extends Model
         'horsepower_tax',
         'insurance',
         'insurance_cost',
-        'registration',
+        'registration_type',
+        'registration_number',
         'year',
     ];
 
@@ -53,7 +54,8 @@ class Vehicle extends Model
         'horsepower_tax',
         'insurance',
         'insurance_cost',
-        'registration',
+        'registration_type',
+        'registration_number',
         'year',
     ];
 

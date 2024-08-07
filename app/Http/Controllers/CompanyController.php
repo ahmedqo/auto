@@ -31,7 +31,7 @@ class CompanyController extends Controller
         $validator = Validator::make($Request->all(), [
             'company_logo' => ['required', 'image'],
             'company_ice' => ['required', 'string'],
-            'company_name' => ['required', 'string', 'unique:companies'],
+            'company_name' => ['required', 'string', 'unique:companies,name'],
             'company_city' => ['required', 'string'],
             'company_email' => ['required', 'email'],
             'company_phone' => ['required', 'string'],

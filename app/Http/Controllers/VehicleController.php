@@ -194,7 +194,12 @@ class VehicleController extends Controller
             'horsepower_tax' => ['required', 'numeric'],
             'insurance' => ['required', 'string'],
             'insurance_cost' => ['required', 'numeric'],
-            'registration' => ['required', 'string'],
+            'registration_type' => ['required', 'string'],
+            'ww_start' => ['required_if:registration_type,WW', 'string'],
+            'ww_end' => ['required_if:registration_type,WW', 'string'],
+            'vv_start' => ['required_if:registration_type,vehicle', 'string'],
+            'vv_middle' => ['required_if:registration_type,vehicle', 'string'],
+            'vv_end' => ['required_if:registration_type,vehicle', 'string'],
             'year' => ['required', 'numeric'],
         ]);
 
@@ -205,7 +210,9 @@ class VehicleController extends Controller
             ]);
         }
 
-        Vehicle::create($Request->all());
+        Vehicle::create($Request->merge([
+            'registration_number' => $Request->registration_type == 'WW' ? ($Request->ww_start . '-' . $Request->ww_end) : ($Request->vv_start . '-' . $Request->vv_middle . '-' . $Request->vv_end)
+        ])->all());
 
         return Redirect::back()->with([
             'message' => __('Created successfully'),
@@ -230,7 +237,12 @@ class VehicleController extends Controller
             'horsepower_tax' => ['required', 'numeric'],
             'insurance' => ['required', 'string'],
             'insurance_cost' => ['required', 'numeric'],
-            'registration' => ['required', 'string'],
+            'registration_type' => ['required', 'string'],
+            'ww_start' => ['required_if:registration_type,WW', 'string'],
+            'ww_end' => ['required_if:registration_type,WW', 'string'],
+            'vv_start' => ['required_if:registration_type,vehicle', 'string'],
+            'vv_middle' => ['required_if:registration_type,vehicle', 'string'],
+            'vv_end' => ['required_if:registration_type,vehicle', 'string'],
             'year' => ['required', 'numeric'],
         ]);
 
@@ -243,7 +255,9 @@ class VehicleController extends Controller
 
         $Vehicle = Vehicle::findorfail($id);
 
-        $Vehicle->update($Request->all());
+        $Vehicle->update($Request->merge([
+            'registration_number' => $Request->registration_type == 'WW' ? ($Request->ww_start . '-' . $Request->ww_end) : ($Request->vv_start . '-' . $Request->vv_middle . '-' . $Request->vv_end)
+        ])->all());
 
         return Redirect::back()->with([
             'message' => __('Updated successfully'),

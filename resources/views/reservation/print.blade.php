@@ -48,7 +48,7 @@
                             </td>
                             <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->Vehicle ? strtoupper($data->Vehicle->registration) : 'N/A' }}
+                                {{ $data->Vehicle ? strtoupper($data->Vehicle->registration_number) : 'N/A' }}
                             </td>
                         </tr>
                         <tr>
@@ -152,7 +152,7 @@
                                 <td class="text-base text-x-black text-opacity-70 font-x-thin">
                                     {{ $data->Client ? $data->Client->license_date : 'N/A' }}
                                     <span class="inline-block w-max px-1 text-base text-x-black font-x-thin">
-                                        {{ __('In') }}
+                                        {{ __('At') }}
                                     </span>
                                     {{ $data->Client ? $data->Client->license_location : 'N/A' }}
                                 </td>
@@ -174,7 +174,7 @@
                                 <td class="text-base text-x-black text-opacity-70 font-x-thin">
                                     {{ $data->Client ? $data->Client->identity_date : 'N/A' }}
                                     <span class="inline-block w-max px-1 text-base text-x-black font-x-thin">
-                                        {{ __('In') }}
+                                        {{ __('At') }}
                                     </span>
                                     {{ $data->Client ? $data->Client->identity_location : 'N/A' }}
                                 </td>
@@ -255,7 +255,7 @@
                                 <td class="text-base text-x-black text-opacity-70 font-x-thin">
                                     {{ $data->SClient ? $data->SClient->license_date : 'N/A' }}
                                     <span class="inline-block w-max px-1 text-base text-x-black font-x-thin">
-                                        {{ __('In') }}
+                                        {{ __('At') }}
                                     </span>
                                     {{ $data->SClient ? $data->SClient->license_location : 'N/A' }}
                                 </td>
@@ -277,7 +277,7 @@
                                 <td class="text-base text-x-black text-opacity-70 font-x-thin">
                                     {{ $data->SClient ? $data->SClient->identity_date : 'N/A' }}
                                     <span class="inline-block w-max px-1 text-base text-x-black font-x-thin">
-                                        {{ __('In') }}
+                                        {{ __('At') }}
                                     </span>
                                     {{ $data->SClient ? $data->SClient->identity_location : 'N/A' }}
                                 </td>
@@ -432,7 +432,7 @@
                         </td>
                         <td class="w-4 text-sm text-x-black font-x-thin">:</td>
                         <td class="text-sm text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->Vehicle ? strtoupper($data->Vehicle->registration) : 'N/A' }}
+                            {{ $data->Vehicle ? strtoupper($data->Vehicle->registration_number) : 'N/A' }}
                         </td>
                     </tr>
                     <tr>
@@ -535,7 +535,7 @@
                             <td class="text-sm text-x-black text-opacity-70 font-x-thin">
                                 {{ $data->Client ? $data->Client->license_date : 'N/A' }}
                                 <span class="inline-block w-max px-1 text-sm text-x-black font-x-thin">
-                                    {{ __('In') }}
+                                    {{ __('At') }}
                                 </span>
                                 {{ $data->Client ? $data->Client->license_location : 'N/A' }}
                             </td>
@@ -557,7 +557,7 @@
                             <td class="text-sm text-x-black text-opacity-70 font-x-thin">
                                 {{ $data->Client ? $data->Client->identity_date : 'N/A' }}
                                 <span class="inline-block w-max px-1 text-sm text-x-black font-x-thin">
-                                    {{ __('In') }}
+                                    {{ __('At') }}
                                 </span>
                                 {{ $data->Client ? $data->Client->identity_location : 'N/A' }}
                             </td>
@@ -638,7 +638,7 @@
                             <td class="text-sm text-x-black text-opacity-70 font-x-thin">
                                 {{ $data->SClient ? $data->SClient->license_date : 'N/A' }}
                                 <span class="inline-block w-max px-1 text-sm text-x-black font-x-thin">
-                                    {{ __('In') }}
+                                    {{ __('At') }}
                                 </span>
                                 {{ $data->SClient ? $data->SClient->license_location : 'N/A' }}
                             </td>
@@ -660,7 +660,7 @@
                             <td class="text-sm text-x-black text-opacity-70 font-x-thin">
                                 {{ $data->SClient ? $data->SClient->identity_date : 'N/A' }}
                                 <span class="inline-block w-max px-1 text-sm text-x-black font-x-thin">
-                                    {{ __('In') }}
+                                    {{ __('At') }}
                                 </span>
                                 {{ $data->SClient ? $data->SClient->identity_location : 'N/A' }}
                             </td>
@@ -783,17 +783,17 @@
                 <div class="w-full flex gap-4 px-10">
                     <div class="flex w-full p-2 border border-x-x-black border-y-x-black me-8 h-[4.5rem]">
                         <span class="block mx-auto text-x-black font-x-thin text-sm">
-                            {{ __('STE') }}
+                            {{ ucwords(Core::company()->name) }}
                         </span>
                     </div>
                     <div class="flex w-full p-2 border border-x-x-black border-y-x-black h-[4.5rem]">
                         <span class="block mx-auto text-x-black font-x-thin text-sm">
-                            {{ __('Renter') }} 1
+                            {{ $data->Client ? ucwords($data->Client->first_name) . ' ' . ucwords($data->Client->last_name) : __('Renter') . ' 1' }}
                         </span>
                     </div>
                     <div class="flex w-full p-2 border border-x-x-black border-y-x-black h-[4.5rem]">
                         <span class="block mx-auto text-x-black font-x-thin text-sm">
-                            {{ __('Renter') }} 2
+                            {{ $data->SClient ? ucwords($data->SClient->first_name) . ' ' . ucwords($data->SClient->last_name) : __('Renter') . ' 2' }}
                         </span>
                     </div>
                 </div>

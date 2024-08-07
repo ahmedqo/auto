@@ -114,31 +114,15 @@
             </h1>
             <div class="bg-x-white rounded-x-thin shadow-x-core border border-x-shade p-6 lg:p-8">
                 <div class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-                    <div class="flex flex-col gap-1 lg:col-span-4">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Circulation Date') }}
+                            {{ __('Registration Number') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ ucwords($data->circulation) }}
+                            {{ strtoupper($data->registration_number) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-4">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Registration') }}
-                        </label>
-                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ strtoupper($data->registration) }}
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-1 lg:col-span-4">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Price') }}
-                        </label>
-                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ Core::formatNumber($data->price) }} {{ Core::$UNIT }}
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-1 lg:col-span-4">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Brand') }}
                         </label>
@@ -146,7 +130,7 @@
                             {{ ucwords(__($data->brand)) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-4">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Model') }}
                         </label>
@@ -154,7 +138,7 @@
                             {{ ucwords(__($data->model)) }}
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1 lg:col-span-4">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
                             {{ __('Year') }}
                         </label>
@@ -164,34 +148,10 @@
                     </div>
                     <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Passengers') }}
+                            {{ __('Circulation Date') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ $data->passengers }}
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-1 lg:col-span-3">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Mileage') }}
-                        </label>
-                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ $data->mileage }}
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-1 lg:col-span-3">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Doors') }}
-                        </label>
-                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ $data->doors }}
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-1 lg:col-span-3">
-                        <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Cargo') }}
-                        </label>
-                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ $data->cargo }}
+                            {{ ucwords($data->circulation) }}
                         </div>
                     </div>
                     <div class="flex flex-col gap-1 lg:col-span-3">
@@ -212,6 +172,14 @@
                     </div>
                     <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Price') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ Core::formatNumber($data->price) }} {{ Core::$UNIT }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
                             {{ __('Horse Power') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
@@ -220,10 +188,58 @@
                     </div>
                     <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Cost') }}
+                            {{ __('Horse Power Tax') }}
                         </label>
                         <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
-                            {{ Core::formatNumber($data->horsepower_cost) }} {{ Core::$UNIT }}
+                            {{ Core::formatNumber($data->horsepower_tax) }} {{ Core::$UNIT }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Insurance') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ ucwords(__($data->insurance)) }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Insurance Cost') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ Core::formatNumber($data->insurance_cost) }} {{ Core::$UNIT }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Mileage') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ $data->mileage }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Passengers') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ $data->passengers }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Doors') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ $data->doors }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Cargo') }}
+                        </label>
+                        <div class="text-x-black font-x-thin text-base px-1 pb-px border-b border-x-shade">
+                            {{ $data->cargo }}
                         </div>
                     </div>
                 </div>

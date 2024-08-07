@@ -12,7 +12,7 @@
                     <li
                         class="w-full block text-x-black text-base p-4 {{ $loop->index === 0 ? '' : 'border-t border-x-shade' }}">
                         "{{ ucwords($alert->consumable) }}" {{ __('On') }}
-                        {{ ucwords($alert->Vehicle->brand) . ' ' . ucwords($alert->Vehicle->model) . ' ' . $alert->Vehicle->year . ' (' . strtoupper($alert->Vehicle->registration) . ')' }}
+                        {{ ucwords($alert->Vehicle->brand) . ' ' . ucwords($alert->Vehicle->model) . ' ' . $alert->Vehicle->year . ' (' . strtoupper($alert->Vehicle->registration_number) . ')' }}
                         {{ __('At') }} {{ $alert->viewed_at }}
                     </li>
                 @empty

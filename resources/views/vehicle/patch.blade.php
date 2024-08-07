@@ -29,13 +29,55 @@
                         @endif
                     @endfor
                 </div>
-                <div data-view="1" class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                    <div class="flex flex-col gap-1">
+                <div data-view="1" class="w-full grid grid-rows-1 grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <div class="flex flex-col gap-1 lg:col-span-3">
                         <label class="text-sm text-x-black font-x-thin">
-                            {{ __('Registration') }} (*)
+                            {{ __('Registration Type') }} (*)
                         </label>
-                        <neo-textbox require placeholder="{{ __('Registration') }} (*)" name="registration"
-                            value="{{ $data->registration }}"></neo-textbox>
+                        <neo-select require placeholder="{{ __('Registration Type') }} (*)" name="registration_type">
+                            <neo-select-item value="WW" {{ 'WW' == $data->registration_type ? 'active' : '' }}>
+                                WW
+                            </neo-select-item>
+                            <neo-select-item value="vehicle" {{ 'vehicle' == $data->registration_type ? 'active' : '' }}>
+                                {{ __('Vehicle') }}
+                            </neo-select-item>
+                        </neo-select>
+                    </div>
+                    <div class="reg flex-col gap-1 lg:col-span-3">
+                        <label class="text-sm text-x-black font-x-thin">
+                            {{ __('Registration Number') }} (*)
+                        </label>
+                        @php
+                            $number = explode('-', $data->registration_number);
+                        @endphp
+                        <div
+                            class="{{ $data->registration_type == 'WW' ? 'flex' : 'hidden' }} ww overflow-hidden rounded-x-thin bg-x-light border border-x-shade">
+                            <neo-textbox class="flex-1 border-0 rounded-none border-e border-e-x-shade end-text"
+                                name="ww_start" value="WW" disable></neo-textbox>
+                            <neo-textbox {{ $data->registration_type == 'WW' ? 'require' : '' }} type="number"
+                                class="field flex-[2] border-0 rounded-none" placeholder="XXXXX (*)" name="ww_end"
+                                value="{{ $data->registration_type == 'WW' ? $number[1] : null }}"></neo-textbox>
+                        </div>
+                        <div
+                            class="{{ $data->registration_type == 'vehicle' ? 'flex' : 'hidden' }} vehicle rounded-x-thin bg-x-light border border-x-shade">
+                            <neo-textbox {{ $data->registration_type == 'vehicle' ? 'required' : '' }} type="number"
+                                class="field flex-1 border-0 rounded-none rounded-s-x-thin" placeholder="XXXX (*)"
+                                name="vv_start"
+                                value="{{ $data->registration_type == 'vehicle' ? $number[0] : null }}"></neo-textbox>
+                            <neo-select {{ $data->registration_type == 'vehicle' ? 'required' : '' }} placeholder="X (*)"
+                                name="vv_middle" class="field flex-1 border-y-0 rounded-none">
+                                @foreach (['ا', 'ب', 'د', 'ه', 'و', 'ط'] as $char)
+                                    <neo-select-item value="{{ $char }}"
+                                        {{ $data->registration_type == 'vehicle' && $number[1] == $char ? 'active' : '' }}>
+                                        {{ $char }}
+                                    </neo-select-item>
+                                @endforeach
+                            </neo-select>
+                            <neo-textbox {{ $data->registration_type == 'vehicle' ? 'required' : '' }} type="number"
+                                class="field flex-1 border-0 rounded-none rounded-e-x-thin" placeholder="XX (*)"
+                                name="vv_end"
+                                value="{{ $data->registration_type == 'vehicle' ? $number[2] : null }}"></neo-textbox>
+                        </div>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-sm text-x-black font-x-thin">

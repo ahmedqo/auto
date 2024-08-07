@@ -115,7 +115,7 @@ class CoreController extends Controller
             return [
                 'start' => $item->from,
                 'end' => $item->to,
-                'title' => ($item->client ? ucwords($item->Client->first_name . ' ' . $item->Client->last_name) : ucwords($item->Agency->name)) . ' - ' . ucwords(__($item->Vehicle->brand)) . ' ' . ucwords(__($item->Vehicle->model)) . ' ' . $item->Vehicle->year . ' (' . strtoupper($item->Vehicle->registration) . ')',
+                'title' => ($item->client ? ucwords($item->Client->first_name . ' ' . $item->Client->last_name) : ucwords($item->Agency->name)) . ' - ' . ucwords(__($item->Vehicle->brand)) . ' ' . ucwords(__($item->Vehicle->model)) . ' ' . $item->Vehicle->year . ' (' . strtoupper($item->Vehicle->registration_number) . ')',
                 'color' => $colors[$item->status],
                 'groupId' => 'reservation',
             ];
@@ -130,7 +130,7 @@ class CoreController extends Controller
 
         Alert::with('Vehicle')->where('company', Core::company()->id)->get()->map(function ($item) use (&$alerts, &$dates) {
             $data = [
-                'title' => ucwords(__($item->Vehicle->brand)) . ' ' . ucwords(__($item->Vehicle->model)) . ' ' . $item->Vehicle->year . ' (' . strtoupper($item->Vehicle->registration) . ')',
+                'title' => ucwords(__($item->Vehicle->brand)) . ' ' . ucwords(__($item->Vehicle->model)) . ' ' . $item->Vehicle->year . ' (' . strtoupper($item->Vehicle->registration_number) . ')',
                 'color' => '#458cfe',
                 'groupId' => 'alert',
             ];
@@ -176,7 +176,7 @@ class CoreController extends Controller
                 }, 0);
 
                 $vehicle =
-                    ucwords(__($Vehicle->brand)) . ' ' . ucwords(__($Vehicle->model)) . ' ' . $Vehicle->year . ' (' . strtoupper($Vehicle->registration) . ')';
+                    ucwords(__($Vehicle->brand)) . ' ' . ucwords(__($Vehicle->model)) . ' ' . $Vehicle->year . ' (' . strtoupper($Vehicle->registration_number) . ')';
                 $price = $Vehicle->price;
                 $mileage = $period * Core::company()->mileage;
 

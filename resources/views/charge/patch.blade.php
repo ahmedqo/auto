@@ -17,7 +17,7 @@
                     </label>
                     <neo-autocomplete require set-query="name" set-value="id" placeholder="{{ __('Vehicle') }} (*)"
                         name="vehicle" value="{{ $data->vehicle }}"
-                        query="{{ $data->vehicle ? ucwords($data->Vehicle->brand) . ' ' . ucwords($data->Vehicle->model) . ' ' . $data->Vehicle->year . ' (' . strtoupper($data->Vehicle->registration) . ')' : null }}">
+                        query="{{ $data->vehicle ? ucwords($data->Vehicle->brand) . ' ' . ucwords($data->Vehicle->model) . ' ' . $data->Vehicle->year . ' (' . strtoupper($data->Vehicle->registration_number) . ')' : null }}">
                     </neo-autocomplete>
                 </div>
                 <div class="flex flex-col gap-1">

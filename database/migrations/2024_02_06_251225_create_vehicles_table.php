@@ -23,7 +23,8 @@ return new class extends Migration
             $table->float('horsepower_tax', 15, 5);
             $table->string('insurance');
             $table->float('insurance_cost', 15, 5);
-            $table->string('registration');
+            $table->string('registration_type');
+            $table->string('registration_number');
             $table->integer('year');
             $table->float('price', 15, 5);
             $table->integer('passengers');

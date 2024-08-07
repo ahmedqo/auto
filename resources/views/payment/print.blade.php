@@ -46,7 +46,7 @@
                             </td>
                             <td class="w-4 text-base text-x-black font-x-thin">:</td>
                             <td class="text-base text-x-black text-opacity-70 font-x-thin">
-                                {{ $data->Vehicle ? strtoupper($data->Vehicle->registration) : 'N/A' }}
+                                {{ $data->Vehicle ? strtoupper($data->Vehicle->registration_number) : 'N/A' }}
                             </td>
                         </tr>
                         <tr>
@@ -403,7 +403,7 @@
                         </td>
                         <td class="w-4 text-sm text-x-black font-x-thin">:</td>
                         <td class="text-sm text-x-black text-opacity-70 font-x-thin">
-                            {{ $data->Vehicle ? strtoupper($data->Vehicle->registration) : 'N/A' }}
+                            {{ $data->Vehicle ? strtoupper($data->Vehicle->registration_number) : 'N/A' }}
                         </td>
                     </tr>
                     <tr>

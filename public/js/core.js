@@ -184,7 +184,13 @@ function VehicleInitializer() {
         model = $query("neo-select[name=model]"),
         fuel = $query("neo-select[name=fuel]"),
         power = $query("neo-select[name=horsepower]"),
-        price = $query("#tax");
+        price = $query("#tax"),
+        type = $query("neo-select[name=registration_type]"),
+        reg = $query(".reg"),
+        ww = $query(".ww"),
+        vehicle = $query(".vehicle"),
+        wfield = ww.querySelectorAll(".field"),
+        vfield = vehicle.querySelectorAll(".field");
 
     const cost = {
         gasoline: {
@@ -220,7 +226,29 @@ function VehicleInitializer() {
 
         model.reset();
         model.innerHTML = str;
-    })
+    });
+
+    type.addEventListener("change", e => {
+        reg.classList.remove("hidden");
+        reg.classList.add("flex");
+        if (e.detail.data === "WW") {
+            ww.classList.remove("hidden");
+            ww.classList.add("flex");
+            vehicle.classList.add("hidden");
+            vehicle.classList.remove("flex");
+
+            wfield.forEach(f => f.setAttribute("require", ""));
+            vfield.forEach(f => f.removeAttribute("require"));
+        } else {
+            vehicle.classList.remove("hidden");
+            vehicle.classList.add("flex");
+            ww.classList.add("hidden");
+            ww.classList.remove("flex");
+
+            vfield.forEach(f => f.setAttribute("require", ""));
+            wfield.forEach(f => f.removeAttribute("require"));
+        }
+    });
 
     tabs();
 }
@@ -249,7 +277,7 @@ function AlertInitializer({ Vehicle }) {
 
 
             d = d.map(e => {
-                return {...e, name: $cap(e.brand) + ' ' + $cap(e.model) + ' ' + e.year + ' (' + $cap(e.registration) + ")" }
+                return {...e, name: $cap(e.brand) + ' ' + $cap(e.model) + ' ' + e.year + ' (' + $cap(e.registration_number) + ")" }
             });
 
             auto.data = d;
@@ -323,7 +351,7 @@ function ReservationInitializer({ Client, Vehicle, Agency, Mileage: $URL, Colors
 
             if (merge === "vehicle") {
                 d = d.map(e => {
-                    return {...e, name: $cap(e.brand) + ' ' + $cap(e.model) + ' ' + e.year + ' (' + $cap(e.registration) + ")" }
+                    return {...e, name: $cap(e.brand) + ' ' + $cap(e.model) + ' ' + e.year + ' (' + $cap(e.registration_number) + ")" }
                 })
             }
 
@@ -521,7 +549,7 @@ function ChargeInitializer({ Search }) {
         });
 
         auto.data = d.map(e => {
-            return {...e, name: $cap(e.brand) + ' ' + $cap(e.model) + ' ' + e.year + ' (' + $cap(e.registration) + ")" }
+            return {...e, name: $cap(e.brand) + ' ' + $cap(e.model) + ' ' + e.year + ' (' + $cap(e.registration_number) + ")" }
         })
 
         auto.addEventListener("select", e => {
